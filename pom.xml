@@ -8,5 +8,30 @@
     <artifactId>dolphinscheduler-sdk-java</artifactId>
     <version>1.0.0</version>
 
+    <properties>
+        <lombok.version>1.18.22</lombok.version>
+        <httpclient.version>4.5.13</httpclient.version>
+        <jackson.version>2.9.10</jackson.version>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>${lombok.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+            <version>${httpclient.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-core</artifactId>
+            <version>${jackson.version}</version>
+        </dependency>
+    </dependencies>
 
 </project>
