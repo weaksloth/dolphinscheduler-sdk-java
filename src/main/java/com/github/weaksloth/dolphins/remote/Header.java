@@ -19,6 +19,7 @@ public class Header {
   private Header() {
     header = new LinkedHashMap<>();
     addParam(HttpHeaders.ACCEPT_CHARSET, DEFAULT_CHARSET);
+    addParam(HttpHeaders.ACCEPT, MediaType.JSON_UTF_8.toString());
     addParam(HttpHeaders.CONTENT_TYPE, MediaType.FORM_DATA.toString());
   }
 

@@ -1,8 +1,11 @@
 package com.github.weaksloth.dolphins.datasource;
 
+import com.github.weaksloth.dolphins.BaseTest;
+import com.github.weaksloth.dolphins.remote.HttpRestResult;
+import com.github.weaksloth.dolphins.remote.Query;
 import org.junit.Test;
 
-public class DataSourceTest {
+public class DataSourceTest extends BaseTest {
 
   @Test
   public void createDataSource() {
@@ -17,6 +20,19 @@ public class DataSourceTest {
         .setHost("localhost");
   }
 
+  /**
+   * list all datasource
+   *
+   * @throws Exception
+   */
   @Test
-  public void listDataSource() {}
+  public void listDataSource() throws Exception {
+    Query query = new Query();
+    query.addParam("pageNo", "1");
+    query.addParam("pageSize", "10");
+    query.addParam("searchVal", "");
+    HttpRestResult<String> stringHttpRestResult =
+        restTemplate.get(dolphinAddress + "/datasources", getHeader(), query, String.class);
+    System.out.println(stringHttpRestResult);
+  }
 }
