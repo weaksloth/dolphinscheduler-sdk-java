@@ -1,4 +1,4 @@
-package com.github.weaksloth.dolphins.support.http;
+package com.github.weaksloth.dolphins.remote;
 
 import java.lang.reflect.Field;
 import java.util.LinkedHashMap;

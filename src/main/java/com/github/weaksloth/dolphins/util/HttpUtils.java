@@ -1,6 +1,6 @@
 package com.github.weaksloth.dolphins.util;
 
-import com.github.weaksloth.dolphins.support.http.Query;
+import com.github.weaksloth.dolphins.remote.Query;
 import java.net.URI;
 import java.net.URISyntaxException;
 

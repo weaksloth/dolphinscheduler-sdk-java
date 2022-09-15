@@ -1,7 +1,7 @@
-package com.github.weaksloth.dolphins.support.http.request;
+package com.github.weaksloth.dolphins.remote.request;
 
-import com.github.weaksloth.dolphins.support.http.RequestHttpEntity;
-import com.github.weaksloth.dolphins.support.http.response.HttpClientResponse;
+import com.github.weaksloth.dolphins.remote.RequestHttpEntity;
+import com.github.weaksloth.dolphins.remote.response.HttpClientResponse;
 import java.io.Closeable;
 import java.net.URI;
 

@@ -1,6 +1,7 @@
 package com.github.weaksloth.dolphins.util;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
@@ -225,6 +226,23 @@ public class JSONUtils {
   public static <T> T parseObject(InputStream inputStream, Type type) {
     try {
       return mapper.readValue(inputStream, mapper.constructType(type));
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
+  /**
+   * Json string deserialize to Object.
+   *
+   * @param inputStream json string input stream
+   * @param typeReference {@link Type} of object
+   * @param <T> General type
+   * @return object
+   * @throws RuntimeException if deserialize failed
+   */
+  public static <T> T parseObject(InputStream inputStream, TypeReference<T> typeReference) {
+    try {
+      return mapper.readValue(inputStream, typeReference);
     } catch (IOException e) {
       throw new RuntimeException(e);
     }

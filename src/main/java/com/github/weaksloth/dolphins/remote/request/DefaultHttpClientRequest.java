@@ -1,10 +1,10 @@
-package com.github.weaksloth.dolphins.support.http.request;
+package com.github.weaksloth.dolphins.remote.request;
 
-import com.github.weaksloth.dolphins.support.http.BaseHttpMethod;
-import com.github.weaksloth.dolphins.support.http.Header;
-import com.github.weaksloth.dolphins.support.http.RequestHttpEntity;
-import com.github.weaksloth.dolphins.support.http.response.DefaultHttpClientResponse;
-import com.github.weaksloth.dolphins.support.http.response.HttpClientResponse;
+import com.github.weaksloth.dolphins.remote.BaseHttpMethod;
+import com.github.weaksloth.dolphins.remote.Header;
+import com.github.weaksloth.dolphins.remote.RequestHttpEntity;
+import com.github.weaksloth.dolphins.remote.response.DefaultHttpClientResponse;
+import com.github.weaksloth.dolphins.remote.response.HttpClientResponse;
 import com.google.common.net.HttpHeaders;
 import com.google.common.net.MediaType;
 import java.io.IOException;

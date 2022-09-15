@@ -1,20 +1,20 @@
-package com.github.weaksloth.dolphins.support.http.handler;
+package com.github.weaksloth.dolphins.remote.handler;
 
-import com.github.weaksloth.dolphins.support.http.HttpRestResult;
-import com.github.weaksloth.dolphins.support.http.response.HttpClientResponse;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.github.weaksloth.dolphins.remote.HttpRestResult;
+import com.github.weaksloth.dolphins.remote.response.HttpClientResponse;
 import com.github.weaksloth.dolphins.util.JSONUtils;
 import com.google.common.base.Charsets;
 import com.google.common.io.CharStreams;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.lang.reflect.Type;
 import org.apache.http.HttpStatus;
 
 public class ResponseHandler<T> {
 
-  private Type responseType;
+  private Class<T> responseType;
 
-  public final void setResponseType(Type responseType) {
+  public final void setResponseType(Class<T> responseType) {
     this.responseType = responseType;
   }
 
@@ -31,11 +31,9 @@ public class ResponseHandler<T> {
     return new HttpRestResult<>(response.getStatusCode(), message, null, false, true);
   }
 
-  public HttpRestResult<T> convertResult(HttpClientResponse response, Type responseType)
+  public HttpRestResult<T> convertResult(HttpClientResponse response, Class<T> responseType)
       throws Exception {
     InputStream body = response.getBody();
-    T extractBody = JSONUtils.parseObject(body, responseType);
-    HttpRestResult<T> httpRestResult = (HttpRestResult<T>) extractBody;
-    return httpRestResult;
+    return JSONUtils.parseObject(body, new TypeReference<HttpRestResult<T>>() {});
   }
 }

@@ -1,4 +1,4 @@
-package com.github.weaksloth.dolphins.support.http.response;
+package com.github.weaksloth.dolphins.remote.response;
 
 import java.io.Closeable;
 import java.io.IOException;

@@ -1,4 +1,4 @@
-package com.github.weaksloth.dolphins.support.http;
+package com.github.weaksloth.dolphins.remote;
 
 import com.google.common.base.Strings;
 import org.apache.http.client.methods.*;
