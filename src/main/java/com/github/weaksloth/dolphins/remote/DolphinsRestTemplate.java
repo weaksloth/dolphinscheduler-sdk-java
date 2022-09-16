@@ -103,6 +103,39 @@ public class DolphinsRestTemplate {
   }
 
   /**
+   * @param url
+   * @param header
+   * @param body
+   * @param responseType
+   * @param <T>
+   * @return
+   * @throws Exception
+   */
+  public <T> HttpRestResult<T> putForm(
+      String url, Header header, Object body, Class<T> responseType) throws Exception {
+    RequestHttpEntity requestHttpEntity =
+        new RequestHttpEntity(header.setContentType(MediaType.FORM_DATA.toString()), body);
+    return execute(url, HttpMethod.PUT, requestHttpEntity, responseType);
+  }
+
+  /**
+   * @param url
+   * @param header
+   * @param query
+   * @param body
+   * @param responseType
+   * @param <T>
+   * @return
+   * @throws Exception
+   */
+  public <T> HttpRestResult<T> putForm(
+      String url, Header header, Query query, Object body, Class<T> responseType) throws Exception {
+    RequestHttpEntity requestHttpEntity =
+        new RequestHttpEntity(header.setContentType(MediaType.FORM_DATA.toString()), query, body);
+    return execute(url, HttpMethod.PUT, requestHttpEntity, responseType);
+  }
+
+  /**
    * post request which parameter is json,Content-Type is MediaType.JSON_UTF_8
    *
    * @param url

@@ -2,6 +2,11 @@ package com.github.weaksloth.dolphins.core;
 
 public class DolphinClientConstant {
 
+  public static class Page {
+    public static final Integer DEFAULT_PAGE = 1;
+    public static final Integer DEFAULT_SIZE = 10;
+  }
+
   public static final String OFFLINE_RELEASE_STATE = "OFFLINE"; // 工作流下线状态
   public static final String ONLINE_RELEASE_STATE = "ONLINE"; // 工作流上线状态
 
@@ -24,8 +29,9 @@ public class DolphinClientConstant {
     public static final String SHELL = "SHELL";
   }
 
-  public static class File {
+  public static class Resource {
     public static final String TYPE_FILE = "FILE";
+    public static final String TYPE_UDF = "UDF";
     public static final String DEFAULT_PID_FILE = "-1";
     public static final String DEFAULT_CURRENT_DIR = "/";
   }

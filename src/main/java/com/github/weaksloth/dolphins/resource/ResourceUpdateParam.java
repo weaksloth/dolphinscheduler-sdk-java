@@ -1,4 +1,4 @@
-package com.github.weaksloth.dolphins.file;
+package com.github.weaksloth.dolphins.resource;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,7 +9,7 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 @NoArgsConstructor
 @AllArgsConstructor
-public class FileUpdateParam {
+public class ResourceUpdateParam {
 
   private Long id;
 
