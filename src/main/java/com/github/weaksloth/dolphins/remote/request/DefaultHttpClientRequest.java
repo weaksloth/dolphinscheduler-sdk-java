@@ -50,8 +50,7 @@ public class DefaultHttpClientRequest implements HttpClientRequest {
     Header headers = requestHttpEntity.getHeader();
     final HttpRequestBase requestBase = method.init(uri.toString());
     this.initRequestHeader(requestBase, headers);
-    if (MediaType.FORM_DATA.toString().equals(headers.getValue(HttpHeaders.CONTENT_TYPE))
-        && requestHttpEntity.ifBodyIsMap()) {
+    if (MediaType.FORM_DATA.toString().equals(headers.getValue(HttpHeaders.CONTENT_TYPE))) {
       // set form data
       Map<String, String> form;
       if (requestHttpEntity.ifBodyIsMap()) {

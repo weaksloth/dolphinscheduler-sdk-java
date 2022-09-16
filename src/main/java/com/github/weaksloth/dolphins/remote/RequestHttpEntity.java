@@ -73,11 +73,11 @@ public class RequestHttpEntity {
    */
   public Map<String, String> bodyToMap() {
     Map<String, String> map = new LinkedHashMap<>();
-    Field[] declaredFields = this.body.getClass().getDeclaredFields();
+    Field[] declaredFields = body.getClass().getDeclaredFields();
     for (Field field : declaredFields) {
       field.setAccessible(true);
       try {
-        map.put(field.getName(), field.get(this.body).toString());
+        map.put(field.getName(), String.valueOf(field.get(body)));
       } catch (IllegalAccessException e) {
         log.error("object to map fail", e);
       }
