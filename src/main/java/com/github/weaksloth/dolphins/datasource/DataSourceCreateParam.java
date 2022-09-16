@@ -3,7 +3,7 @@ package com.github.weaksloth.dolphins.datasource;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
-/** 创建数据源参数 */
+/** create datasource param */
 @Data
 @Accessors(chain = true)
 public class DataSourceCreateParam {

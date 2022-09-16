@@ -3,12 +3,13 @@ package com.github.weaksloth.dolphins.datasource;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
-/** 创建数据源参数 */
+/** update datasource param */
 @Data
 @Accessors(chain = true)
 public class DataSourceUpdateParam {
 
-  private Long id; // 数据源ID
+  /** datasource id */
+  private Long id;
 
   private String database;
 

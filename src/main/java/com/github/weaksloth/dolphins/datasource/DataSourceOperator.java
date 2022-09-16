@@ -99,8 +99,8 @@ public class DataSourceOperator extends AbstractOperator {
               new TypeReference<PageInfo<DataSourceQueryResp>>() {})
           .getTotalList();
     } catch (Exception e) {
-      log.error("查询dolphin scheduler数据源失败", e);
-      throw new DolphinException("查询dolphin scheduler数据源失败");
+      log.error(DolphinException.LIST_DATASOURCE_ERROR, e);
+      throw new DolphinException(DolphinException.LIST_DATASOURCE_ERROR);
     }
   }
 }
