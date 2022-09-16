@@ -1,9 +1,9 @@
 package com.github.weaksloth.dolphins.remote.handler;
 
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.github.weaksloth.dolphins.remote.HttpRestResult;
+import com.github.weaksloth.dolphins.remote.TypeReferenceHttpResult;
 import com.github.weaksloth.dolphins.remote.response.HttpClientResponse;
-import com.github.weaksloth.dolphins.util.JSONUtils;
+import com.github.weaksloth.dolphins.util.JacksonUtils;
 import com.google.common.base.Charsets;
 import com.google.common.io.CharStreams;
 import java.io.InputStream;
@@ -19,7 +19,7 @@ public class ResponseHandler<T> {
   }
 
   public final HttpRestResult<T> handle(HttpClientResponse response) throws Exception {
-    if (HttpStatus.SC_OK != response.getStatusCode()) {
+    if (HttpStatus.SC_BAD_REQUEST < response.getStatusCode()) {
       return handleError(response);
     }
     return convertResult(response, this.responseType);
@@ -34,6 +34,6 @@ public class ResponseHandler<T> {
   public HttpRestResult<T> convertResult(HttpClientResponse response, Class<T> responseType)
       throws Exception {
     InputStream body = response.getBody();
-    return JSONUtils.parseObject(body, new TypeReference<HttpRestResult<T>>() {});
+    return JacksonUtils.parseObject(body, new TypeReferenceHttpResult<>(responseType));
   }
 }

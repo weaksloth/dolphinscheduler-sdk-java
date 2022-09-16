@@ -21,6 +21,10 @@ public class Query {
     return this;
   }
 
+  public Query build() {
+    return this;
+  }
+
   public Object getValue(String key) {
     return params.get(key);
   }

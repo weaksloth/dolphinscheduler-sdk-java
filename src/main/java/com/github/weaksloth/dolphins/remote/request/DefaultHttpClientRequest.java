@@ -5,6 +5,7 @@ import com.github.weaksloth.dolphins.remote.Header;
 import com.github.weaksloth.dolphins.remote.RequestHttpEntity;
 import com.github.weaksloth.dolphins.remote.response.DefaultHttpClientResponse;
 import com.github.weaksloth.dolphins.remote.response.HttpClientResponse;
+import com.github.weaksloth.dolphins.util.JacksonUtils;
 import com.google.common.net.HttpHeaders;
 import com.google.common.net.MediaType;
 import java.io.IOException;
@@ -17,6 +18,9 @@ import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpRequestBase;
+import org.apache.http.entity.ByteArrayEntity;
+import org.apache.http.entity.ContentType;
+import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 
@@ -41,6 +45,7 @@ public class DefaultHttpClientRequest implements HttpClientRequest {
 
   private HttpRequestBase build(URI uri, String httpMethod, RequestHttpEntity requestHttpEntity)
       throws Exception {
+    Object body = requestHttpEntity.getBody();
     BaseHttpMethod method = BaseHttpMethod.of(httpMethod);
     Header headers = requestHttpEntity.getHeader();
     final HttpRequestBase requestBase = method.init(uri.toString());
@@ -48,7 +53,13 @@ public class DefaultHttpClientRequest implements HttpClientRequest {
     if (MediaType.FORM_DATA.toString().equals(headers.getValue(HttpHeaders.CONTENT_TYPE))
         && requestHttpEntity.ifBodyIsMap()) {
       // set form data
-      Map<String, String> form = requestHttpEntity.castBodyToMap();
+      Map<String, String> form;
+      if (requestHttpEntity.ifBodyIsMap()) {
+        form = requestHttpEntity.castBodyToMap();
+      } else {
+        form = requestHttpEntity.bodyToMap();
+      }
+
       if (form != null && !form.isEmpty()) {
         List<NameValuePair> params = new ArrayList<>(form.size());
         for (Map.Entry<String, String> entry : form.entrySet()) {
@@ -60,7 +71,22 @@ public class DefaultHttpClientRequest implements HttpClientRequest {
           request.setEntity(entity);
         }
       }
-    } else {
+    } else { // set json data
+      if (requestBase instanceof HttpEntityEnclosingRequest) {
+        HttpEntityEnclosingRequest request = (HttpEntityEnclosingRequest) requestBase;
+        ContentType contentType =
+            ContentType.create(MediaType.JSON_UTF_8.type(), headers.getCharset());
+        HttpEntity entity;
+        if (body instanceof byte[]) {
+          entity = new ByteArrayEntity((byte[]) body, contentType);
+        } else {
+          entity =
+              new StringEntity(
+                  body instanceof String ? (String) body : JacksonUtils.toJSONString(body),
+                  contentType);
+        }
+        request.setEntity(entity);
+      }
     }
 
     requestBase.setConfig(defaultConfig);

@@ -11,7 +11,7 @@ import java.io.InputStream;
 import java.lang.reflect.Type;
 
 /** json utils based on jackson */
-public class JSONUtils {
+public class JacksonUtils {
 
   private static final ObjectMapper mapper = new ObjectMapper();
 
@@ -215,6 +215,37 @@ public class JSONUtils {
   }
 
   /**
+   * @param json json string
+   * @param typeReference type of object
+   * @param <T>
+   * @return
+   */
+  public static <T> T parseObject(String json, TypeReference<T> typeReference) {
+    try {
+      return mapper.readValue(json, typeReference);
+    } catch (IOException e) {
+      throw new RuntimeException("json parse object fail", e);
+    }
+  }
+
+  /**
+   * Json string deserialize to Object.
+   *
+   * @param json json string
+   * @param type {@link Type} of object
+   * @param <T> General type
+   * @return object
+   * @throws RuntimeException if deserialize failed
+   */
+  public static <T> T parseObject(String json, Type type) {
+    try {
+      return mapper.readValue(json, mapper.constructType(type));
+    } catch (IOException e) {
+      throw new RuntimeException("json parse object fail", e);
+    }
+  }
+
+  /**
    * Json string deserialize to Object.
    *
    * @param inputStream json string input stream
@@ -246,5 +277,9 @@ public class JSONUtils {
     } catch (IOException e) {
       throw new RuntimeException(e);
     }
+  }
+
+  public static ObjectMapper getObjectMapper() {
+    return mapper;
   }
 }

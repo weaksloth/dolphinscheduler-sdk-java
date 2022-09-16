@@ -1,33 +1,49 @@
 package com.github.weaksloth.dolphins.core;
 
+import com.github.weaksloth.dolphins.datasource.DataSourceOperator;
+import com.github.weaksloth.dolphins.remote.DolphinsRestTemplate;
+import com.github.weaksloth.dolphins.remote.Header;
+import com.github.weaksloth.dolphins.remote.HttpRestResult;
+import com.github.weaksloth.dolphins.remote.Query;
+import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 
-/** dolphin scheduler rest api client to operate dolphin scheduler */
+/** dolphin scheduler client to operate dolphin scheduler */
 @Slf4j
 public class DolphinClient {
 
-  //  private DolphinHttpSender httpSender;
-  //
-  //  private String dolphinAddress;
-  //
-  //  private String projectCode;
-  //
-  //  public DolphinClient(String dolphinAddress,String projectCode) {
-  //    this.dolphinAddress = dolphinAddress;
-  //    this.projectCode = projectCode;
-  //  }
+  private DolphinsRestTemplate dolphinsRestTemplate;
+  private String dolphinAddress;
+  private String token;
+
+  private DataSourceOperator dataSourceOperator;
+
+  public DolphinClient(
+      String token, String dolphinAddress, DolphinsRestTemplate dolphinsRestTemplate) {
+    this.token = token;
+    this.dolphinAddress = dolphinAddress;
+    this.dolphinsRestTemplate = dolphinsRestTemplate;
+    this.initOperators();
+  }
+
+  public void initOperators() {
+    this.dataSourceOperator =
+        new DataSourceOperator(this.dolphinAddress, this.token, this.dolphinsRestTemplate);
+  }
+
   //
   //  /**
   //   * 创建dolphin工作流 api: /dolphinscheduler/projects/{projectCode}/process-definition
   //   *
+  //   * @param projectCode 项目ID
   //   * @param createProcessDefParam 创建dolphin工作流的参数
   //   * @return create response
   //   */
-  //  public JsonNode createProcessDefinition(ProcessDefinition createProcessDefParam) {
+  //  public JsonNode createProcessDefinition(
+  //      String projectCode, ProcessDefinition createProcessDefParam) {
   //    String url = dolphinAddress + "/projects/" + projectCode + "/process-definition";
   //    log.info("create process definition,url:{}", url);
-  //    DolphinResponse dolphinResponse =
-  //        httpSender.sendPostForm(url, createProcessDefParam);
+  //    DolphinResponse dolphinResponse = httpSender.sendPostForm(url, createProcessDefParam);
   //    if (dolphinResponse.getSuccess()) {
   //      return dolphinResponse.getData();
   //    } else {
@@ -45,7 +61,7 @@ public class DolphinClient {
   //   * @return update response json
   //   */
   //  public Boolean updateProcessDefinition(
-  //          ProcessDefinition createProcessDefParam, Long processCode) {
+  //      ProcessDefinition createProcessDefParam, Long processCode) {
   //    String url = dolphinAddress + "/projects/" + projectCode + "/process-definition/" +
   // processCode;
   //    log.info("update process definition,url:{}", url);
@@ -64,7 +80,7 @@ public class DolphinClient {
   //   * @param processCode 流程编号
   //   * @return delete response
   //   */
-  //  public Boolean deleteProcessDefinition(Long processCode) {
+  //  public Boolean deleteProcessDefinition(Long projectCode, Long processCode) {
   //    String url = dolphinAddress + "/projects/" + projectCode + "/process-definition/" +
   // processCode;
   //    DolphinResponse response = httpSender.sendDeleteRequest(url, null);
@@ -79,11 +95,13 @@ public class DolphinClient {
   //  /**
   //   * 上下线工作流 api: /dolphinscheduler/projects/{projectCode}/process-definition/{code}/release
   //   *
+  //   * @param projectCode 项目编号
   //   * @param code 工作流ID
   //   * @param releaseProcessDefParam 上线工作流参数
   //   * @return release response
   //   */
-  //  public Boolean releaseProcess(Long code, ReleaseProcessDefParam releaseProcessDefParam) {
+  //  public Boolean releaseProcess(
+  //      Long projectCode, Long code, ReleaseProcessDefParam releaseProcessDefParam) {
   //    String url =
   //        dolphinAddress + "/projects/" + projectCode + "/process-definition/" + code +
   // "/release";
@@ -202,133 +220,94 @@ public class DolphinClient {
   //    }
   //  }
   //
-  //  /**
-  //   * 创建文件
-  //   *
-  //   * @param fileCreateParam 创建文件参数
-  //   * @return 成功返回true，反之返回false
-  //   */
-  //  public Boolean onlineCreateFile(FileCreateParam fileCreateParam) {
-  //    String url = dolphinAddress + "/resources/online-create";
-  //    DolphinResponse response = httpSender.sendPostFormRequest(url, fileCreateParam);
-  //    if (response.getSuccess()) {
-  //      return true;
-  //    } else {
-  //      log.error("创建dolphin scheduler文件失败，response:{}", response);
-  //      throw new DolphinException("创建dolphin scheduler文件失败");
+  //    /**
+  //     * online create file
+  //     *
+  //     * @param fileCreateParam online create file param
+  //     * @return true for success,otherwise false
+  //     */
+  //    public Boolean onlineCreateFile(FileCreateParam fileCreateParam) {
+  //      String url = dolphinAddress + "/resources/online-create";
+  //      DolphinResponse response = httpSender.sendPostFormRequest(url, fileCreateParam);
+  //      if (response.getSuccess()) {
+  //        return true;
+  //      } else {
+  //        log.error("创建dolphin scheduler文件失败，response:{}", response);
+  //        throw new DolphinException("创建dolphin scheduler文件失败");
+  //      }
   //    }
-  //  }
   //
-  //  /**
-  //   * 更新文件内容
-  //   *
-  //   * @param fileUpdateParam 更新文件表单
-  //   * @return 更新成功返回true，反之返回false
-  //   */
-  //  public Boolean onlineUpdateFileContent(FileUpdateParam fileUpdateParam) {
-  //    String url = dolphinAddress + "/resources/" + fileUpdateParam.getId() + "/update-content";
-  //    DolphinResponse response = httpSender.sendPutFormRequest(url, fileUpdateParam);
-  //    if (response.getSuccess()) {
-  //      return true;
-  //    } else {
-  //      log.error("更新dolphin scheduler文件内容失败，response:{}", response);
-  //      throw new DolphinException("更新dolphin scheduler文件内容失败");
+  //    /**
+  //     * 更新文件内容
+  //     *
+  //     * @param fileUpdateParam 更新文件表单
+  //     * @return true for success,otherwise false
+  //     */
+  //    public Boolean onlineUpdateFileContent(FileUpdateParam fileUpdateParam) {
+  //      String url = dolphinAddress + "/resources/" + fileUpdateParam.getId() + "/update-content";
+  //      DolphinResponse response = httpSender.sendPutFormRequest(url, fileUpdateParam);
+  //      if (response.getSuccess()) {
+  //        return true;
+  //      } else {
+  //        log.error("更新dolphin scheduler文件内容失败，response:{}", response);
+  //        throw new DolphinException("更新dolphin scheduler文件内容失败");
+  //      }
   //    }
-  //  }
   //
-  //  /**
-  //   * 查询文件列表
-  //   *
-  //   * @param pid pid
-  //   * @param fileName 文件名
-  //   * @return json str
-  //   */
-  //  public JsonNode listFile(String pid, String fileName) {
-  //    String url =
-  //        dolphinAddress
-  //            +
-  // "/resources?type=FILE&pageNo={pageNo}&pageSize={pageSize}&searchVal={searchVal}&id={id}";
-  //    DolphinResponse response = httpSender.sendGetRequest(url, 1, 10, fileName, pid);
-  //    if (response.getSuccess()) {
-  //      return response.getData();
-  //    } else {
-  //      log.error("查询dolphin scheduler文件列表失败，response:{}", response);
-  //      throw new DolphinException("查询dolphin scheduler文件列表失败");
+  //    /**
+  //     * 查询文件列表
+  //     *
+  //     * @param pid pid
+  //     * @param fileName 文件名
+  //     * @return json str
+  //     */
+  //    public JsonNode listFile(String pid, String fileName) {
+  //      String url =
+  //          dolphinAddress
+  //              +
+  //   "/resources?type=FILE&pageNo={pageNo}&pageSize={pageSize}&searchVal={searchVal}&id={id}";
+  //      DolphinResponse response = httpSender.sendGetRequest(url, 1, 10, fileName, pid);
+  //      if (response.getSuccess()) {
+  //        return response.getData();
+  //      } else {
+  //        log.error("查询dolphin scheduler文件列表失败，response:{}", response);
+  //        throw new DolphinException("查询dolphin scheduler文件列表失败");
+  //      }
   //    }
-  //  }
-  //
-  //  /**
-  //   * 调用dolphin rest api 生成task code
-  //   *
-  //   * @param codeNumber
-  //   * @return
-  //   */
-  //  public List<Long> generateTaskCode(int codeNumber) {
-  //    List<Long> list = new ArrayList<>(codeNumber);
-  //    String url =
-  //        dolphinAddress
-  //            + "/projects/"
-  //            + projectCode
-  //            + "/task-definition/gen-task-codes?genNum="
-  //            + codeNumber;
-  //    DolphinResponse response = httpSender.sendGetRequest(url);
-  //    ArrayNode dataArray = (ArrayNode) response.getData();
-  //    for (JsonNode node : dataArray) {
-  //      list.add(node.asLong());
-  //    }
-  //    return list;
-  //  }
-  //
-  //  /**
-  //   * 创建数据源 api:/dolphinscheduler/datasources
-  //   *
-  //   * @param dataSourceCreateParam 创建数据源参数
-  //   * @return
-  //   */
-  //  public Boolean createDataSource(DataSourceCreateParam dataSourceCreateParam) {
-  //    String url = dolphinAddress + "/datasources";
-  //    DolphinResponse response = httpSender.sendPostJsonRequest(url, dataSourceCreateParam);
-  //    if (response.getSuccess()) {
-  //      return true;
-  //    } else {
-  //      log.error("create dolphin scheduler datasource fail，response:{}", response);
-  //      throw new DolphinException("create dolphin scheduler datasource fail");
-  //    }
-  //  }
-  //
-  //  /**
-  //   * 更新数据源 api：/dolphinscheduler/datasources/{id}
-  //   *
-  //   * @param dataSourceUpdateParam 更新数据源参数
-  //   * @return
-  //   */
-  //  public Boolean updateDataSource(DataSourceUpdateParam dataSourceUpdateParam) {
-  //    String url = dolphinAddress + "/datasources/" + dataSourceUpdateParam.getId();
-  //    DolphinResponse response = httpSender.sendPutJsonRequest(url, dataSourceUpdateParam);
-  //    if (response.getSuccess()) {
-  //      return true;
-  //    } else {
-  //      log.error("更新dolphin scheduler数据源失败，response:{}", response);
-  //      throw new DolphinException("更新dolphin scheduler数据源失败");
-  //    }
-  //  }
-  //
-  //  /**
-  //   * 查询dolphin datasource列表，api:/dolphinscheduler/datasources
-  //   *
-  //   * @return list dolphin response json
-  //   */
-  //  public JsonNode listDolphinDataSource(String dsName) {
-  //    String url =
-  //        dolphinAddress +
-  // "/datasources?pageNo={pageNo}&pageSize={pageSize}&searchVal={searchVal}";
-  //    log.info("query dolphin datasource");
-  //    DolphinResponse response = httpSender.sendGetRequest(url, 1, 100, dsName);
-  //    if (response.getSuccess()) {
-  //      return response.getData();
-  //    } else {
-  //      log.error("查询dolphin scheduler数据源失败，response:{}", response);
-  //      throw new DolphinException("查询dolphin scheduler数据源失败");
-  //    }
-  //  }
+
+  /**
+   * generate task code
+   *
+   * @param projectCode project's code
+   * @param codeNumber the number of task code
+   * @return task code list
+   */
+  public List<Long> generateTaskCode(Long projectCode, int codeNumber) {
+    String url = dolphinAddress + "/projects/" + projectCode + "/task-definition/gen-task-codes";
+    Query query = new Query();
+    query.addParam("genNum", String.valueOf(codeNumber));
+    try {
+      HttpRestResult<List> restResult =
+          dolphinsRestTemplate.get(url, getHeader(), query, List.class);
+      return (List<Long>) restResult.getData();
+    } catch (Exception e) {
+      log.error(DolphinException.GENERATE_TASK_CODE_ERROR, e);
+      throw new DolphinException(DolphinException.GENERATE_TASK_CODE_ERROR);
+    }
+  }
+
+  public DataSourceOperator opsForDataSource() {
+    return this.dataSourceOperator;
+  }
+
+  /**
+   * get header for dolphin scheduler
+   *
+   * @return
+   */
+  private Header getHeader() {
+    Header header = Header.newInstance();
+    header.addParam("token", this.token);
+    return header;
+  }
 }

@@ -4,7 +4,7 @@ import lombok.Data;
 
 /** dolphin创建工作流参数 */
 @Data
-public class ProcessDefinition {
+public class ProcessCreateParam {
 
   /** 工作流名称 */
   private String name;
