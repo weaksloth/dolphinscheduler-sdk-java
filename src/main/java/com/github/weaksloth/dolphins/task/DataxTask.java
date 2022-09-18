@@ -22,4 +22,9 @@ public class DataxTask extends AbstractTask {
   private List<String> postStatements = new ArrayList<>();
   private Integer xms = 1;
   private Integer xmx = 1;
+
+  @Override
+  public String getTaskType() {
+    return "DATAX";
+  }
 }

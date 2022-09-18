@@ -7,6 +7,6 @@ public class TaskTest extends BaseTest {
 
   @Test
   public void testGenerateTaskCode() {
-    System.out.println(super.getClient().generateTaskCode(projectCode, 10));
+    System.out.println(super.getClient().opsForProcess().generateTaskCode(projectCode, 10));
   }
 }

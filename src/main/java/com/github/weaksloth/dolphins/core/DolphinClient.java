@@ -1,12 +1,11 @@
 package com.github.weaksloth.dolphins.core;
 
 import com.github.weaksloth.dolphins.datasource.DataSourceOperator;
+import com.github.weaksloth.dolphins.instance.ProcessInstanceOperator;
+import com.github.weaksloth.dolphins.process.ProcessOperator;
 import com.github.weaksloth.dolphins.remote.DolphinsRestTemplate;
 import com.github.weaksloth.dolphins.remote.Header;
-import com.github.weaksloth.dolphins.remote.HttpRestResult;
-import com.github.weaksloth.dolphins.remote.Query;
 import com.github.weaksloth.dolphins.resource.ResourceOperator;
-import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 
 /** dolphin scheduler client to operate dolphin scheduler */
@@ -19,6 +18,8 @@ public class DolphinClient {
 
   private DataSourceOperator dataSourceOperator;
   private ResourceOperator resourceOperator;
+  private ProcessOperator processOperator;
+  private ProcessInstanceOperator processInstanceOperator;
 
   public DolphinClient(
       String token, String dolphinAddress, DolphinsRestTemplate dolphinsRestTemplate) {
@@ -33,110 +34,12 @@ public class DolphinClient {
         new DataSourceOperator(this.dolphinAddress, this.token, this.dolphinsRestTemplate);
     this.resourceOperator =
         new ResourceOperator(this.dolphinAddress, this.token, this.dolphinsRestTemplate);
+    this.processOperator =
+        new ProcessOperator(this.dolphinAddress, this.token, this.dolphinsRestTemplate);
+    this.processInstanceOperator =
+        new ProcessInstanceOperator(this.dolphinAddress, this.token, this.dolphinsRestTemplate);
   }
 
-  //
-  //  /**
-  //   * 创建dolphin工作流 api: /dolphinscheduler/projects/{projectCode}/process-definition
-  //   *
-  //   * @param projectCode 项目ID
-  //   * @param createProcessDefParam 创建dolphin工作流的参数
-  //   * @return create response
-  //   */
-  //  public JsonNode createProcessDefinition(
-  //      String projectCode, ProcessDefinition createProcessDefParam) {
-  //    String url = dolphinAddress + "/projects/" + projectCode + "/process-definition";
-  //    log.info("create process definition,url:{}", url);
-  //    DolphinResponse dolphinResponse = httpSender.sendPostForm(url, createProcessDefParam);
-  //    if (dolphinResponse.getSuccess()) {
-  //      return dolphinResponse.getData();
-  //    } else {
-  //      log.error("创建dolphin scheduler工作流失败,response:{}", dolphinResponse);
-  //      throw new DolphinException("创建dolphin scheduler工作流失败");
-  //    }
-  //  }
-  //
-  //  /**
-  //   * 更新dolphin工作流
-  //   * api:/dolphinscheduler/projects/{projectCode}/process-definition/{process-definition-code}
-  //   *
-  //   * @param createProcessDefParam dolphin工作流参数
-  //   * @param processCode 工作流code
-  //   * @return update response json
-  //   */
-  //  public Boolean updateProcessDefinition(
-  //      ProcessDefinition createProcessDefParam, Long processCode) {
-  //    String url = dolphinAddress + "/projects/" + projectCode + "/process-definition/" +
-  // processCode;
-  //    log.info("update process definition,url:{}", url);
-  //    DolphinResponse response = httpSender.sendPutFormRequest(url, createProcessDefParam);
-  //    if (response.getSuccess()) {
-  //      return true;
-  //    } else {
-  //      log.error("更新dolphin scheduler 工作流失败，response:{}", response);
-  //      throw new DolphinException("更新dolphin scheduler工作流失败");
-  //    }
-  //  }
-  //
-  //  /**
-  //   * 删除工作流
-  //   *
-  //   * @param processCode 流程编号
-  //   * @return delete response
-  //   */
-  //  public Boolean deleteProcessDefinition(Long projectCode, Long processCode) {
-  //    String url = dolphinAddress + "/projects/" + projectCode + "/process-definition/" +
-  // processCode;
-  //    DolphinResponse response = httpSender.sendDeleteRequest(url, null);
-  //    if (response.getSuccess()) {
-  //      return true;
-  //    } else {
-  //      log.error("删除dolphin scheduler 工作流失败，response:{}", response);
-  //      throw new DolphinException("删除dolphin scheduler工作流失败");
-  //    }
-  //  }
-  //
-  //  /**
-  //   * 上下线工作流 api: /dolphinscheduler/projects/{projectCode}/process-definition/{code}/release
-  //   *
-  //   * @param projectCode 项目编号
-  //   * @param code 工作流ID
-  //   * @param releaseProcessDefParam 上线工作流参数
-  //   * @return release response
-  //   */
-  //  public Boolean releaseProcess(
-  //      Long projectCode, Long code, ReleaseProcessDefParam releaseProcessDefParam) {
-  //    String url =
-  //        dolphinAddress + "/projects/" + projectCode + "/process-definition/" + code +
-  // "/release";
-  //    log.info("release process definition,url:{}", url);
-  //    DolphinResponse response = httpSender.sendPostFormRequest(url, releaseProcessDefParam);
-  //    if (response.getSuccess()) {
-  //      return true;
-  //    } else {
-  //      log.error("上下线dolphin scheduler工作流失败，response:{}", response);
-  //      throw new DolphinException("上下线dolphin scheduler工作流失败");
-  //    }
-  //  }
-  //
-  //  /**
-  //   * 运行工作流 api: /dolphinscheduler/projects/{projectCode}/executors/start-process-instance
-  //   *
-  //   * @param processInstanceStartParam 运行实例参数
-  //   * @return start response
-  //   */
-  //  public Boolean startProcessInstance(ProcessInstanceStartParam processInstanceStartParam) {
-  //    String url = dolphinAddress + "/projects/" + projectCode +
-  // "/executors/start-process-instance";
-  //    log.info("start process instance ,url:{}", url);
-  //    DolphinResponse response = httpSender.sendPostFormRequest(url, processInstanceStartParam);
-  //    if (response.getSuccess()) {
-  //      return true;
-  //    } else {
-  //      log.error("运行dolphin scheduler工作流失败，response:{}", response);
-  //      throw new DolphinException("运行dolphin scheduler工作流失败");
-  //    }
-  //  }
   //
   //  /**
   //   * 定时工作流
@@ -225,33 +128,20 @@ public class DolphinClient {
   //  }
   //
 
-  /**
-   * generate task code
-   *
-   * @param projectCode project's code
-   * @param codeNumber the number of task code
-   * @return task code list
-   */
-  public List<Long> generateTaskCode(Long projectCode, int codeNumber) {
-    String url = dolphinAddress + "/projects/" + projectCode + "/task-definition/gen-task-codes";
-    Query query = new Query();
-    query.addParam("genNum", String.valueOf(codeNumber));
-    try {
-      HttpRestResult<List> restResult =
-          dolphinsRestTemplate.get(url, getHeader(), query, List.class);
-      return (List<Long>) restResult.getData();
-    } catch (Exception e) {
-      log.error(DolphinException.GENERATE_TASK_CODE_ERROR, e);
-      throw new DolphinException(DolphinException.GENERATE_TASK_CODE_ERROR);
-    }
-  }
-
   public DataSourceOperator opsForDataSource() {
     return this.dataSourceOperator;
   }
 
   public ResourceOperator opsForResource() {
     return this.resourceOperator;
+  }
+
+  public ProcessOperator opsForProcess() {
+    return this.processOperator;
+  }
+
+  public ProcessInstanceOperator opsForProcessInst() {
+    return this.processInstanceOperator;
   }
 
   /**

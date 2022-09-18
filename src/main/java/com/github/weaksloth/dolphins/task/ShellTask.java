@@ -11,4 +11,9 @@ public class ShellTask extends AbstractTask {
   private ArrayNode resourceList; // 资源列表
   private ArrayNode localParams;
   private String rawScript; // shell脚本
+
+  @Override
+  public String getTaskType() {
+    return "SHELL";
+  }
 }

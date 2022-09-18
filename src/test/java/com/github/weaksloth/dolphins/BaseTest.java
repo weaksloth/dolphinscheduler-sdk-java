@@ -11,8 +11,9 @@ import org.apache.http.protocol.RequestContent;
 public class BaseTest {
 
   protected final String dolphinAddress = "http://localhost:12345/dolphinscheduler";
-  protected final Long projectCode = 6896268576160L;
-  private final String token = "659f30a4292be779a74ba8f60415004c";
+  protected final Long projectCode = 6919898920896L;
+  private final String token = "0df5f42218fa114eed24014bf4efc085";
+  protected final String tenantCode = "chen";
 
   protected DolphinsRestTemplate restTemplate =
       new DolphinsRestTemplate(

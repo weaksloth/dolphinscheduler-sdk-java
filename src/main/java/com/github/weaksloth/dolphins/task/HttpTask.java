@@ -19,6 +19,11 @@ public class HttpTask extends AbstractTask {
   private Integer connectTimeout;
   private Integer socketTimeout;
 
+  @Override
+  public String getTaskType() {
+    return "HTTP";
+  }
+
   @Data
   @Accessors(chain = true)
   @AllArgsConstructor
