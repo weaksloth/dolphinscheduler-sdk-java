@@ -3,12 +3,12 @@ package com.github.weaksloth.dolphins.instance;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
-/** 重新运行/恢复失败 工作流实例参数 */
+/** re run/recover process instance */
 @Data
 @Accessors(chain = true)
 public class ProcessInstanceRunParam {
 
-  private String processInstanceId;
+  private Long processInstanceId;
 
   private String executeType;
 }

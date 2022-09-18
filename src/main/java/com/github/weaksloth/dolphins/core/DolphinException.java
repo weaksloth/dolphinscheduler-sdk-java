@@ -12,6 +12,12 @@ public class DolphinException extends RuntimeException {
 
   public static final String START_PROCESS_INSTANCE_ERROR =
       "start dolphin scheduler process instance fail";
+  public static final String RERUN_PROCESS_INSTANCE_ERROR =
+      "repeat run dolphin scheduler process instance fail";
+  public static final String PAGE_PROCESS_INSTANCE_ERROR =
+      "page dolphin scheduler process instance list fail";
+  public static final String DELETE_PROCESS_INSTANCE_ERROR =
+      "delete dolphin scheduler process instance fail";
 
   public static final String CREATE_DATASOURCE_ERROR = "create dolphin scheduler datasource fail";
   public static final String LIST_DATASOURCE_ERROR = "list dolphin scheduler datasource fail";
