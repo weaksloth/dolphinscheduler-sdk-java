@@ -4,6 +4,8 @@ import com.github.weaksloth.dolphins.util.JacksonUtils;
 import java.lang.reflect.Field;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
@@ -72,12 +74,17 @@ public class RequestHttpEntity {
    * @return map
    */
   public Map<String, String> bodyToMap() {
+    if (Objects.isNull(body)) {
+      return null;
+    }
+
     Map<String, String> map = new LinkedHashMap<>();
     Field[] declaredFields = body.getClass().getDeclaredFields();
     for (Field field : declaredFields) {
       field.setAccessible(true);
       try {
-        map.put(field.getName(), String.valueOf(field.get(body)));
+        Optional.ofNullable(field.get(body))
+            .ifPresent(value -> map.put(field.getName(), value.toString()));
       } catch (IllegalAccessException e) {
         log.error("object to map fail", e);
       }
