@@ -19,6 +19,12 @@ public class DolphinException extends RuntimeException {
   public static final String DELETE_PROCESS_INSTANCE_ERROR =
       "delete dolphin scheduler process instance fail";
 
+  public static final String CREATE_SCHEDULE_ERROR = "create dolphin scheduler schedule fail";
+  public static final String UPDATE_SCHEDULE_ERROR = "update dolphin scheduler schedule fail";
+  public static final String ONLINE_SCHEDULE_ERROR = "online dolphin scheduler schedule fail";
+  public static final String OFFLINE_SCHEDULE_ERROR = "offline dolphin scheduler schedule fail";
+  public static final String DELETE_SCHEDULE_ERROR = "delete dolphin scheduler schedule fail";
+
   public static final String CREATE_DATASOURCE_ERROR = "create dolphin scheduler datasource fail";
   public static final String LIST_DATASOURCE_ERROR = "list dolphin scheduler datasource fail";
   public static final String UPDATE_DATASOURCE_ERROR = "update dolphin scheduler datasource fail";
