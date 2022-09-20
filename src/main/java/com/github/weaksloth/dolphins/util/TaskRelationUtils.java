@@ -1,32 +1,41 @@
 package com.github.weaksloth.dolphins.util;
 
+import com.github.weaksloth.dolphins.process.TaskRelation;
+import java.util.ArrayList;
+import java.util.List;
+
 /** utils for build task relation */
 public class TaskRelationUtils {
 
   /**
    * set task one by one relation,such as t1->t2->t3->t4.....
    *
-   * @param taskCode
-   * @return
+   * @param taskCodes task codes
+   * @return {@link List<TaskRelation>}
    */
-  //    public static List<TaskRelation> oneLineRelation(Long ... taskCode) {
-  //        CreateProcessDefParam.TaskRelation taskRelation1 =
-  //                new CreateProcessDefParam.TaskRelation().setPostTaskCode(taskNodeCode);
-  //
-  //        CreateProcessDefParam.TaskRelation taskRelation2 =
-  //                new CreateProcessDefParam.TaskRelation()
-  //                        .setPreTaskCode(taskNodeCode)
-  //                        .setPostTaskCode(super.conditionTaskNodeCode);
-  //
-  //        CreateProcessDefParam.TaskRelation taskRelation3 =
-  //                new CreateProcessDefParam.TaskRelation()
-  //                        .setPreTaskCode(super.conditionTaskNodeCode)
-  //                        .setPostTaskCode(super.successTaskNodeCode);
-  //
-  //    }
-  //
-  //    public static List<TaskRelation> oneLineRelation(List<Long> taskCode) {
-  //
-  //    }
+  public static List<TaskRelation> oneLineRelation(Long... taskCodes) {
+    List<TaskRelation> list = new ArrayList<>();
+    for (int i = 0; i < taskCodes.length; i++) {
+      if (i == 0) {
+        list.add(new TaskRelation().setPostTaskCode(taskCodes[i]));
+      } else {
+        list.add(new TaskRelation().setPreTaskCode(taskCodes[i - 1]).setPostTaskCode(taskCodes[i]));
+      }
+    }
+    return list;
+  }
 
+  /**
+   * all task is alone,no relation,such as t1 t2 t3
+   *
+   * @param taskCodes task codes
+   * @return {@link List<TaskRelation>}
+   */
+  public static List<TaskRelation> noRelation(Long... taskCodes) {
+    List<TaskRelation> list = new ArrayList<>();
+    for (Long taskCode : taskCodes) {
+      list.add(new TaskRelation().setPostTaskCode(taskCode));
+    }
+    return list;
+  }
 }

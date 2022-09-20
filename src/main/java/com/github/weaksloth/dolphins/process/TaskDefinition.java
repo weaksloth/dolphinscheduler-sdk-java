@@ -14,14 +14,18 @@ public class TaskDefinition {
 
   private Integer version;
 
+  /** the task node's name */
   private String name;
 
+  /** the task node's description */
   private String description;
 
+  /** get from {@link AbstractTask#getTaskType()} */
   private String taskType;
 
-  private AbstractTask taskParams; // 任务配置json字符串
+  private AbstractTask taskParams;
 
+  /** NO:the node will not execute;YES:the node will execute,default is YES */
   private String flag;
 
   private String taskPriority;
