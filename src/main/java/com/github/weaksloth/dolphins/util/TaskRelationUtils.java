@@ -8,7 +8,7 @@ import java.util.List;
 public class TaskRelationUtils {
 
   /**
-   * set task one by one relation,such as t1->t2->t3->t4.....
+   * this method is used for graph edge set task one by one relation,such as t1->t2->t3->t4.....
    *
    * @param taskCodes task codes
    * @return {@link List<TaskRelation>}
@@ -26,7 +26,7 @@ public class TaskRelationUtils {
   }
 
   /**
-   * all task is alone,no relation,such as t1 t2 t3
+   * this method is used for graph edge all task is alone,no relation,such as t1 t2 t3
    *
    * @param taskCodes task codes
    * @return {@link List<TaskRelation>}

@@ -5,6 +5,7 @@ import com.github.weaksloth.dolphins.process.*;
 import com.github.weaksloth.dolphins.task.ShellTask;
 import com.github.weaksloth.dolphins.util.JacksonUtils;
 import com.github.weaksloth.dolphins.util.TaskDefinitionUtils;
+import com.github.weaksloth.dolphins.util.TaskLocationUtils;
 import java.util.Collections;
 import org.junit.Assert;
 import org.junit.Test;
@@ -47,7 +48,7 @@ public class WorkflowTest extends BaseTest {
 
     ProcessDefineParam pcr = new ProcessDefineParam();
     pcr.setName("test-dag")
-        .setLocations(Collections.singletonList(new TaskLocation(taskCode, 100, 100)))
+        .setLocations(TaskLocationUtils.verticalLocation(taskCode))
         .setDescription("test-dag-description")
         .setTenantCode(tenantCode)
         .setTimeout("0")
