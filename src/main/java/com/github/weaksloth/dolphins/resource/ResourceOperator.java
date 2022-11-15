@@ -51,8 +51,7 @@ public class ResourceOperator extends AbstractOperator {
               restResult.getData().toString(), new TypeReference<PageInfo<ResourceQueryRes>>() {})
           .getTotalList();
     } catch (Exception e) {
-      log.error(DolphinException.LIST_RESOURCE_ERROR, e);
-      throw new DolphinException(DolphinException.LIST_RESOURCE_ERROR);
+      throw new DolphinException("list dolphin scheduler resource fail", e);
     }
   }
 
@@ -69,8 +68,7 @@ public class ResourceOperator extends AbstractOperator {
           dolphinsRestTemplate.postForm(url, getHeader(), resourceCreateParam, String.class);
       return restResult.getSuccess();
     } catch (Exception e) {
-      log.error(DolphinException.ONLINE_CREATE_RESOURCE_ERROR, e);
-      throw new DolphinException(DolphinException.ONLINE_CREATE_RESOURCE_ERROR);
+      throw new DolphinException("online create resource fail", e);
     }
   }
 
@@ -87,8 +85,7 @@ public class ResourceOperator extends AbstractOperator {
           dolphinsRestTemplate.putForm(url, getHeader(), resourceUpdateParam, String.class);
       return restResult.getSuccess();
     } catch (Exception e) {
-      log.error(DolphinException.ONLINE_UPDATE_RESOURCE_ERROR, e);
-      throw new DolphinException(DolphinException.ONLINE_UPDATE_RESOURCE_ERROR);
+      throw new DolphinException("online update resource fail", e);
     }
   }
 
@@ -105,8 +102,7 @@ public class ResourceOperator extends AbstractOperator {
           dolphinsRestTemplate.delete(url, getHeader(), null, String.class);
       return restResult.getSuccess();
     } catch (Exception e) {
-      log.error(DolphinException.DELETE_RESOURCE_ERROR, e);
-      throw new DolphinException(DolphinException.DELETE_RESOURCE_ERROR);
+      throw new DolphinException("delete resource fail", e);
     }
   }
 }

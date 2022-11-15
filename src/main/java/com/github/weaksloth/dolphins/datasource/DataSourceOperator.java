@@ -35,8 +35,7 @@ public class DataSourceOperator extends AbstractOperator {
       log.info("create datasource response:{}", result);
       return result.getSuccess();
     } catch (Exception e) {
-      log.error(DolphinException.CREATE_DATASOURCE_ERROR, e);
-      throw new DolphinException(DolphinException.CREATE_DATASOURCE_ERROR);
+      throw new DolphinException("create dolphin scheduler datasource fail", e);
     }
   }
 
@@ -54,8 +53,7 @@ public class DataSourceOperator extends AbstractOperator {
       log.info("update datasource response:{}", result);
       return result.getSuccess();
     } catch (Exception e) {
-      log.error(DolphinException.UPDATE_DATASOURCE_ERROR, e);
-      throw new DolphinException(DolphinException.UPDATE_DATASOURCE_ERROR);
+      throw new DolphinException("update dolphin scheduler datasource fail", e);
     }
   }
 
@@ -73,8 +71,7 @@ public class DataSourceOperator extends AbstractOperator {
       log.info("delete datasource response:{}", result);
       return result.getSuccess();
     } catch (Exception e) {
-      log.error(DolphinException.DELETE_DATASOURCE_ERROR, e);
-      throw new DolphinException(DolphinException.DELETE_DATASOURCE_ERROR);
+      throw new DolphinException("delete dolphin scheduler datasource fail", e);
     }
   }
 
@@ -99,8 +96,7 @@ public class DataSourceOperator extends AbstractOperator {
               new TypeReference<PageInfo<DataSourceQueryResp>>() {})
           .getTotalList();
     } catch (Exception e) {
-      log.error(DolphinException.LIST_DATASOURCE_ERROR, e);
-      throw new DolphinException(DolphinException.LIST_DATASOURCE_ERROR);
+      throw new DolphinException("list dolphin scheduler datasource fail", e);
     }
   }
 }

@@ -31,12 +31,11 @@ public class ScheduleOperator extends AbstractOperator {
       if (restResult.getSuccess()) {
         return restResult.getData();
       } else {
-        log.error("{},response:{}", DolphinException.CREATE_SCHEDULE_ERROR, restResult);
-        throw new DolphinException(DolphinException.CREATE_SCHEDULE_ERROR);
+        log.error("dolphin scheduler response:{}", restResult);
+        throw new DolphinException("create dolphin scheduler schedule fail");
       }
     } catch (Exception e) {
-      log.error(DolphinException.CREATE_SCHEDULE_ERROR, e);
-      throw new DolphinException(DolphinException.CREATE_SCHEDULE_ERROR);
+      throw new DolphinException("create dolphin scheduler schedule fail", e);
     }
   }
 
@@ -58,12 +57,11 @@ public class ScheduleOperator extends AbstractOperator {
       if (restResult.getSuccess()) {
         return restResult.getData();
       } else {
-        log.error("{},response:{}", DolphinException.UPDATE_SCHEDULE_ERROR, restResult);
-        throw new DolphinException(DolphinException.UPDATE_SCHEDULE_ERROR);
+        log.error("dolphin scheduler response:{}", restResult);
+        throw new DolphinException("update dolphin scheduler schedule fail");
       }
     } catch (Exception e) {
-      log.error(DolphinException.UPDATE_SCHEDULE_ERROR, e);
-      throw new DolphinException(DolphinException.UPDATE_SCHEDULE_ERROR);
+      throw new DolphinException("update dolphin scheduler schedule fail", e);
     }
   }
 
@@ -82,8 +80,7 @@ public class ScheduleOperator extends AbstractOperator {
           dolphinsRestTemplate.postForm(url, getHeader(), null, String.class);
       return restResult.getSuccess();
     } catch (Exception e) {
-      log.error(DolphinException.ONLINE_SCHEDULE_ERROR);
-      throw new DolphinException(DolphinException.ONLINE_SCHEDULE_ERROR);
+      throw new DolphinException("online dolphin scheduler schedule fail", e);
     }
   }
 
@@ -102,8 +99,7 @@ public class ScheduleOperator extends AbstractOperator {
           dolphinsRestTemplate.postForm(url, getHeader(), null, String.class);
       return restResult.getSuccess();
     } catch (Exception e) {
-      log.error(DolphinException.OFFLINE_SCHEDULE_ERROR);
-      throw new DolphinException(DolphinException.OFFLINE_SCHEDULE_ERROR);
+      throw new DolphinException("offline dolphin scheduler schedule fail", e);
     }
   }
 
@@ -121,8 +117,7 @@ public class ScheduleOperator extends AbstractOperator {
           dolphinsRestTemplate.delete(url, getHeader(), null, String.class);
       return restResult.getSuccess();
     } catch (Exception e) {
-      log.error(DolphinException.DELETE_SCHEDULE_ERROR);
-      throw new DolphinException(DolphinException.DELETE_SCHEDULE_ERROR);
+      throw new DolphinException("delete dolphin scheduler schedule fail", e);
     }
   }
 }

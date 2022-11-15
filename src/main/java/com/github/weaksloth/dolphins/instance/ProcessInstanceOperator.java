@@ -40,8 +40,7 @@ public class ProcessInstanceOperator extends AbstractOperator {
       log.info("start process response:{}", restResult);
       return restResult.getSuccess();
     } catch (Exception e) {
-      log.error(DolphinException.START_PROCESS_INSTANCE_ERROR, e);
-      throw new DolphinException(DolphinException.START_PROCESS_INSTANCE_ERROR);
+      throw new DolphinException("start dolphin scheduler process instance fail", e);
     }
   }
 
@@ -75,8 +74,7 @@ public class ProcessInstanceOperator extends AbstractOperator {
               new TypeReference<PageInfo<ProcessInstanceQueryResp>>() {})
           .getTotalList();
     } catch (Exception e) {
-      log.error(DolphinException.PAGE_PROCESS_INSTANCE_ERROR, e);
-      throw new DolphinException(DolphinException.PAGE_PROCESS_INSTANCE_ERROR);
+      throw new DolphinException("page dolphin scheduler process instance list fail", e);
     }
   }
 
@@ -99,8 +97,7 @@ public class ProcessInstanceOperator extends AbstractOperator {
           dolphinsRestTemplate.postForm(url, getHeader(), reProcessInstanceRunParam, String.class);
       return restResult.getSuccess();
     } catch (Exception e) {
-      log.error(DolphinException.RERUN_PROCESS_INSTANCE_ERROR, e);
-      throw new DolphinException(DolphinException.RERUN_PROCESS_INSTANCE_ERROR);
+      throw new DolphinException("repeat run dolphin scheduler process instance fail", e);
     }
   }
 
@@ -112,8 +109,7 @@ public class ProcessInstanceOperator extends AbstractOperator {
           dolphinsRestTemplate.delete(url, getHeader(), null, String.class);
       return restResult.getSuccess();
     } catch (Exception e) {
-      log.error(DolphinException.DELETE_PROCESS_INSTANCE_ERROR, e);
-      throw new DolphinException(DolphinException.DELETE_PROCESS_INSTANCE_ERROR);
+      throw new DolphinException("delete dolphin scheduler process instance fail", e);
     }
   }
 }

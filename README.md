@@ -26,11 +26,8 @@ with dolphinscheduler's develop,the rest api maybe change,so we want to support 
 Process Definition：
 
 * create process definition
-
 * update process definition
-
 * delete process definition
-
 * release process definition
 
   
@@ -72,6 +69,10 @@ Resource
 * page file
 * delete file
 
+
+Alert
+* create alert plugin
+* list alert plugin
 
 
 # 3 Use guide

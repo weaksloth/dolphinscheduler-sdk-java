@@ -34,12 +34,11 @@ public class ProcessOperator extends AbstractOperator {
       if (restResult.getSuccess()) {
         return restResult.getData();
       } else {
-        log.error("{},response:{}", DolphinException.CREATE_WORKFLOW_ERROR, restResult);
-        throw new DolphinException(DolphinException.CREATE_WORKFLOW_ERROR);
+        log.error("dolphin scheduler response:{}", restResult);
+        throw new DolphinException("create dolphin scheduler workflow fail");
       }
     } catch (Exception e) {
-      log.error(DolphinException.CREATE_WORKFLOW_ERROR, e);
-      throw new DolphinException(DolphinException.CREATE_WORKFLOW_ERROR);
+      throw new DolphinException("create dolphin scheduler workflow fail", e);
     }
   }
 
@@ -63,12 +62,11 @@ public class ProcessOperator extends AbstractOperator {
       if (restResult.getSuccess()) {
         return restResult.getData();
       } else {
-        log.error("{},response:{}", DolphinException.UPDATE_WORKFLOW_ERROR, restResult);
-        throw new DolphinException(DolphinException.UPDATE_WORKFLOW_ERROR);
+        log.error("dolphin scheduler response:{}", restResult);
+        throw new DolphinException("update dolphin scheduler workflow fail");
       }
     } catch (Exception e) {
-      log.error(DolphinException.UPDATE_WORKFLOW_ERROR, e);
-      throw new DolphinException(DolphinException.UPDATE_WORKFLOW_ERROR);
+      throw new DolphinException("update dolphin scheduler workflow fail", e);
     }
   }
 
@@ -86,8 +84,7 @@ public class ProcessOperator extends AbstractOperator {
           dolphinsRestTemplate.delete(url, getHeader(), null, String.class);
       return restResult.getSuccess();
     } catch (Exception e) {
-      log.error(DolphinException.DELETE_WORKFLOW_ERROR, e);
-      throw new DolphinException(DolphinException.DELETE_WORKFLOW_ERROR);
+      throw new DolphinException("delete dolphin scheduler workflow fail", e);
     }
   }
 
@@ -102,18 +99,13 @@ public class ProcessOperator extends AbstractOperator {
   public Boolean release(Long projectCode, Long code, ProcessReleaseParam processReleaseParam) {
     String url =
         dolphinAddress + "/projects/" + projectCode + "/process-definition/" + code + "/release";
-    log.info("release process definition,url:{}", url);
+    log.info("release process definition,url:{}, param:{}", url, processReleaseParam);
     try {
       HttpRestResult<String> restResult =
           dolphinsRestTemplate.postForm(url, getHeader(), processReleaseParam, String.class);
       return restResult.getSuccess();
     } catch (Exception e) {
-      log.error(
-          "{},current release param:{}",
-          DolphinException.RELEASE_WORKFLOW_ERROR,
-          processReleaseParam,
-          e);
-      throw new DolphinException(DolphinException.RELEASE_WORKFLOW_ERROR);
+      throw new DolphinException("release dolphin scheduler workflow fail", e);
     }
   }
 
@@ -133,8 +125,7 @@ public class ProcessOperator extends AbstractOperator {
           dolphinsRestTemplate.get(url, getHeader(), query, List.class);
       return (List<Long>) restResult.getData();
     } catch (Exception e) {
-      log.error(DolphinException.GENERATE_TASK_CODE_ERROR, e);
-      throw new DolphinException(DolphinException.GENERATE_TASK_CODE_ERROR);
+      throw new DolphinException("generate task code fail", e);
     }
   }
 }
