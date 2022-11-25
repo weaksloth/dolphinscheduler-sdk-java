@@ -23,4 +23,11 @@ public class DataSourceCreateParam {
   private String port;
 
   private String note;
+
+  /**
+   * this param is useful when create oracle datasource
+   *
+   * <p>example value: ORACLE_SERVICE_NAME
+   */
+  private String connectType;
 }
