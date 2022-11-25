@@ -19,10 +19,21 @@ public class TaskDefinitionUtils {
    *
    * @param taskCode task node's code,generate by api
    * @param task {@link AbstractTask}
-   * @return
    */
   public static TaskDefinition createDefaultTaskDefinition(Long taskCode, AbstractTask task) {
-    return createTaskDefinition(taskCode, task, FLAG_YES, PRIORITY_MEDIUM);
+    return createTaskDefinition(taskCode, 0, task, FLAG_YES, PRIORITY_MEDIUM);
+  }
+
+  /**
+   * create task definition with default config {@link TaskDefinition} which can satisfy basic needs
+   *
+   * @param taskCode task node's code,generate by api
+   * @param version task node's version
+   * @param task {@link AbstractTask}
+   */
+  public static TaskDefinition createDefaultTaskDefinition(
+      Long taskCode, Integer version, AbstractTask task) {
+    return createTaskDefinition(taskCode, version, task, FLAG_YES, PRIORITY_MEDIUM);
   }
 
   /**
@@ -30,10 +41,10 @@ public class TaskDefinitionUtils {
    *
    * @param taskCode task node's code,generate by api
    * @param task {@link AbstractTask}
-   * @return
    */
-  public static TaskDefinition createBannedTaskDefinition(Long taskCode, AbstractTask task) {
-    return createTaskDefinition(taskCode, task, FLAG_NO, PRIORITY_MEDIUM);
+  public static TaskDefinition createBannedTaskDefinition(
+      Long taskCode, Integer version, AbstractTask task) {
+    return createTaskDefinition(taskCode, version, task, FLAG_NO, PRIORITY_MEDIUM);
   }
 
   /**
@@ -41,28 +52,28 @@ public class TaskDefinitionUtils {
    *
    * @param taskCode task node's code,generate by api
    * @param task {@link AbstractTask}
-   * @return
    */
-  public static TaskDefinition createHighLevelTaskDefinition(Long taskCode, AbstractTask task) {
-    return createTaskDefinition(taskCode, task, FLAG_YES, PRIORITY_HIGH);
+  public static TaskDefinition createHighLevelTaskDefinition(
+      Long taskCode, Integer version, AbstractTask task) {
+    return createTaskDefinition(taskCode, version, task, FLAG_YES, PRIORITY_HIGH);
   }
 
   /**
    * create task definition
    *
    * @param taskCode task node's code,generate by api
+   * @param version task node's version
    * @param task {@link AbstractTask}
    * @param flag YES or NO
    * @param taskPriority {@link #PRIORITY_HIGH,#PRIORITY_HIGHEST}...
-   * @return
    */
   public static TaskDefinition createTaskDefinition(
-      Long taskCode, AbstractTask task, String flag, String taskPriority) {
+      Long taskCode, Integer version, AbstractTask task, String flag, String taskPriority) {
     TaskDefinition taskDefinition = new TaskDefinition();
     String taskName = task.getTaskType().concat(String.valueOf(System.currentTimeMillis()));
     taskDefinition
         .setCode(taskCode)
-        .setVersion(0)
+        .setVersion(version)
         .setName(taskName)
         .setDescription("")
         .setTaskType(task.getTaskType())
