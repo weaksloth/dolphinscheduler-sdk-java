@@ -1,6 +1,9 @@
 package com.github.weaksloth.dolphins.task;
 
-import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.github.weaksloth.dolphins.process.Parameter;
+import com.github.weaksloth.dolphins.remote.RequestHttpEntity;
+import com.github.weaksloth.dolphins.util.JacksonUtils;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -10,10 +13,17 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 public class HttpTask extends AbstractTask {
 
-  private ArrayNode localParams;
-  private ArrayNode httpParams; // http 参数
+  private List<Parameter> localParams;
+
+  /** http request param */
+  private List<HttpParams> httpParams;
+
+  /** http request url */
   private String url;
-  private String httpMethod; // POST GET
+
+  /** http method, {@link com.github.weaksloth.dolphins.remote.HttpMethod} */
+  private String httpMethod;
+
   private String httpCheckCondition; // STATUS_CODE_DEFAULT
   private String condition;
   private Integer connectTimeout;
@@ -32,5 +42,15 @@ public class HttpTask extends AbstractTask {
     private String prop;
     private String value;
     private String parameterType;
+
+    /**
+     * must rewrite,then {@link RequestHttpEntity#bodyToMap()} can transfer object to json string
+     *
+     * @return object json string
+     */
+    @Override
+    public String toString() {
+      return JacksonUtils.toJSONString(this);
+    }
   }
 }

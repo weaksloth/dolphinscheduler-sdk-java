@@ -13,7 +13,5 @@ public abstract class AbstractTask {
   protected ObjectNode waitStartTimeout;
   protected ObjectNode switchResult;
 
-  public String getTaskType() {
-    throw new UnsupportedOperationException("please rewrite this method.");
-  }
+  public abstract String getTaskType();
 }
