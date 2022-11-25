@@ -16,7 +16,7 @@ public class HttpTask extends AbstractTask {
   private List<Parameter> localParams;
 
   /** http request param */
-  private List<HttpParams> httpParams;
+  private List<HttpParam> httpParams;
 
   /** http request url */
   private String url;
@@ -38,7 +38,7 @@ public class HttpTask extends AbstractTask {
   @Accessors(chain = true)
   @AllArgsConstructor
   @NoArgsConstructor
-  public static class HttpParams {
+  public static class HttpParam {
     private String prop;
     private String value;
     private String parameterType;
