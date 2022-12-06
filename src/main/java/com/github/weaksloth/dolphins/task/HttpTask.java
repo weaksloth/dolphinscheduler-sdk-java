@@ -41,7 +41,7 @@ public class HttpTask extends AbstractTask {
   public static class HttpParam {
     private String prop;
     private String value;
-    private String parameterType;
+    private String httpParametersType;
 
     /**
      * must rewrite,then {@link RequestHttpEntity#bodyToMap()} can transfer object to json string
