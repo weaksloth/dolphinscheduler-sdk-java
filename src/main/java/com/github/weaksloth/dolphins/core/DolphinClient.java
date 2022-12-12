@@ -5,7 +5,7 @@ import com.github.weaksloth.dolphins.instance.ProcessInstanceOperator;
 import com.github.weaksloth.dolphins.process.ProcessOperator;
 import com.github.weaksloth.dolphins.remote.DolphinsRestTemplate;
 import com.github.weaksloth.dolphins.resource.ResourceOperator;
-import com.github.weaksloth.dolphins.schedule.ScheduleOperator;
+import com.github.weaksloth.dolphins.scheduler.SchedulerOperator;
 import lombok.extern.slf4j.Slf4j;
 
 /** dolphin scheduler client to operate dolphin scheduler */
@@ -20,7 +20,7 @@ public class DolphinClient {
   private ResourceOperator resourceOperator;
   private ProcessOperator processOperator;
   private ProcessInstanceOperator processInstanceOperator;
-  private ScheduleOperator scheduleOperator;
+  private SchedulerOperator schedulerOperator;
 
   public DolphinClient(
       String token, String dolphinAddress, DolphinsRestTemplate dolphinsRestTemplate) {
@@ -39,8 +39,8 @@ public class DolphinClient {
         new ProcessOperator(this.dolphinAddress, this.token, this.dolphinsRestTemplate);
     this.processInstanceOperator =
         new ProcessInstanceOperator(this.dolphinAddress, this.token, this.dolphinsRestTemplate);
-    this.scheduleOperator =
-        new ScheduleOperator(this.dolphinAddress, this.token, this.dolphinsRestTemplate);
+    this.schedulerOperator =
+        new SchedulerOperator(this.dolphinAddress, this.token, this.dolphinsRestTemplate);
   }
 
   public DataSourceOperator opsForDataSource() {
@@ -59,7 +59,7 @@ public class DolphinClient {
     return this.processInstanceOperator;
   }
 
-  public ScheduleOperator opsForSchedule() {
-    return this.scheduleOperator;
+  public SchedulerOperator opsForSchedule() {
+    return this.schedulerOperator;
   }
 }

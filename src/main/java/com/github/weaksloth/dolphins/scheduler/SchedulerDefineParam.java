@@ -1,4 +1,4 @@
-package com.github.weaksloth.dolphins.schedule;
+package com.github.weaksloth.dolphins.scheduler;
 
 import com.github.weaksloth.dolphins.util.JacksonUtils;
 import lombok.Data;
@@ -6,7 +6,7 @@ import lombok.experimental.Accessors;
 
 @Data
 @Accessors(chain = true)
-public class ScheduleDefineParam {
+public class SchedulerDefineParam {
 
   private Schedule schedule;
 

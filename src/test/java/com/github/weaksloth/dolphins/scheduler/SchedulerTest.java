@@ -1,26 +1,26 @@
-package com.github.weaksloth.dolphins.schedule;
+package com.github.weaksloth.dolphins.scheduler;
 
 import com.github.weaksloth.dolphins.BaseTest;
 import org.junit.Assert;
 import org.junit.Test;
 
-public class ScheduleTest extends BaseTest {
+public class SchedulerTest extends BaseTest {
 
   /** the workflow must in offline state */
   @Test
   public void testCreate() {
     Long workflowCode = 6920291870528L;
-    ScheduleDefineParam scheduleDefineParam = new ScheduleDefineParam();
-    scheduleDefineParam
+    SchedulerDefineParam schedulerDefineParam = new SchedulerDefineParam();
+    schedulerDefineParam
         .setProcessDefinitionCode(workflowCode)
         .setSchedule(
-            new ScheduleDefineParam.Schedule()
+            new SchedulerDefineParam.Schedule()
                 .setStartTime("2022-09-18 00:00:00")
                 .setEndTime("2022-09-20 00:00:00")
                 .setCrontab("0 0 * * * ? *"));
-    ScheduleDefineResp scheduleDefineResp =
-        getClient().opsForSchedule().create(projectCode, scheduleDefineParam);
-    System.out.println(scheduleDefineResp);
+    SchedulerDefineResp schedulerDefineResp =
+        getClient().opsForSchedule().create(projectCode, schedulerDefineParam);
+    System.out.println(schedulerDefineResp);
   }
 
   @Test
