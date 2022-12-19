@@ -43,6 +43,21 @@ public class HttpTask extends AbstractTask {
     private String value;
     private String httpParametersType;
 
+    /** create http form param instance */
+    public static HttpParam newForm() {
+      return new HttpParam(null, null, "PARAMETER");
+    }
+
+    /** create http headers param instance */
+    public static HttpParam newHeader() {
+      return new HttpParam(null, null, "HEADERS");
+    }
+
+    /** create http body param instance */
+    public static HttpParam newBody() {
+      return new HttpParam(null, null, "BODY");
+    }
+
     /**
      * must rewrite,then {@link RequestHttpEntity#bodyToMap()} can transfer object to json string
      *
