@@ -1,4 +1,4 @@
-package com.github.weaksloth.dolphins.scheduler;
+package com.github.weaksloth.dolphins.schedule;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -10,7 +10,7 @@ import lombok.experimental.Accessors;
 @Data
 @Accessors(chain = true)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class SchedulerDefineResp {
+public class ScheduleDefineResp {
 
   private int id;
 
