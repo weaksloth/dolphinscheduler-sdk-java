@@ -48,7 +48,7 @@ public class ScheduleOperator extends AbstractOperator {
    */
   public ScheduleDefineResp update(
       Long projectCode, Long scheduleId, ScheduleDefineParam scheduleDefineParam) {
-    String url = dolphinAddress + "/projects/" + projectCode + "/schedules" + scheduleId;
+    String url = dolphinAddress + "/projects/" + projectCode + "/schedules/" + scheduleId;
 
     try {
       HttpRestResult<ScheduleDefineResp> restResult =
