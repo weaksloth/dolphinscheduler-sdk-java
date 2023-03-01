@@ -1,7 +1,7 @@
 package com.github.weaksloth.dolphins.task;
 
 import com.github.weaksloth.dolphins.enums.DbTypeEnum;
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import lombok.Data;
 import lombok.experimental.Accessors;
@@ -39,8 +39,8 @@ public class DataxTask extends AbstractTask {
 
   private Integer jobSpeedByte = 0;
   private Integer jobSpeedRecord = 1000;
-  private List<String> preStatements;
-  private List<String> postStatements = new ArrayList<>();
+  private List<String> preStatements = Collections.emptyList();
+  private List<String> postStatements = Collections.emptyList();
   private Integer xms = 1;
   private Integer xmx = 1;
 
