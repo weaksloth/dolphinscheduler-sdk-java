@@ -1,30 +1,31 @@
-# dolphinscheduler-sdk-java
-
 😄[中文文档](README_zh.md)
 😃[英文文档](README.md)
 
-the java sdk for operating dolphinscheduler 
+# 1 为什么做这个
 
-# 1 Why do this?
-In our company,dolphin scheduler becomes base system for our job.Then we want to operate dolphin scheduler by RPC instead of the web view.
-however,dolphin scheduler has not support java sdk,only python sdk.so I do this
+在我们的场景中，dolphin scheduler已经成为我们作业的底层系统，几乎所有需要调度的任务都跑在dolphin scheduler上。
 
-
-
-# 2 features
-##  2.1 easy to operate
-just use this sdk like using web view
+此外会有很多的第三方系统去对接dolphin scheduler，但是dolphin官方没有java sdk，如果用swagger去生成会非常难用，所以我们很需要一个公共的sdk供三方系统进行使用
 
 
-## 2.2 multi version support
 
-with dolphinscheduler's develop,the rest api maybe change,so we want to support dolphinscheduler `2.0.5` and `3.1.1` version
+# 2 功能特点
 
-    
+## 2.1 方便使用
 
-## 2.3 supported operations
+你可以像使用页面那样的流程去操作定义dolphin scheduler上的资源，不过不同的是，你是通过代码的方式去实现。
 
-Process Definition：
+
+
+## 2.2 多版本支持
+
+随着dolphin scheduler的不断发展，rest api很可能会发生变化，所以我们想支持dolphin scheduler`2.0.5`和`3.1.1`版本。如果你使用的是其他版本，可以考虑自行做修改，一般来说改动量不大
+
+
+
+## 2.3 支持的操作
+
+工作流相关：
 
 * create process definition
 * update process definition
@@ -33,7 +34,7 @@ Process Definition：
 
   
 
-Process Instance
+工作流实例相关：
 
 * start process instance
 * rerun process instance
@@ -42,7 +43,7 @@ Process Instance
 
 
 
-Schedule
+定时相关：
 
 * create schedule
 * update schedule
@@ -52,7 +53,7 @@ Schedule
 
 
 
-DataSource
+数据源相关：
 
 * create datasource
 * update datasource
@@ -61,9 +62,7 @@ DataSource
 
 
 
-
-
-Resource
+资源相关：
 
 * online create file
 * update file content
@@ -71,18 +70,17 @@ Resource
 * delete file
 
 
-Alert
+
+
+告警相关：
 * create alert plugin
 * list alert plugin
 
 
-# 3 Use guide
 
-**there are many example for operate dolphin scheduler in `test` directory**
+# 3 使用指南
 
-
-
-## 3.1 install
+## 3.1 编译安装
 
 ```shell
 git clone https://github.com/weaksloth/dolphinscheduler-sdk-java.git
@@ -91,9 +89,9 @@ mvn install -Dmaven.test.skip=true
 
 
 
-## 3.2 maven import
+## 3.2 导入依赖
 
-in your project,import `dolphinscheduler-sdk-java`
+在你的程序中，引入 `dolphinscheduler-sdk-java` 依赖
 
 ```xml
 <dependency>
@@ -105,7 +103,7 @@ in your project,import `dolphinscheduler-sdk-java`
 
 
 
-## 3.3 create dolphin client
+## 3.3 创建dolphin client
 
 `springboot` project:
 
@@ -153,7 +151,9 @@ DolphinClient dolphinClient = new DolphinClient(token,dolphinAddress,restTemplat
 
 
 
-## 3.4 operate dolphin scheduler
+## 3.4 操作dolphin scheduler
+
+> 在test目录里有很多的测试代码可以提供参考
 
 operate workflow(process)
 
