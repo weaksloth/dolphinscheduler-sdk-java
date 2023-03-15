@@ -26,7 +26,7 @@ public class ProcessOperator extends AbstractOperator {
    */
   public ProcessDefineResp create(Long projectCode, ProcessDefineParam processDefineParam) {
     String url = dolphinAddress + "/projects/" + projectCode + "/process-definition";
-    log.info("create process definition,url:{}", url);
+    log.info("create process definition, url:{}, param:{}", url, processDefineParam);
     try {
       HttpRestResult<ProcessDefineResp> restResult =
           dolphinsRestTemplate.postForm(
@@ -54,7 +54,7 @@ public class ProcessOperator extends AbstractOperator {
   public ProcessDefineResp update(
       Long projectCode, ProcessDefineParam processDefineParam, Long processCode) {
     String url = dolphinAddress + "/projects/" + projectCode + "/process-definition/" + processCode;
-    log.info("update process definition,url:{}", url);
+    log.info("update process definition, url:{}, param:{}", url, processDefineParam);
     try {
       HttpRestResult<ProcessDefineResp> restResult =
           dolphinsRestTemplate.putForm(
@@ -79,6 +79,7 @@ public class ProcessOperator extends AbstractOperator {
    */
   public Boolean delete(Long projectCode, Long processCode) {
     String url = dolphinAddress + "/projects/" + projectCode + "/process-definition/" + processCode;
+    log.info("delete process definition,processCode:{}, url:{}", processCode, url);
     try {
       HttpRestResult<String> restResult =
           dolphinsRestTemplate.delete(url, getHeader(), null, String.class);

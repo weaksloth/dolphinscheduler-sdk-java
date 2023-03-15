@@ -23,7 +23,7 @@ public class ScheduleOperator extends AbstractOperator {
    */
   public ScheduleDefineResp create(Long projectCode, ScheduleDefineParam scheduleDefineParam) {
     String url = dolphinAddress + "/projects/" + projectCode + "/schedules";
-
+    log.info("create schedule, url:{}, defineParam:{}", url, scheduleDefineParam);
     try {
       HttpRestResult<ScheduleDefineResp> restResult =
           dolphinsRestTemplate.postForm(
@@ -49,7 +49,7 @@ public class ScheduleOperator extends AbstractOperator {
   public ScheduleDefineResp update(
       Long projectCode, Long scheduleId, ScheduleDefineParam scheduleDefineParam) {
     String url = dolphinAddress + "/projects/" + projectCode + "/schedules/" + scheduleId;
-
+    log.info("update schedule, url:{}, defineParam:{}", url, scheduleDefineParam);
     try {
       HttpRestResult<ScheduleDefineResp> restResult =
           dolphinsRestTemplate.putForm(
@@ -75,6 +75,7 @@ public class ScheduleOperator extends AbstractOperator {
   public Boolean online(Long projectCode, Long scheduleId) {
     String url =
         dolphinAddress + "/projects/" + projectCode + "/schedules/" + scheduleId + "/online";
+    log.info("online schedule, scheduleId:{}, url:{}", scheduleId, url);
     try {
       HttpRestResult<String> restResult =
           dolphinsRestTemplate.postForm(url, getHeader(), null, String.class);
@@ -85,7 +86,7 @@ public class ScheduleOperator extends AbstractOperator {
   }
 
   /**
-   * online schedule
+   * offline schedule
    *
    * @param projectCode project code
    * @param scheduleId id
@@ -94,6 +95,7 @@ public class ScheduleOperator extends AbstractOperator {
   public Boolean offline(Long projectCode, Long scheduleId) {
     String url =
         dolphinAddress + "/projects/" + projectCode + "/schedules/" + scheduleId + "/offline";
+    log.info("offline schedule, scheduleId:{}, url:{}", scheduleId, url);
     try {
       HttpRestResult<String> restResult =
           dolphinsRestTemplate.postForm(url, getHeader(), null, String.class);
@@ -104,7 +106,7 @@ public class ScheduleOperator extends AbstractOperator {
   }
 
   /**
-   * online schedule
+   * delete schedule
    *
    * @param projectCode project code
    * @param scheduleId id
@@ -112,6 +114,7 @@ public class ScheduleOperator extends AbstractOperator {
    */
   public Boolean delete(Long projectCode, Long scheduleId) {
     String url = dolphinAddress + "/projects/" + projectCode + "/schedules/" + scheduleId;
+    log.info("offline schedule, scheduleId:{}, url:{}", scheduleId, url);
     try {
       HttpRestResult<String> restResult =
           dolphinsRestTemplate.delete(url, getHeader(), null, String.class);
