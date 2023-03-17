@@ -111,6 +111,28 @@ public class ProcessOperator extends AbstractOperator {
   }
 
   /**
+   * online workflow, this method can replace {@link #release(Long, Long, ProcessReleaseParam)}
+   *
+   * @param projectCode project code
+   * @param code workflow id
+   * @return true for success,otherwise false
+   */
+  public Boolean online(Long projectCode, Long code) {
+    return release(projectCode, code, ProcessReleaseParam.newOnlineInstance());
+  }
+
+  /**
+   * offline workflow, this method can replace {@link #release(Long, Long, ProcessReleaseParam)}
+   *
+   * @param projectCode project code
+   * @param code workflow id
+   * @return true for success,otherwise false
+   */
+  public Boolean offline(Long projectCode, Long code) {
+    return release(projectCode, code, ProcessReleaseParam.newOfflineInstance());
+  }
+
+  /**
    * generate task code
    *
    * @param projectCode project's code

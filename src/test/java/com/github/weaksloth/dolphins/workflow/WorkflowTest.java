@@ -62,17 +62,13 @@ public class WorkflowTest extends BaseTest {
   @Test
   public void onlineWorkflow() {
     Long workflowCode = 6919932328128L;
-    ProcessReleaseParam releaseParam = new ProcessReleaseParam();
-    releaseParam.setName("test-dag").setReleaseState(releaseParam.getOnlineState());
-    Assert.assertTrue(getClient().opsForProcess().release(projectCode, workflowCode, releaseParam));
+    Assert.assertTrue(getClient().opsForProcess().online(projectCode, workflowCode));
   }
 
   @Test
   public void offlineWorkflow() {
     Long workflowCode = 6919932328128L;
-    ProcessReleaseParam releaseParam = new ProcessReleaseParam();
-    releaseParam.setName("test-dag").setReleaseState(releaseParam.getOfflineState());
-    Assert.assertTrue(getClient().opsForProcess().release(projectCode, workflowCode, releaseParam));
+    Assert.assertTrue(getClient().opsForProcess().offline(projectCode, workflowCode));
   }
 
   /** the workflow must in offline state */
