@@ -17,7 +17,7 @@ public class TaskLocationUtils {
   public static List<TaskLocation> horizontalLocation(Long... taskCodes) {
     int beginX = 100;
     int y = 100;
-    int xStep = 200;
+    int xStep = 300;
     return horizontalLocation(beginX, y, xStep, taskCodes);
   }
 
@@ -51,7 +51,7 @@ public class TaskLocationUtils {
   public static List<TaskLocation> verticalLocation(Long... taskCodes) {
     int x = 100;
     int beginY = 100;
-    int yStep = 200;
+    int yStep = 300;
     return verticalLocation(x, beginY, yStep, taskCodes);
   }
 

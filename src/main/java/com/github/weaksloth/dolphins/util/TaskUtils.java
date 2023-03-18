@@ -45,9 +45,7 @@ public class TaskUtils {
             createConditionResult(
                 Collections.singletonList(successNodeCode),
                 Collections.singletonList(failNodeCode)))
-        .setDependence(dependence)
-        .setWaitStartTimeout(JacksonUtils.createObjectNode())
-        .setSwitchResult(JacksonUtils.createObjectNode());
+        .setDependence(dependence);
     return conditionTask;
   }
 
