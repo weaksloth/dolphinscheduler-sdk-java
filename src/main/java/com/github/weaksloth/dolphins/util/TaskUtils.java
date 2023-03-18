@@ -19,16 +19,16 @@ public class TaskUtils {
   public static ConditionTask buildConditionTask(
       Long successNodeCode, Long failNodeCode, List<Long> dependNodeCodeList) {
     ConditionTask conditionTask = new ConditionTask();
-    ObjectNode dependence = JacksonUtils.createEmptyObjectNode();
+    ObjectNode dependence = JacksonUtils.createObjectNode();
     dependence.put("relation", "AND");
 
-    ArrayNode dependTaskList = JacksonUtils.createEmptyArrayNode();
-    ObjectNode dependTask = JacksonUtils.createEmptyObjectNode();
+    ArrayNode dependTaskList = JacksonUtils.createArrayNode();
+    ObjectNode dependTask = JacksonUtils.createObjectNode();
 
-    ArrayNode dependItemList = JacksonUtils.createEmptyArrayNode();
+    ArrayNode dependItemList = JacksonUtils.createArrayNode();
 
     for (Long dependNodeCode : dependNodeCodeList) {
-      ObjectNode dependItem = JacksonUtils.createEmptyObjectNode();
+      ObjectNode dependItem = JacksonUtils.createObjectNode();
       dependItem.put("depTaskCode", dependNodeCode);
       dependItem.put("status", "SUCCESS");
       dependItemList.add(dependItem);
@@ -46,16 +46,16 @@ public class TaskUtils {
                 Collections.singletonList(successNodeCode),
                 Collections.singletonList(failNodeCode)))
         .setDependence(dependence)
-        .setWaitStartTimeout(JacksonUtils.createEmptyObjectNode())
-        .setSwitchResult(JacksonUtils.createEmptyObjectNode());
+        .setWaitStartTimeout(JacksonUtils.createObjectNode())
+        .setSwitchResult(JacksonUtils.createObjectNode());
     return conditionTask;
   }
 
   /** create empty condition result for most task */
   public static ObjectNode createEmptyConditionResult() {
-    ObjectNode conditionResult = JacksonUtils.createEmptyObjectNode();
-    conditionResult.put("successNode", JacksonUtils.createEmptyArrayNode());
-    conditionResult.put("failedNode", JacksonUtils.createEmptyArrayNode());
+    ObjectNode conditionResult = JacksonUtils.createObjectNode();
+    conditionResult.put("successNode", JacksonUtils.createArrayNode());
+    conditionResult.put("failedNode", JacksonUtils.createArrayNode());
     return conditionResult;
   }
 
@@ -68,9 +68,9 @@ public class TaskUtils {
   public static ObjectNode createConditionResult(
       List<Long> successNodeList, List<Long> failNodeList) {
 
-    ObjectNode conditionResult = JacksonUtils.createEmptyObjectNode();
-    ArrayNode successNode = JacksonUtils.createEmptyArrayNode();
-    ArrayNode failNode = JacksonUtils.createEmptyArrayNode();
+    ObjectNode conditionResult = JacksonUtils.createObjectNode();
+    ArrayNode successNode = JacksonUtils.createArrayNode();
+    ArrayNode failNode = JacksonUtils.createArrayNode();
 
     successNodeList.forEach(successNode::add);
     failNodeList.forEach(failNode::add);

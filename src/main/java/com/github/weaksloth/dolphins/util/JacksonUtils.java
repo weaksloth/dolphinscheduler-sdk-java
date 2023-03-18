@@ -15,19 +15,19 @@ public class JacksonUtils {
 
   private static final ObjectMapper mapper = new ObjectMapper();
 
-  public static ObjectNode createEmptyObjectNode() {
+  public static ObjectNode createObjectNode() {
     return mapper.createObjectNode();
   }
 
-  public static ArrayNode createEmptyArrayNode() {
+  public static ArrayNode createArrayNode() {
     return mapper.createArrayNode();
   }
 
   /**
-   * 解析字符串为jsonNode
+   * parse json string as json node
    *
-   * @param jsonStr 待解析的json字符串
-   * @return
+   * @param jsonStr json string
+   * @return {@link JsonNode}
    */
   public static JsonNode parseNode(String jsonStr) {
     try {
@@ -38,11 +38,11 @@ public class JacksonUtils {
   }
 
   /**
-   * 根据path检索json节点
+   * search json node by path expression
    *
-   * @param jsonNode json节点
-   * @param path 路径表达式 {"k1":"v1","k2":"v2"}，如果要获取k1，那么path填写方式为：k1
-   *     {"k1":{"k2":"v2"},"k3":"v3"},如果要获取k2,那么path填写方式为: k1.k2
+   * @param jsonNode json node
+   * @param path path expression, json example: {"k1":{"k2":"v2"},"k3":"v3"}，we can get "v2" by path
+   *     "k1.k2", we can get "v3" by path "k3"
    * @return
    */
   private static JsonNode searchJsonNode(JsonNode jsonNode, String path) {
@@ -59,22 +59,15 @@ public class JacksonUtils {
   }
 
   /**
-   * @param jsonStr json字符串
-   * @param path key表达式 {"k1":"v1","k2":"v2"}，如果要获取k1，那么path填写方式为：k1
-   *     {"k1":{"k2":"v2"},"k3":"v3"},如果要获取k2,那么path填写方式为: k1.k2
+   * @param jsonStr json string
+   * @param path path expression, json example: {"k1":{"k2":"v2"},"k3":"v3"}，we can get "v2" by path
+   *     "k1.k2", we can get "v3" by path "k3"
    * @return
    */
   private static JsonNode searchJsonNode(String jsonStr, String path) {
     return searchJsonNode(parseNode(jsonStr), path);
   }
 
-  /**
-   * 根据path获取json数据类型的节点，如果找到的节点不是json数组会抛出异常
-   *
-   * @param jsonStr json字符串
-   * @param path 路径表达式
-   * @return
-   */
   public static ArrayNode getAsArrayNode(String jsonStr, String path) {
     JsonNode arrayNode = searchJsonNode(jsonStr, path);
     if (!arrayNode.isArray()) {
@@ -83,13 +76,6 @@ public class JacksonUtils {
     return (ArrayNode) arrayNode;
   }
 
-  /**
-   * 根据path获取json数组类型的节点，如果不是json数据会抛出异常
-   *
-   * @param jsonNode
-   * @param path
-   * @return
-   */
   public static ArrayNode getAsArrayNode(JsonNode jsonNode, String path) {
     JsonNode arrayNode = searchJsonNode(jsonNode, path);
     if (!arrayNode.isArray()) {
@@ -99,10 +85,10 @@ public class JacksonUtils {
   }
 
   /**
-   * 获取字符串类型的值
+   * get value as string
    *
-   * @param jsonStr json字符串
-   * @param path 表达式
+   * @param jsonStr json string
+   * @param path path expression
    * @return
    */
   public static String getAsText(String jsonStr, String path) {
@@ -110,10 +96,10 @@ public class JacksonUtils {
   }
 
   /**
-   * 获取字符串类型的值
+   * get value as string
    *
-   * @param jsonNode json节点
-   * @param path 路径表达式
+   * @param jsonNode json node
+   * @param path path expression
    * @return
    */
   public static String getAsText(JsonNode jsonNode, String path) {
@@ -121,10 +107,10 @@ public class JacksonUtils {
   }
 
   /**
-   * 获取long类型的值
+   * get value as long
    *
-   * @param jsonStr json字符串
-   * @param path 表达式
+   * @param jsonStr json string
+   * @param path path expression
    * @return
    */
   public static Long getAsLong(String jsonStr, String path) {
@@ -132,10 +118,10 @@ public class JacksonUtils {
   }
 
   /**
-   * 获取Long类型的值
+   * get value as long
    *
-   * @param jsonNode json节点
-   * @param path 路径表达式
+   * @param jsonNode json node
+   * @param path path expression
    * @return
    */
   public static Long getAsLong(JsonNode jsonNode, String path) {
@@ -143,10 +129,10 @@ public class JacksonUtils {
   }
 
   /**
-   * 获取int类型的值
+   * get value as int
    *
-   * @param jsonStr json字符串
-   * @param path 表达式
+   * @param jsonStr json string
+   * @param path path expression
    * @return
    */
   public static Integer getAsInteger(String jsonStr, String path) {
@@ -154,10 +140,10 @@ public class JacksonUtils {
   }
 
   /**
-   * 获取int类型的值
+   * get value as int
    *
-   * @param jsonNode json节点
-   * @param path 路径表达式
+   * @param jsonNode json node
+   * @param path path expression
    * @return
    */
   public static Integer getAsInteger(JsonNode jsonNode, String path) {
@@ -165,10 +151,10 @@ public class JacksonUtils {
   }
 
   /**
-   * 获取布尔类型的值
+   * get value as boolean
    *
-   * @param jsonStr json字符串
-   * @param path 表达式
+   * @param jsonStr json string
+   * @param path path expression
    * @return
    */
   public static Boolean getAsBoolean(String jsonStr, String path) {
@@ -176,22 +162,16 @@ public class JacksonUtils {
   }
 
   /**
-   * 获取布尔类型的值
+   * get value as boolean
    *
-   * @param jsonNode json节点
-   * @param path 路径表达式
+   * @param jsonNode json node
+   * @param path path expression
    * @return
    */
   public static Boolean getAsBoolean(JsonNode jsonNode, String path) {
     return searchJsonNode(jsonNode, path).booleanValue();
   }
 
-  /**
-   * 将对象转换为json字符串
-   *
-   * @param object
-   * @return
-   */
   public static String toJSONString(Object object) {
     try {
       return mapper.writeValueAsString(object);
@@ -201,8 +181,8 @@ public class JacksonUtils {
   }
 
   /**
-   * @param json json字符串
-   * @param clazz 类
+   * @param json json str
+   * @param clazz target class
    * @param <T>
    * @return
    */

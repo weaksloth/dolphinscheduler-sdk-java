@@ -33,11 +33,9 @@ public class WorkflowTest extends BaseTest {
     ShellTask shellTask = new ShellTask();
     shellTask
         .setRawScript("echo 'hello dolphin scheduler java sdk'")
-        .setLocalParams(Collections.emptyList())
-        .setResourceList(Collections.emptyList())
-        .setDependence(JacksonUtils.createEmptyObjectNode())
-        .setWaitStartTimeout(JacksonUtils.createEmptyObjectNode())
-        .setSwitchResult(JacksonUtils.createEmptyObjectNode());
+        .setDependence(JacksonUtils.createObjectNode())
+        .setWaitStartTimeout(JacksonUtils.createObjectNode())
+        .setSwitchResult(JacksonUtils.createObjectNode());
 
     // use utils to create task definition with default config
     TaskDefinition taskDefinition =
