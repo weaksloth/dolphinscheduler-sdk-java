@@ -3,7 +3,6 @@ package com.github.weaksloth.dolphins.workflow;
 import com.github.weaksloth.dolphins.BaseTest;
 import com.github.weaksloth.dolphins.process.*;
 import com.github.weaksloth.dolphins.task.ShellTask;
-import com.github.weaksloth.dolphins.util.JacksonUtils;
 import com.github.weaksloth.dolphins.util.TaskDefinitionUtils;
 import com.github.weaksloth.dolphins.util.TaskLocationUtils;
 import java.util.Collections;
@@ -31,11 +30,7 @@ public class WorkflowTest extends BaseTest {
 
     Long taskCode = getClient().opsForProcess().generateTaskCode(projectCode, 1).get(0);
     ShellTask shellTask = new ShellTask();
-    shellTask
-        .setRawScript("echo 'hello dolphin scheduler java sdk'")
-        .setDependence(JacksonUtils.createObjectNode())
-        .setWaitStartTimeout(JacksonUtils.createObjectNode())
-        .setSwitchResult(JacksonUtils.createObjectNode());
+    shellTask.setRawScript("echo 'hello dolphin scheduler java sdk'");
 
     // use utils to create task definition with default config
     TaskDefinition taskDefinition =
