@@ -1,11 +1,17 @@
 package com.github.weaksloth.dolphins.process;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.github.weaksloth.dolphins.common.PageInfo;
 import com.github.weaksloth.dolphins.core.AbstractOperator;
+import com.github.weaksloth.dolphins.core.DolphinClientConstant;
 import com.github.weaksloth.dolphins.core.DolphinException;
 import com.github.weaksloth.dolphins.remote.DolphinsRestTemplate;
 import com.github.weaksloth.dolphins.remote.HttpRestResult;
 import com.github.weaksloth.dolphins.remote.Query;
+import com.github.weaksloth.dolphins.util.JacksonUtils;
 import java.util.List;
+import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -14,6 +20,40 @@ public class ProcessOperator extends AbstractOperator {
   public ProcessOperator(
       String dolphinAddress, String token, DolphinsRestTemplate dolphinsRestTemplate) {
     super(dolphinAddress, token, dolphinsRestTemplate);
+  }
+
+  /**
+   * page query process define(workflow)
+   *
+   * @param projectCode project code
+   * @param page page
+   * @param size size
+   * @param searchVal process name
+   * @return list
+   */
+  public List<ProcessDefineResp> page(
+      Long projectCode, Integer page, Integer size, String searchVal) {
+    page = Optional.ofNullable(page).orElse(DolphinClientConstant.Page.DEFAULT_PAGE);
+    size = Optional.ofNullable(size).orElse(DolphinClientConstant.Page.DEFAULT_SIZE);
+    searchVal = Optional.ofNullable(searchVal).orElse("");
+
+    String url = dolphinAddress + "/projects/" + projectCode + "/process-definition";
+    Query query =
+        new Query()
+            .addParam("pageNo", String.valueOf(page))
+            .addParam("pageSize", String.valueOf(size))
+            .addParam("searchVal", searchVal);
+
+    try {
+      HttpRestResult<JsonNode> restResult =
+          dolphinsRestTemplate.get(url, getHeader(), query, JsonNode.class);
+
+      return JacksonUtils.parseObject(
+              restResult.getData().toString(), new TypeReference<PageInfo<ProcessDefineResp>>() {})
+          .getTotalList();
+    } catch (Exception e) {
+      throw new DolphinException("list dolphin scheduler workflow fail", e);
+    }
   }
 
   /**
