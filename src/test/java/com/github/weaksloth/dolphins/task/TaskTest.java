@@ -73,6 +73,40 @@ public class TaskTest extends BaseTest {
   }
 
   @Test
+  public void testSqlTask() {
+    Long taskCode = getClient().opsForProcess().generateTaskCode(projectCode, 1).get(0);
+
+    SqlTask sqlTask = new SqlTask();
+    sqlTask
+        .setType("MYSQL")
+        .setDatasource(1)
+        .setSql("select * from user")
+        .setSqlType(0)
+        .setSendEmail(false)
+        .setDisplayRows(10)
+        .setTitle("")
+        .setGroupId(null)
+        .setConnParams("")
+        .setConditionResult(TaskUtils.createEmptyConditionResult());
+
+    // use utils to create task definition with default config
+    TaskDefinition taskDefinition =
+        TaskDefinitionUtils.createDefaultTaskDefinition(taskCode, sqlTask);
+
+    ProcessDefineParam pcr = new ProcessDefineParam();
+    pcr.setName("test-sql-task-dag")
+        .setLocations(TaskLocationUtils.verticalLocation(taskCode))
+        .setDescription("test-sql-task")
+        .setTenantCode(tenantCode)
+        .setTimeout("0")
+        .setTaskDefinitionJson(Collections.singletonList(taskDefinition))
+        .setTaskRelationJson(TaskRelationUtils.oneLineRelation(taskCode))
+        .setGlobalParams(null);
+
+    System.out.println(getClient().opsForProcess().create(projectCode, pcr));
+  }
+
+  @Test
   public void testGenerateTaskCode() {
     int expectedCodeNumber = 10;
     List<Long> taskCodes =
