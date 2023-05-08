@@ -2,6 +2,7 @@ package com.github.weaksloth.dolphins.util;
 
 import com.github.weaksloth.dolphins.process.TaskDefinition;
 import com.github.weaksloth.dolphins.task.AbstractTask;
+import java.util.Optional;
 
 public class TaskDefinitionUtils {
 
@@ -21,7 +22,7 @@ public class TaskDefinitionUtils {
    * @param task {@link AbstractTask}
    */
   public static TaskDefinition createDefaultTaskDefinition(Long taskCode, AbstractTask task) {
-    return createTaskDefinition(taskCode, 0, task, FLAG_YES, PRIORITY_MEDIUM);
+    return createTaskDefinition(taskCode, 0, task, FLAG_YES, PRIORITY_MEDIUM, null, null);
   }
 
   /**
@@ -33,7 +34,7 @@ public class TaskDefinitionUtils {
    */
   public static TaskDefinition createDefaultTaskDefinition(
       Long taskCode, Integer version, AbstractTask task) {
-    return createTaskDefinition(taskCode, version, task, FLAG_YES, PRIORITY_MEDIUM);
+    return createTaskDefinition(taskCode, version, task, FLAG_YES, PRIORITY_MEDIUM, null, null);
   }
 
   /**
@@ -44,7 +45,7 @@ public class TaskDefinitionUtils {
    */
   public static TaskDefinition createBannedTaskDefinition(
       Long taskCode, Integer version, AbstractTask task) {
-    return createTaskDefinition(taskCode, version, task, FLAG_NO, PRIORITY_MEDIUM);
+    return createTaskDefinition(taskCode, version, task, FLAG_NO, PRIORITY_MEDIUM, null, null);
   }
 
   /**
@@ -55,7 +56,7 @@ public class TaskDefinitionUtils {
    */
   public static TaskDefinition createHighLevelTaskDefinition(
       Long taskCode, Integer version, AbstractTask task) {
-    return createTaskDefinition(taskCode, version, task, FLAG_YES, PRIORITY_HIGH);
+    return createTaskDefinition(taskCode, version, task, FLAG_YES, PRIORITY_HIGH, null, null);
   }
 
   /**
@@ -65,10 +66,18 @@ public class TaskDefinitionUtils {
    * @param version task node's version
    * @param task {@link AbstractTask}
    * @param flag YES or NO
+   * @param cpuQuota cpu resource
+   * @param memoryMax memory resource
    * @param taskPriority {@link #PRIORITY_HIGH,#PRIORITY_HIGHEST}...
    */
   public static TaskDefinition createTaskDefinition(
-      Long taskCode, Integer version, AbstractTask task, String flag, String taskPriority) {
+      Long taskCode,
+      Integer version,
+      AbstractTask task,
+      String flag,
+      String taskPriority,
+      Integer cpuQuota,
+      Long memoryMax) {
     TaskDefinition taskDefinition = new TaskDefinition();
     String taskName = task.getTaskType().concat(String.valueOf(System.currentTimeMillis()));
     taskDefinition
@@ -85,6 +94,8 @@ public class TaskDefinitionUtils {
         .setFailRetryInterval("1")
         .setTimeoutFlag("CLOSE")
         .setTimeoutNotifyStrategy("WARN");
+    Optional.ofNullable(cpuQuota).ifPresent(taskDefinition::setCpuQuota);
+    Optional.ofNullable(memoryMax).ifPresent(taskDefinition::setMemoryMax);
     return taskDefinition;
   }
 }

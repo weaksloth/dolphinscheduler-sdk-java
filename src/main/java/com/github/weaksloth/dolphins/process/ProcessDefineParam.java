@@ -19,6 +19,11 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 public class ProcessDefineParam {
 
+  public static final String EXECUTION_TYPE_PARALLEL = "PARALLEL";
+  public static final String EXECUTION_TYPE_SERIAL_WAIT = "SERIAL_WAIT";
+  public static final String EXECUTION_TYPE_SERIAL_DISCARD = "SERIAL_DISCARD";
+  public static final String EXECUTION_TYPE_SERIAL_PRIORITY = "SERIAL_PRIORITY";
+
   /** workflow name */
   private String name;
 
@@ -35,8 +40,31 @@ public class ProcessDefineParam {
   /** desc for workflow */
   private String description;
 
+  /**
+   * PARALLEL,SERIAL_WAIT,SERIAL_DISCARD,SERIAL_PRIORITY
+   *
+   * <p>@see org.apache.dolphinscheduler.common.enums.ProcessExecutionTypeEnum
+   */
+  private String executionType;
+
   /** global params */
   private List<Parameter> globalParams;
 
   private String timeout;
+
+  public static ProcessDefineParam newParallelInstance() {
+    return new ProcessDefineParam().setExecutionType(EXECUTION_TYPE_PARALLEL);
+  }
+
+  public static ProcessDefineParam newSerialWaitInstance() {
+    return new ProcessDefineParam().setExecutionType(EXECUTION_TYPE_SERIAL_WAIT);
+  }
+
+  public static ProcessDefineParam newSerialDiscardInstance() {
+    return new ProcessDefineParam().setExecutionType(EXECUTION_TYPE_SERIAL_DISCARD);
+  }
+
+  public static ProcessDefineParam newSerialPriorityInstance() {
+    return new ProcessDefineParam().setExecutionType(EXECUTION_TYPE_SERIAL_PRIORITY);
+  }
 }

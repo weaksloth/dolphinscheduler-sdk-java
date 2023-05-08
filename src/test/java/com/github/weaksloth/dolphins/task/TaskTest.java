@@ -34,6 +34,7 @@ public class TaskTest extends BaseTest {
         .setDescription("test-shell-task")
         .setTenantCode(tenantCode)
         .setTimeout("0")
+        .setExecutionType(ProcessDefineParam.EXECUTION_TYPE_PARALLEL)
         .setTaskDefinitionJson(Collections.singletonList(taskDefinition))
         .setTaskRelationJson(Collections.singletonList(taskRelation))
         .setGlobalParams(null);
@@ -51,8 +52,6 @@ public class TaskTest extends BaseTest {
         .setHttpMethod("GET")
         .setHttpCheckCondition("STATUS_CODE_DEFAULT")
         .setCondition("")
-        .setConnectTimeout(60000)
-        .setSocketTimeout(60000)
         .setConditionResult(TaskUtils.createEmptyConditionResult());
 
     // use utils to create task definition with default config
@@ -65,6 +64,7 @@ public class TaskTest extends BaseTest {
         .setDescription("test-shell-task")
         .setTenantCode(tenantCode)
         .setTimeout("0")
+        .setExecutionType(ProcessDefineParam.EXECUTION_TYPE_PARALLEL)
         .setTaskDefinitionJson(Collections.singletonList(taskDefinition))
         .setTaskRelationJson(TaskRelationUtils.oneLineRelation(taskCode))
         .setGlobalParams(null);
@@ -72,6 +72,7 @@ public class TaskTest extends BaseTest {
     System.out.println(getClient().opsForProcess().create(projectCode, pcr));
   }
 
+  /** run this test before creating datasource and set its id is SqlTask */
   @Test
   public void testSqlTask() {
     Long taskCode = getClient().opsForProcess().generateTaskCode(projectCode, 1).get(0);
@@ -80,7 +81,7 @@ public class TaskTest extends BaseTest {
     sqlTask
         .setType("MYSQL")
         .setDatasource(1)
-        .setSql("select * from user")
+        .setSql("select 1")
         .setSqlType(0)
         .setSendEmail(false)
         .setDisplayRows(10)
@@ -99,6 +100,7 @@ public class TaskTest extends BaseTest {
         .setDescription("test-sql-task")
         .setTenantCode(tenantCode)
         .setTimeout("0")
+        .setExecutionType(ProcessDefineParam.EXECUTION_TYPE_PARALLEL)
         .setTaskDefinitionJson(Collections.singletonList(taskDefinition))
         .setTaskRelationJson(TaskRelationUtils.oneLineRelation(taskCode))
         .setGlobalParams(null);

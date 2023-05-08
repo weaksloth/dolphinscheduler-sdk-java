@@ -7,14 +7,15 @@ import org.junit.Test;
 
 public class ProcessInstanceTest extends BaseTest {
 
+  public static final Long WORKFLOW_CODE = 9488158676288L;
+
   /** the workflow must in online state,otherwise will cause error */
   @Test
   public void testStartInstance() {
 
-    Long workflowId = 6920291870528L;
     ProcessInstanceCreateParam startParam = new ProcessInstanceCreateParam();
     startParam
-        .setProcessDefinitionCode(workflowId)
+        .setProcessDefinitionCode(WORKFLOW_CODE)
         .setScheduleTime("")
         .setFailureStrategy("CONTINUE")
         .setWarningType("NONE")
@@ -40,10 +41,9 @@ public class ProcessInstanceTest extends BaseTest {
 
   @Test
   public void testPage() {
-    Long workflowCode = 6920291870528L;
     getClient()
         .opsForProcessInst()
-        .page(null, null, projectCode, workflowCode)
+        .page(null, null, projectCode, WORKFLOW_CODE)
         .forEach(System.out::println);
   }
 

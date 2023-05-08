@@ -3,7 +3,7 @@
 😄[中文文档](README_zh.md)
 😃[英文文档](README.md)
 
-the java sdk for operating dolphinscheduler 
+the java sdk for operating dolphinscheduler,which supports multi versions
 
 # 1 Why do this?
 In our company,dolphin scheduler becomes base system for our job.Then we want to operate dolphin scheduler by RPC instead of the web view.
@@ -13,16 +13,17 @@ however,dolphin scheduler has not support java sdk,only python sdk.so I do this
 
 # 2 features
 ##  2.1 easy to operate
-just use this sdk like using web view
+just use this sdk like using web ui
 
 
-## 2.2 multi version support
+## 2.2 support multiple versions
 
-with dolphinscheduler's develop,the rest api maybe change,so I want to support dolphinscheduler `2.0.5` and `3.1.4` version
+with dolphinscheduler's develop,the rest api maybe change,so there are two versions supported:
 
-​    
+* `2.0.5-release` in branch `2.0.5-release`
+* `3.0.4-release` in branch `3.0.4-release`
 
-## 2.3 supported operations
+## 2.3 support multiple operations
 
 Project:
 
@@ -62,6 +63,7 @@ Schedule
 * online schedule
 * offline schedule
 * delete schedule
+* get schedule by workflow code
 
 
 
@@ -112,13 +114,22 @@ in your project,import `dolphinscheduler-sdk-java`
 <dependency>
     <groupId>com.github.weaksloth</groupId>
     <artifactId>dolphinscheduler-sdk-java</artifactId>
-    <version>2.0.5-RELEASE</version>
+    <version>3.1.4-RELEASE</version>
 </dependency>
 ```
 
 
 
 ## 3.3 create dolphin client
+
+necessary parameters from dolphin scheduler:
+
+| parameters     | comment                                                      |
+| -------------- | ------------------------------------------------------------ |
+| token          | dolphin scheduler token, created by web ui                   |
+| dolphinAddress | dolphin scheduler endpoint, for example:`http://localhost:12345/dolphinscheduler` |
+
+
 
 `springboot` project:
 
@@ -232,4 +243,5 @@ dolphinClient.opsForSchedule().update(...);
 dolphinClient.opsForSchedule().online(...);
 dolphinClient.opsForSchedule().offline(...);
 dolphinClient.opsForSchedule().delete(...);
+dolphinClient.opsForSchedule().getByWorkflowCode(...);
 ```

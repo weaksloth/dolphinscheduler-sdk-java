@@ -80,4 +80,6 @@ public class ProcessDefineResp {
 
   /** warningGroupId */
   private int warningGroupId;
+
+  private String executionType;
 }

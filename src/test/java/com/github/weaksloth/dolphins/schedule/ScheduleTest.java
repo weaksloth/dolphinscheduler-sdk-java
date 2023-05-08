@@ -1,43 +1,58 @@
 package com.github.weaksloth.dolphins.schedule;
 
 import com.github.weaksloth.dolphins.BaseTest;
+import java.util.List;
 import org.junit.Assert;
 import org.junit.Test;
 
 public class ScheduleTest extends BaseTest {
 
-  /** the workflow must in offline state */
+  public static final Long WORKFLOW_CODE = 9488158676288L;
+
+  /** the workflow must in online state */
   @Test
   public void testCreate() {
-    Long workflowCode = 6920291870528L;
     ScheduleDefineParam scheduleDefineParam = new ScheduleDefineParam();
     scheduleDefineParam
-        .setProcessDefinitionCode(workflowCode)
+        .setProcessDefinitionCode(WORKFLOW_CODE)
         .setSchedule(
             new ScheduleDefineParam.Schedule()
                 .setStartTime("2022-09-18 00:00:00")
-                .setEndTime("2022-09-20 00:00:00")
+                .setEndTime("2023-09-20 00:00:00")
                 .setCrontab("0 0 * * * ? *"));
-    ScheduleDefineResp scheduleDefineResp =
+    ScheduleInfoResp scheduleInfoResp =
         getClient().opsForSchedule().create(projectCode, scheduleDefineParam);
-    System.out.println(scheduleDefineResp);
+    System.out.println(scheduleInfoResp);
+  }
+
+  @Test
+  public void testGetByProject() {
+    List<ScheduleInfoResp> resp =
+        getClient().opsForSchedule().getByWorkflowCode(projectCode, WORKFLOW_CODE);
+    Assert.assertEquals(1, resp.size());
   }
 
   @Test
   public void testOnline() {
-    Long id = 2L;
+    List<ScheduleInfoResp> resp =
+        getClient().opsForSchedule().getByWorkflowCode(projectCode, WORKFLOW_CODE);
+    long id = resp.get(0).getId();
     Assert.assertTrue(getClient().opsForSchedule().online(projectCode, id));
   }
 
   @Test
   public void testOffline() {
-    Long id = 2L;
+    List<ScheduleInfoResp> resp =
+        getClient().opsForSchedule().getByWorkflowCode(projectCode, WORKFLOW_CODE);
+    long id = resp.get(0).getId();
     Assert.assertTrue(getClient().opsForSchedule().offline(projectCode, id));
   }
 
   @Test
   public void testDelete() {
-    Long id = 2L;
+    List<ScheduleInfoResp> resp =
+        getClient().opsForSchedule().getByWorkflowCode(projectCode, WORKFLOW_CODE);
+    long id = resp.get(0).getId();
     Assert.assertTrue(getClient().opsForSchedule().delete(projectCode, id));
   }
 }

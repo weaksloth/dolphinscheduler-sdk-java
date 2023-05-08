@@ -1,9 +1,15 @@
 package com.github.weaksloth.dolphins.schedule;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.github.weaksloth.dolphins.common.PageInfo;
 import com.github.weaksloth.dolphins.core.AbstractOperator;
 import com.github.weaksloth.dolphins.core.DolphinException;
 import com.github.weaksloth.dolphins.remote.DolphinsRestTemplate;
 import com.github.weaksloth.dolphins.remote.HttpRestResult;
+import com.github.weaksloth.dolphins.remote.Query;
+import com.github.weaksloth.dolphins.util.JacksonUtils;
+import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -19,15 +25,15 @@ public class ScheduleOperator extends AbstractOperator {
    *
    * @param projectCode project code
    * @param scheduleDefineParam define param
-   * @return {@link ScheduleDefineResp}
+   * @return {@link ScheduleInfoResp}
    */
-  public ScheduleDefineResp create(Long projectCode, ScheduleDefineParam scheduleDefineParam) {
+  public ScheduleInfoResp create(Long projectCode, ScheduleDefineParam scheduleDefineParam) {
     String url = dolphinAddress + "/projects/" + projectCode + "/schedules";
     log.info("create schedule, url:{}, defineParam:{}", url, scheduleDefineParam);
     try {
-      HttpRestResult<ScheduleDefineResp> restResult =
+      HttpRestResult<ScheduleInfoResp> restResult =
           dolphinsRestTemplate.postForm(
-              url, getHeader(), scheduleDefineParam, ScheduleDefineResp.class);
+              url, getHeader(), scheduleDefineParam, ScheduleInfoResp.class);
       if (restResult.getSuccess()) {
         return restResult.getData();
       } else {
@@ -40,20 +46,46 @@ public class ScheduleOperator extends AbstractOperator {
   }
 
   /**
+   * get schedule by workflow
+   *
+   * @param projectCode project's code
+   * @param processDefinitionCode workflow code
+   * @return {@link List<ScheduleInfoResp>}
+   */
+  public List<ScheduleInfoResp> getByWorkflowCode(Long projectCode, Long processDefinitionCode) {
+    String url = dolphinAddress + "/projects/" + projectCode + "/schedules";
+    Query query =
+        new Query()
+            .addParam("pageNo", "1")
+            .addParam("pageSize", "10")
+            .addParam("processDefinitionCode", String.valueOf(processDefinitionCode));
+    try {
+      HttpRestResult<JsonNode> stringHttpRestResult =
+          dolphinsRestTemplate.get(url, getHeader(), query, JsonNode.class);
+      return JacksonUtils.parseObject(
+              stringHttpRestResult.getData().toString(),
+              new TypeReference<PageInfo<ScheduleInfoResp>>() {})
+          .getTotalList();
+    } catch (Exception e) {
+      throw new DolphinException("list dolphin scheduler schedule fail", e);
+    }
+  }
+
+  /**
    * update schedule
    *
    * @param projectCode project code
    * @param scheduleDefineParam define param
-   * @return {@link ScheduleDefineResp}
+   * @return {@link ScheduleInfoResp}
    */
-  public ScheduleDefineResp update(
+  public ScheduleInfoResp update(
       Long projectCode, Long scheduleId, ScheduleDefineParam scheduleDefineParam) {
     String url = dolphinAddress + "/projects/" + projectCode + "/schedules/" + scheduleId;
     log.info("update schedule, url:{}, defineParam:{}", url, scheduleDefineParam);
     try {
-      HttpRestResult<ScheduleDefineResp> restResult =
+      HttpRestResult<ScheduleInfoResp> restResult =
           dolphinsRestTemplate.putForm(
-              url, getHeader(), scheduleDefineParam, ScheduleDefineResp.class);
+              url, getHeader(), scheduleDefineParam, ScheduleInfoResp.class);
       if (restResult.getSuccess()) {
         return restResult.getData();
       } else {

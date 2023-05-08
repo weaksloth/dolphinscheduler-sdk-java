@@ -1,5 +1,6 @@
 package com.github.weaksloth.dolphins.project;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import java.util.Date;
 import lombok.Data;
 
@@ -26,9 +27,11 @@ public class ProjectInfoResp {
   private String description;
 
   /** create time */
+  @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
   private Date createTime;
 
   /** update time */
+  @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
   private Date updateTime;
 
   /** permission */

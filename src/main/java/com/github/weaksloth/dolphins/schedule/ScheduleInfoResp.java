@@ -10,7 +10,7 @@ import lombok.experimental.Accessors;
 @Data
 @Accessors(chain = true)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class ScheduleDefineResp {
+public class ScheduleInfoResp {
 
   private int id;
 

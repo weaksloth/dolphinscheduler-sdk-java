@@ -16,6 +16,8 @@ import org.junit.Test;
 /** the test for workflow/process */
 public class WorkflowTest extends BaseTest {
 
+  public static final String WORKFLOW_NAME = "test-dag";
+
   /**
    * create simple workflow like: shellTask -> httpTask
    *
@@ -49,18 +51,17 @@ public class WorkflowTest extends BaseTest {
         .setHttpMethod("GET")
         .setHttpCheckCondition("STATUS_CODE_DEFAULT")
         .setCondition("")
-        .setConnectTimeout(60000)
-        .setSocketTimeout(60000)
         .setConditionResult(TaskUtils.createEmptyConditionResult());
     TaskDefinition httpTaskDefinition =
         TaskDefinitionUtils.createDefaultTaskDefinition(taskCodes.get(1), httpTask);
 
     ProcessDefineParam pcr = new ProcessDefineParam();
-    pcr.setName("test-dag")
+    pcr.setName(WORKFLOW_NAME)
         .setLocations(TaskLocationUtils.horizontalLocation(taskCodes.toArray(new Long[0])))
         .setDescription("test-dag-description")
         .setTenantCode(tenantCode)
         .setTimeout("0")
+        .setExecutionType(ProcessDefineParam.EXECUTION_TYPE_PARALLEL)
         .setTaskDefinitionJson(Arrays.asList(shellTaskDefinition, httpTaskDefinition))
         .setTaskRelationJson(TaskRelationUtils.oneLineRelation(taskCodes.toArray(new Long[0])))
         .setGlobalParams(null);
@@ -70,27 +71,31 @@ public class WorkflowTest extends BaseTest {
 
   @Test
   public void testPage() {
-    List<ProcessDefineResp> page = getClient().opsForProcess().page(projectCode, null, null, null);
+    List<ProcessDefineResp> page =
+        getClient().opsForProcess().page(projectCode, null, null, WORKFLOW_NAME);
     int expectedWorkflowNumber = 1;
     Assert.assertEquals(expectedWorkflowNumber, page.size());
   }
 
   @Test
   public void testOnlineWorkflow() {
-    List<ProcessDefineResp> page = getClient().opsForProcess().page(projectCode, null, null, null);
+    List<ProcessDefineResp> page =
+        getClient().opsForProcess().page(projectCode, null, null, WORKFLOW_NAME);
     Assert.assertTrue(getClient().opsForProcess().online(projectCode, page.get(0).getCode()));
   }
 
   @Test
   public void testOfflineWorkflow() {
-    List<ProcessDefineResp> page = getClient().opsForProcess().page(projectCode, null, null, null);
+    List<ProcessDefineResp> page =
+        getClient().opsForProcess().page(projectCode, null, null, WORKFLOW_NAME);
     Assert.assertTrue(getClient().opsForProcess().offline(projectCode, page.get(0).getCode()));
   }
 
   /** the workflow must in offline state */
   @Test
   public void testDeleteWorkflow() {
-    List<ProcessDefineResp> page = getClient().opsForProcess().page(projectCode, null, null, null);
+    List<ProcessDefineResp> page =
+        getClient().opsForProcess().page(projectCode, null, null, WORKFLOW_NAME);
     Assert.assertTrue(getClient().opsForProcess().delete(projectCode, page.get(0).getCode()));
   }
 }

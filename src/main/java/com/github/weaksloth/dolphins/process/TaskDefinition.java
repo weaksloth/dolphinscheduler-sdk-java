@@ -46,6 +46,12 @@ public class TaskDefinition {
 
   private Integer environmentCode = -1;
 
+  private String taskExecuteType;
+
+  private Integer cpuQuota = -1;
+
+  private Long memoryMax = -1L;
+
   /**
    * must rewrite,then {@link RequestHttpEntity#bodyToMap()} can transfer object to json string
    *

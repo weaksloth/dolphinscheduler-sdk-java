@@ -27,12 +27,14 @@ public class ProjectTest extends BaseTest {
   public void testUpdateProject() {
     ProjectInfoResp projectInfo = getClient().opsForProject().page(null, null, PROJECT_NAME).get(0);
     ProjectUpdateParam updateParam = new ProjectUpdateParam();
+    String newDescription = "updated by dolphinscheduler java sdk";
     updateParam
-        .setProjectName(PROJECT_NAME + "_update")
+        .setProjectName(PROJECT_NAME)
         .setProjectCode(projectInfo.getCode())
-        .setDescription("updated by dolphinscheduler java sdk")
-        .setUserName(projectInfo.getUserName());
-    Assert.assertTrue(getClient().opsForProject().update(updateParam));
+        .setUserName(projectInfo.getUserName())
+        .setDescription(newDescription);
+    ProjectInfoResp newProjectInfo = getClient().opsForProject().update(updateParam);
+    Assert.assertEquals(newDescription, newProjectInfo.getDescription());
   }
 
   @Test

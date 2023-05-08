@@ -52,13 +52,17 @@ public class ProjectOperator extends AbstractOperator {
    * @param projectUpdateParam update project param
    * @return true for success,otherwise false
    */
-  public Boolean update(ProjectUpdateParam projectUpdateParam) {
+  public ProjectInfoResp update(ProjectUpdateParam projectUpdateParam) {
     String url = dolphinAddress + "/projects/" + projectUpdateParam.getProjectCode();
     try {
-      HttpRestResult<String> result =
-          dolphinsRestTemplate.putForm(url, getHeader(), projectUpdateParam, String.class);
-      log.info("update project response:{}", result);
-      return result.getSuccess();
+      HttpRestResult<ProjectInfoResp> result =
+          dolphinsRestTemplate.putForm(url, getHeader(), projectUpdateParam, ProjectInfoResp.class);
+      if (result.getSuccess()) {
+        return result.getData();
+      } else {
+        log.error("update project response:{}", result);
+        throw new DolphinException("update dolphin scheduler project fail");
+      }
     } catch (Exception e) {
       throw new DolphinException("update dolphin scheduler project fail", e);
     }
