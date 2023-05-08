@@ -26,9 +26,9 @@ public class HttpTask extends AbstractTask {
   private String httpMethod;
 
   private String httpCheckCondition; // STATUS_CODE_DEFAULT
-  private String condition;
-  private Integer connectTimeout;
-  private Integer socketTimeout;
+  private String condition = "";
+  private Integer connectTimeout = 60000;
+  private Integer socketTimeout = 60000;
 
   @Override
   public String getTaskType() {

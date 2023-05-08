@@ -50,9 +50,6 @@ public class TaskTest extends BaseTest {
         .setUrl("http://www.baidu.com")
         .setHttpMethod("GET")
         .setHttpCheckCondition("STATUS_CODE_DEFAULT")
-        .setCondition("")
-        .setConnectTimeout(60000)
-        .setSocketTimeout(60000)
         .setConditionResult(TaskUtils.createEmptyConditionResult());
 
     // use utils to create task definition with default config

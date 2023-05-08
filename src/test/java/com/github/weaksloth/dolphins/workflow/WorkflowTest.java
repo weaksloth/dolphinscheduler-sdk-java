@@ -48,9 +48,6 @@ public class WorkflowTest extends BaseTest {
         .setUrl("http://www.baidu.com")
         .setHttpMethod("GET")
         .setHttpCheckCondition("STATUS_CODE_DEFAULT")
-        .setCondition("")
-        .setConnectTimeout(60000)
-        .setSocketTimeout(60000)
         .setConditionResult(TaskUtils.createEmptyConditionResult());
     TaskDefinition httpTaskDefinition =
         TaskDefinitionUtils.createDefaultTaskDefinition(taskCodes.get(1), httpTask);
