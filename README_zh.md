@@ -15,13 +15,12 @@
 
 你可以像使用页面那样的流程去操作定义dolphin scheduler上的资源，不过不同的是，你是通过代码的方式去实现。
 
-
-
 ## 2.2 多版本支持
 
-随着dolphin scheduler的不断发展，rest api很可能会发生变化，所以我想支持dolphin scheduler`2.0.5`和`3.1.4`版本。如果你使用的是其他版本，可以考虑自行做修改，一般来说改动量不大
+随着dolphin scheduler的不断发展，rest api很可能会发生变化，所以我目前支持了dolphin scheduler`2.0.5`和`3.1.4`版本。如果你使用的是其他版本，可以考虑自行做修改，一般来说改动量不大
 
-
+* `2.0.5-release` in branch `2.0.5-release`
+* `3.0.4-release` in branch `3.0.4-release`
 
 ## 2.3 支持的操作
 
@@ -63,6 +62,7 @@
 * online schedule
 * offline schedule
 * delete schedule
+* get schedule by workflow code
 
 
 
@@ -117,6 +117,15 @@ mvn install -Dmaven.test.skip=true
 
 
 ## 3.3 创建dolphin client
+
+在使用dolphin client之前，请先准备好这些参数
+
+| parameters     | comment                                                      |
+| -------------- | ------------------------------------------------------------ |
+| token          | dolphin scheduler token, 可以在web ui创建                    |
+| dolphinAddress | dolphin scheduler入口,例如:`http://localhost:12345/dolphinscheduler` |
+
+
 
 `springboot` project:
 
@@ -232,4 +241,5 @@ dolphinClient.opsForSchedule().update(...);
 dolphinClient.opsForSchedule().online(...);
 dolphinClient.opsForSchedule().offline(...);
 dolphinClient.opsForSchedule().delete(...);
+dolphinClient.opsForSchedule().getByWorkflowCode(...);
 ```
