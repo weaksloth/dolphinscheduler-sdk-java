@@ -19,18 +19,30 @@
 
 ## 2.2 多版本支持
 
-随着dolphin scheduler的不断发展，rest api很可能会发生变化，所以我们想支持dolphin scheduler`2.0.5`和`3.1.1`版本。如果你使用的是其他版本，可以考虑自行做修改，一般来说改动量不大
+随着dolphin scheduler的不断发展，rest api很可能会发生变化，所以我想支持dolphin scheduler`2.0.5`和`3.1.4`版本。如果你使用的是其他版本，可以考虑自行做修改，一般来说改动量不大
 
 
 
 ## 2.3 支持的操作
 
+项目相关:
+
+* create project
+* update project
+* list project
+* delete project
+
+
+
 工作流相关：
 
 * create process definition
+
 * update process definition
+
 * delete process definition
-* release process definition
+
+* release(online/offline) process definition
 
   
 
@@ -40,6 +52,7 @@
 * rerun process instance
 * get process instance info
 * delete process instance
+* list process instance
 
 
 
@@ -154,6 +167,17 @@ DolphinClient dolphinClient = new DolphinClient(token,dolphinAddress,restTemplat
 ## 3.4 操作dolphin scheduler
 
 > 在test目录里有很多的测试代码可以提供参考
+
+operation project:
+
+```java
+dolphinClient.opsForProject().create(...);
+dolphinClient.opsForProject().update(...);
+dolphinClient.opsForProject().page(...);
+dolphinClient.opsForProject().delete(...);
+```
+
+
 
 operate workflow(process)
 

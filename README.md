@@ -18,18 +18,30 @@ just use this sdk like using web view
 
 ## 2.2 multi version support
 
-with dolphinscheduler's develop,the rest api maybe change,so we want to support dolphinscheduler `2.0.5` and `3.1.1` version
+with dolphinscheduler's develop,the rest api maybe change,so I want to support dolphinscheduler `2.0.5` and `3.1.4` version
 
-    
+​    
 
 ## 2.3 supported operations
+
+Project:
+
+* create project
+* update project
+* list project
+* delete project
+
+
 
 Process Definition：
 
 * create process definition
+
 * update process definition
+
 * delete process definition
-* release process definition
+
+* release(online/offline) process definition
 
   
 
@@ -39,6 +51,7 @@ Process Instance
 * rerun process instance
 * get process instance info
 * delete process instance
+* list process instance
 
 
 
@@ -61,14 +74,14 @@ DataSource
 
 
 
-
-
 Resource
 
 * online create file
 * update file content
 * page file
 * delete file
+
+
 
 
 Alert
@@ -78,7 +91,7 @@ Alert
 
 # 3 Use guide
 
-**there are many example for operate dolphin scheduler in `test` directory**
+**there are many examples for operating dolphin scheduler in `test` directory**
 
 
 
@@ -154,6 +167,17 @@ DolphinClient dolphinClient = new DolphinClient(token,dolphinAddress,restTemplat
 
 
 ## 3.4 operate dolphin scheduler
+
+opearte project:
+
+```java
+dolphinClient.opsForProject().create(...);
+dolphinClient.opsForProject().update(...);
+dolphinClient.opsForProject().page(...);
+dolphinClient.opsForProject().delete(...);
+```
+
+
 
 operate workflow(process)
 

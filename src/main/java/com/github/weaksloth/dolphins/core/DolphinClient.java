@@ -3,6 +3,7 @@ package com.github.weaksloth.dolphins.core;
 import com.github.weaksloth.dolphins.datasource.DataSourceOperator;
 import com.github.weaksloth.dolphins.instance.ProcessInstanceOperator;
 import com.github.weaksloth.dolphins.process.ProcessOperator;
+import com.github.weaksloth.dolphins.project.ProjectOperator;
 import com.github.weaksloth.dolphins.remote.DolphinsRestTemplate;
 import com.github.weaksloth.dolphins.resource.ResourceOperator;
 import com.github.weaksloth.dolphins.schedule.ScheduleOperator;
@@ -21,6 +22,7 @@ public class DolphinClient {
   private ProcessOperator processOperator;
   private ProcessInstanceOperator processInstanceOperator;
   private ScheduleOperator scheduleOperator;
+  private ProjectOperator projectOperator;
 
   public DolphinClient(
       String token, String dolphinAddress, DolphinsRestTemplate dolphinsRestTemplate) {
@@ -41,6 +43,8 @@ public class DolphinClient {
         new ProcessInstanceOperator(this.dolphinAddress, this.token, this.dolphinsRestTemplate);
     this.scheduleOperator =
         new ScheduleOperator(this.dolphinAddress, this.token, this.dolphinsRestTemplate);
+    this.projectOperator =
+        new ProjectOperator(this.dolphinAddress, this.token, this.dolphinsRestTemplate);
   }
 
   public DataSourceOperator opsForDataSource() {
@@ -61,5 +65,9 @@ public class DolphinClient {
 
   public ScheduleOperator opsForSchedule() {
     return this.scheduleOperator;
+  }
+
+  public ProjectOperator opsForProject() {
+    return this.projectOperator;
   }
 }

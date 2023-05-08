@@ -25,7 +25,7 @@ public class DataSourceCreateParam {
   private String note;
 
   /**
-   * this param is useful when create oracle datasource
+   * this param is useful when creating oracle datasource
    *
    * <p>example value: ORACLE_SERVICE_NAME
    */
