@@ -7,6 +7,7 @@ import com.github.weaksloth.dolphins.project.ProjectOperator;
 import com.github.weaksloth.dolphins.remote.DolphinsRestTemplate;
 import com.github.weaksloth.dolphins.resource.ResourceOperator;
 import com.github.weaksloth.dolphins.schedule.ScheduleOperator;
+import com.github.weaksloth.dolphins.taskinstance.TaskInstanceOperator;
 import lombok.extern.slf4j.Slf4j;
 
 /** dolphin scheduler client to operate dolphin scheduler */
@@ -24,6 +25,7 @@ public class DolphinClient {
   private ScheduleOperator scheduleOperator;
   private ProjectOperator projectOperator;
 
+  private TaskInstanceOperator taskInstanceOperator;
   public DolphinClient(
       String token, String dolphinAddress, DolphinsRestTemplate dolphinsRestTemplate) {
     this.token = token;
@@ -45,6 +47,8 @@ public class DolphinClient {
         new ScheduleOperator(this.dolphinAddress, this.token, this.dolphinsRestTemplate);
     this.projectOperator =
         new ProjectOperator(this.dolphinAddress, this.token, this.dolphinsRestTemplate);
+    this.taskInstanceOperator =
+        new TaskInstanceOperator(this.dolphinAddress, this.token, this.dolphinsRestTemplate);
   }
 
   public DataSourceOperator opsForDataSource() {
@@ -69,5 +73,9 @@ public class DolphinClient {
 
   public ProjectOperator opsForProject() {
     return this.projectOperator;
+  }
+
+  public TaskInstanceOperator opsForTaskInstance() {
+    return this.taskInstanceOperator;
   }
 }
