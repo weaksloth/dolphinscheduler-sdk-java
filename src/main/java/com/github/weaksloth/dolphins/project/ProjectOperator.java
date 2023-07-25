@@ -27,7 +27,7 @@ public class ProjectOperator extends AbstractOperator {
    * create project, api:/dolphinscheduler/projects
    *
    * @param projectCreateParam create project param
-   * @return true for success,otherwise false
+   * @return project info
    */
   public ProjectInfoResp create(ProjectCreateParam projectCreateParam) {
     String url = dolphinAddress + "/projects";
