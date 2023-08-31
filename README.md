@@ -1,13 +1,12 @@
 # dolphinscheduler-sdk-java
 
 😄[中文文档](README_zh.md)
-😃[英文文档](README.md)
 
 the java sdk for operating dolphinscheduler,which supports multi versions
 
 # 1 Why do this?
 In our company,dolphin scheduler becomes base system for our job.Then we want to operate dolphin scheduler by RPC instead of the web view.
-however,dolphin scheduler has not support java sdk,only python sdk.so I do this
+however,dolphin scheduler has not support java sdk yet,only python sdk.so I do this
 
 
 
@@ -21,7 +20,7 @@ just use this sdk like using web ui
 with dolphinscheduler's develop,the rest api maybe change,so there are two versions supported:
 
 * `2.0.5-release` in branch `2.0.5-release`
-* `3.0.4-release` in branch `3.0.4-release`
+* `3.1.4-release` in branch `3.1.4-release`
 
 ## 2.3 support multiple operations
 
@@ -50,9 +49,10 @@ Process Instance
 
 * start process instance
 * rerun process instance
-* get process instance info
 * delete process instance
 * list process instance
+* stop process instance
+* pause process instance
 
 
 
@@ -87,8 +87,18 @@ Resource
 
 
 Alert
+
 * create alert plugin
 * list alert plugin
+
+
+
+Tenant:
+
+* create tenant
+* update tenant
+* delete tenant
+* list tenant
 
 
 # 3 Use guide
