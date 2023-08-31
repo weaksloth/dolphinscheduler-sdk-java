@@ -1,7 +1,6 @@
 # dolphinscheduler-sdk-java
 
 😄[中文文档](README_zh.md)
-😃[英文文档](README.md)
 
 the java sdk for operating dolphinscheduler,which supports multi versions
 
@@ -21,7 +20,7 @@ just use this sdk like using web ui
 with dolphinscheduler's develop,the rest api maybe change,so there are two versions supported:
 
 * `2.0.5-release` in branch `2.0.5-release`
-* `3.0.4-release` in branch `3.0.4-release`
+* `3.1.4-release` in branch `3.1.4-release`
 
 ## 2.3 support multiple operations
 
@@ -37,11 +36,8 @@ Project:
 Process Definition：
 
 * create process definition
-
 * update process definition
-
 * delete process definition
-
 * release(online/offline) process definition
 
   
@@ -50,9 +46,10 @@ Process Instance
 
 * start process instance
 * rerun process instance
-* get process instance info
 * delete process instance
 * list process instance
+* stop process instance
+* pause process instance
 
 
 
@@ -89,6 +86,13 @@ Resource
 Alert
 * create alert plugin
 * list alert plugin
+
+Tenant:
+* create tenant
+* update tenant
+* delete tenant
+* list tenant
+
 
 
 # 3 Use guide

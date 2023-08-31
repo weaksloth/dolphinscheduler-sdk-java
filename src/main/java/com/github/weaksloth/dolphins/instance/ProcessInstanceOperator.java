@@ -86,18 +86,53 @@ public class ProcessInstanceOperator extends AbstractOperator {
    * @return true for success,otherwise false
    */
   public Boolean reRun(Long projectCode, Long processInstanceId) {
-    log.info("repeat run workflow instance,id:{}", processInstanceId);
+    return execute(projectCode, processInstanceId, DolphinClientConstant.ExecuteType.RE_RUN);
+  }
+
+  /**
+   * stop dolphin scheduler workflow instance
+   *
+   * @param projectCode project code
+   * @param processInstanceId process instance id
+   * @return true for success,otherwise false
+   */
+  public Boolean stop(Long projectCode, Long processInstanceId) {
+    log.info("stop workflow instance,id:{}", processInstanceId);
+    return execute(projectCode, processInstanceId, DolphinClientConstant.ExecuteType.STOP);
+  }
+
+  /**
+   * pause dolphin scheduler workflow instance
+   *
+   * @param projectCode project code
+   * @param processInstanceId process instance id
+   * @return true for success,otherwise false
+   */
+  public Boolean pause(Long projectCode, Long processInstanceId) {
+    log.info("stop workflow instance,id:{}", processInstanceId);
+    return execute(projectCode, processInstanceId, DolphinClientConstant.ExecuteType.PAUSE);
+  }
+
+  /**
+   * execute dolphin scheduler workflow instance with custom execute type
+   *
+   * @param projectCode project code
+   * @param processInstanceId process instance id
+   * @param executeType {@link com.github.weaksloth.dolphins.core.DolphinClientConstant.ExecuteType}
+   * @return true for success,otherwise false
+   */
+  public Boolean execute(Long projectCode, Long processInstanceId, String executeType) {
     String url = dolphinAddress + "/projects/" + projectCode + "/executors/execute";
     ProcessInstanceRunParam reProcessInstanceRunParam =
         new ProcessInstanceRunParam()
             .setProcessInstanceId(processInstanceId)
-            .setExecuteType(DolphinClientConstant.RE_RUN_EXECUTE_TYPE);
+            .setExecuteType(executeType);
     try {
       HttpRestResult<String> restResult =
           dolphinsRestTemplate.postForm(url, getHeader(), reProcessInstanceRunParam, String.class);
       return restResult.getSuccess();
     } catch (Exception e) {
-      throw new DolphinException("repeat run dolphin scheduler process instance fail", e);
+      throw new DolphinException(executeType + " dolphin scheduler process instance fail", e);
     }
   }
 

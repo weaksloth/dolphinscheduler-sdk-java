@@ -1,4 +1,3 @@
-😄[中文文档](README_zh.md)
 😃[英文文档](README.md)
 
 # 1 为什么做这个
@@ -20,7 +19,7 @@
 随着dolphin scheduler的不断发展，rest api很可能会发生变化，所以我目前支持了dolphin scheduler`2.0.5`和`3.1.4`版本。如果你使用的是其他版本，可以考虑自行做修改，一般来说改动量不大
 
 * `2.0.5-release` in branch `2.0.5-release`
-* `3.0.4-release` in branch `3.0.4-release`
+* `3.1.4-release` in branch `3.1.4-release`
 
 ## 2.3 支持的操作
 
@@ -36,11 +35,8 @@
 工作流相关：
 
 * create process definition
-
 * update process definition
-
 * delete process definition
-
 * release(online/offline) process definition
 
   
@@ -49,9 +45,10 @@
 
 * start process instance
 * rerun process instance
-* get process instance info
 * delete process instance
 * list process instance
+* stop process instance
+* pause process instance
 
 
 
@@ -86,8 +83,19 @@
 
 
 告警相关：
+
 * create alert plugin
 * list alert plugin
+
+
+
+租户相关：
+
+* create tenant
+* update tenant
+* delete tenant
+* list tenant
+
 
 
 
