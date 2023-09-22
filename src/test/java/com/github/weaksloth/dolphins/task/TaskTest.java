@@ -2,8 +2,8 @@ package com.github.weaksloth.dolphins.task;
 
 import com.github.weaksloth.dolphins.BaseTest;
 import com.github.weaksloth.dolphins.process.ProcessDefineParam;
+import com.github.weaksloth.dolphins.process.ProcessDefineResp;
 import com.github.weaksloth.dolphins.process.TaskDefinition;
-import com.github.weaksloth.dolphins.process.TaskRelation;
 import com.github.weaksloth.dolphins.util.TaskDefinitionUtils;
 import com.github.weaksloth.dolphins.util.TaskLocationUtils;
 import com.github.weaksloth.dolphins.util.TaskRelationUtils;
@@ -25,21 +25,7 @@ public class TaskTest extends BaseTest {
     TaskDefinition taskDefinition =
         TaskDefinitionUtils.createDefaultTaskDefinition(taskCode, shellTask);
 
-    // only one task,so only need to set post task code
-    TaskRelation taskRelation = new TaskRelation().setPostTaskCode(taskCode);
-
-    ProcessDefineParam pcr = new ProcessDefineParam();
-    pcr.setName("test-shell-task-dag")
-        .setLocations(TaskLocationUtils.verticalLocation(taskCode))
-        .setDescription("test-shell-task")
-        .setTenantCode(tenantCode)
-        .setTimeout("0")
-        .setExecutionType(ProcessDefineParam.EXECUTION_TYPE_PARALLEL)
-        .setTaskDefinitionJson(Collections.singletonList(taskDefinition))
-        .setTaskRelationJson(Collections.singletonList(taskRelation))
-        .setGlobalParams(null);
-
-    System.out.println(getClient().opsForProcess().create(projectCode, pcr));
+    submit(taskCode, taskDefinition, "test-shell-task-dag", "test-shell-task");
   }
 
   @Test
@@ -58,21 +44,10 @@ public class TaskTest extends BaseTest {
     TaskDefinition taskDefinition =
         TaskDefinitionUtils.createDefaultTaskDefinition(taskCode, httpTask);
 
-    ProcessDefineParam pcr = new ProcessDefineParam();
-    pcr.setName("test-http-task-dag")
-        .setLocations(TaskLocationUtils.verticalLocation(taskCode))
-        .setDescription("test-shell-task")
-        .setTenantCode(tenantCode)
-        .setTimeout("0")
-        .setExecutionType(ProcessDefineParam.EXECUTION_TYPE_PARALLEL)
-        .setTaskDefinitionJson(Collections.singletonList(taskDefinition))
-        .setTaskRelationJson(TaskRelationUtils.oneLineRelation(taskCode))
-        .setGlobalParams(null);
-
-    System.out.println(getClient().opsForProcess().create(projectCode, pcr));
+    submit(taskCode, taskDefinition, "test-http-task-dag", "test-shell-task");
   }
 
-  /** run this test before creating datasource and set its id is SqlTask */
+  /** run this test before creating datasource and then set its id to SqlTask */
   @Test
   public void testSqlTask() {
     Long taskCode = getClient().opsForProcess().generateTaskCode(projectCode, 1).get(0);
@@ -82,7 +57,7 @@ public class TaskTest extends BaseTest {
         .setType("MYSQL")
         .setDatasource(1)
         .setSql("select 1")
-        .setSqlType(0)
+        .setSqlType("0")
         .setSendEmail(false)
         .setDisplayRows(10)
         .setTitle("")
@@ -94,10 +69,28 @@ public class TaskTest extends BaseTest {
     TaskDefinition taskDefinition =
         TaskDefinitionUtils.createDefaultTaskDefinition(taskCode, sqlTask);
 
+    submit(taskCode, taskDefinition, "test-sql-task-dag", "test-sql-task");
+  }
+
+  @Test
+  public void testPythonTask() {
+    Long taskCode = getClient().opsForProcess().generateTaskCode(projectCode, 1).get(0);
+    PythonTask pythonTask = new PythonTask();
+    pythonTask.setRawScript("print('hello dolphin scheduler sdk.')");
+
+    // use utils to create task definition with default config
+    TaskDefinition taskDefinition =
+        TaskDefinitionUtils.createDefaultTaskDefinition(taskCode, pythonTask);
+
+    submit(taskCode, taskDefinition, "test-python-task-dag", "test-python-task");
+  }
+
+  private void submit(
+      Long taskCode, TaskDefinition taskDefinition, String processName, String description) {
     ProcessDefineParam pcr = new ProcessDefineParam();
-    pcr.setName("test-sql-task-dag")
+    pcr.setName(processName)
         .setLocations(TaskLocationUtils.verticalLocation(taskCode))
-        .setDescription("test-sql-task")
+        .setDescription(description)
         .setTenantCode(tenantCode)
         .setTimeout("0")
         .setExecutionType(ProcessDefineParam.EXECUTION_TYPE_PARALLEL)
@@ -105,7 +98,9 @@ public class TaskTest extends BaseTest {
         .setTaskRelationJson(TaskRelationUtils.oneLineRelation(taskCode))
         .setGlobalParams(null);
 
-    System.out.println(getClient().opsForProcess().create(projectCode, pcr));
+    ProcessDefineResp resp = getClient().opsForProcess().create(projectCode, pcr);
+    System.out.println(resp);
+    Assert.assertEquals(processName, resp.getName());
   }
 
   @Test
