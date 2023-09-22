@@ -19,7 +19,7 @@ public class SqlTask extends AbstractTask {
   private String sql;
 
   /** sql type 0 query 1 NON_QUERY */
-  private Integer sqlType;
+  private String sqlType;
 
   /** send email */
   private Boolean sendEmail;
@@ -44,6 +44,8 @@ public class SqlTask extends AbstractTask {
 
   /** title */
   private String title;
+
+  private Integer limit;
 
   @Override
   public String getTaskType() {
