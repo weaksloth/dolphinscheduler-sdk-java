@@ -2,10 +2,13 @@ package com.github.weaksloth.dolphins.resource;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import java.util.Date;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 
 /** copied from org.apache.dolphinscheduler.dao.entity.Resource */
 @Data
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class ResourceQueryRes {
 
   /** id */
