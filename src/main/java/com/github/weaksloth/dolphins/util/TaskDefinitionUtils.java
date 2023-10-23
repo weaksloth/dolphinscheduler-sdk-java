@@ -2,6 +2,7 @@ package com.github.weaksloth.dolphins.util;
 
 import com.github.weaksloth.dolphins.process.TaskDefinition;
 import com.github.weaksloth.dolphins.task.AbstractTask;
+import com.google.common.base.Strings;
 import java.util.Optional;
 
 public class TaskDefinitionUtils {
@@ -22,7 +23,19 @@ public class TaskDefinitionUtils {
    * @param task {@link AbstractTask}
    */
   public static TaskDefinition createDefaultTaskDefinition(Long taskCode, AbstractTask task) {
-    return createTaskDefinition(taskCode, 0, task, FLAG_YES, PRIORITY_MEDIUM, null, null);
+    return createTaskDefinition(null, taskCode, 0, task, FLAG_YES, PRIORITY_MEDIUM, null, null);
+  }
+
+  /**
+   * create task definition with default config {@link TaskDefinition} which can satisfy basic needs
+   *
+   * @param taskName task node's name
+   * @param taskCode task node's code,generate by api
+   * @param task {@link AbstractTask}
+   */
+  public static TaskDefinition createDefaultTaskDefinition(
+      String taskName, Long taskCode, AbstractTask task) {
+    return createTaskDefinition(taskName, taskCode, 0, task, FLAG_YES, PRIORITY_MEDIUM, null, null);
   }
 
   /**
@@ -34,7 +47,8 @@ public class TaskDefinitionUtils {
    */
   public static TaskDefinition createDefaultTaskDefinition(
       Long taskCode, Integer version, AbstractTask task) {
-    return createTaskDefinition(taskCode, version, task, FLAG_YES, PRIORITY_MEDIUM, null, null);
+    return createTaskDefinition(
+        null, taskCode, version, task, FLAG_YES, PRIORITY_MEDIUM, null, null);
   }
 
   /**
@@ -45,7 +59,8 @@ public class TaskDefinitionUtils {
    */
   public static TaskDefinition createBannedTaskDefinition(
       Long taskCode, Integer version, AbstractTask task) {
-    return createTaskDefinition(taskCode, version, task, FLAG_NO, PRIORITY_MEDIUM, null, null);
+    return createTaskDefinition(
+        null, taskCode, version, task, FLAG_NO, PRIORITY_MEDIUM, null, null);
   }
 
   /**
@@ -56,12 +71,13 @@ public class TaskDefinitionUtils {
    */
   public static TaskDefinition createHighLevelTaskDefinition(
       Long taskCode, Integer version, AbstractTask task) {
-    return createTaskDefinition(taskCode, version, task, FLAG_YES, PRIORITY_HIGH, null, null);
+    return createTaskDefinition(null, taskCode, version, task, FLAG_YES, PRIORITY_HIGH, null, null);
   }
 
   /**
    * create task definition
    *
+   * @param taskName task node's name
    * @param taskCode task node's code,generate by api
    * @param version task node's version
    * @param task {@link AbstractTask}
@@ -71,6 +87,7 @@ public class TaskDefinitionUtils {
    * @param taskPriority {@link #PRIORITY_HIGH,#PRIORITY_HIGHEST}...
    */
   public static TaskDefinition createTaskDefinition(
+      String taskName,
       Long taskCode,
       Integer version,
       AbstractTask task,
@@ -79,7 +96,10 @@ public class TaskDefinitionUtils {
       Integer cpuQuota,
       Long memoryMax) {
     TaskDefinition taskDefinition = new TaskDefinition();
-    String taskName = task.getTaskType().concat(String.valueOf(System.currentTimeMillis()));
+    if (Strings.isNullOrEmpty(taskName)) {
+      taskName = task.getTaskType().concat(String.valueOf(System.currentTimeMillis()));
+    }
+
     taskDefinition
         .setCode(taskCode)
         .setVersion(version)

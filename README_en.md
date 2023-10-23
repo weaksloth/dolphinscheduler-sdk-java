@@ -1,42 +1,107 @@
-# 1 背景
+# dolphinscheduler-sdk-java
 
-在我们的场景中，dolphin scheduler已经成为我们作业的底层系统，几乎所有需要调度的任务都跑在dolphin scheduler上。
+the java sdk for operating dolphinscheduler,which supports multi versions
 
-此外会有很多的第三方系统去对接dolphin scheduler，但是dolphin官方没有java sdk，如果用swagger去生成会非常难用，所以我们很需要一个公共的sdk供三方系统进行使用。因为通过代码去进行dolphin scheduler的工作流构建还是相对比较麻烦的事情，用户需要关心的参数比较多，上手比较困难。
+# 1 Why do this?
+In our company,dolphin scheduler becomes base system for our job.Then we want to operate dolphin scheduler by RPC instead of the web view.
+however,dolphin scheduler has not support java sdk yet,only python sdk.so I do this
 
 
 
-# 2 功能特点
+# 2 Features
+##  2.1 easy to operate
+just use this sdk like using web ui
 
-## 2.1 方便使用
 
-本sdk尽可能的简化工作流的创建，让用户尽量少的去填写参数。同时尽可能多的构建实体类而不是Map,让用户知道自己设置的参数是什么东西。
+## 2.2 support multiple versions
 
-你可以像使用页面那样的流程去操作定义dolphin scheduler上的资源，不过不同的是，你是通过代码的方式去实现。
-
-## 2.2 多版本支持
-
-随着dolphin scheduler的不断发展，rest api很可能会发生变化，所以我目前支持了dolphin scheduler`2.0.5`和`3.1.4`版本。如果你使用的是其他版本，可以考虑自行做修改，一般来说改动量不大
+with dolphinscheduler's develop,the rest api maybe change,so there are two versions supported:
 
 * `2.0.5-release` in branch `2.0.5-release`
 * `3.1.4-release` in branch `3.1.4-release`
 
-## 2.3 支持的操作
+## 2.3 support multiple operations
 
-| 内容       | 支持的操作                                                   |
-| ---------- | ------------------------------------------------------------ |
-| 项目       | 创建项目，更新项目，列出项目，删除项目                       |
-| 工作流     | 创建工作流定义，更新工作流定义，删除工作流定义，上线/下线工作流定义 |
-| 工作流实例 | 运行工作流实例，重跑工作流实例，删除工作流实例，列出工作流实例，停止工作流实例，暂停工作流实例 |
-| 定时       | 创建定时，更新定时，上线定时，下线定时，删除定时，查询定时   |
-| 数据源     | 创建数据源，更新数据源，列出数据源，删除数据源               |
-| 资源       | 在线创建文件，在线更新文件内容，列出文件，删除文件           |
-| 告警       | 创建告警插件，列出告警插件                                   |
-| 租户       | 创建租户，更新租户，删除租户，列出租户                       |
+Project:
 
-# 3 使用指南
+* create project
+* update project
+* list project
+* delete project
 
-## 3.1 编译安装
+
+
+Process Definition：
+
+* create process definition
+
+* update process definition
+
+* delete process definition
+
+* release(online/offline) process definition
+
+  
+
+Process Instance
+
+* start process instance
+* rerun process instance
+* delete process instance
+* list process instance
+* stop process instance
+* pause process instance
+
+
+
+Schedule
+
+* create schedule
+* update schedule
+* online schedule
+* offline schedule
+* delete schedule
+* get schedule by workflow code
+
+
+
+DataSource
+
+* create datasource
+* update datasource
+* list datasource
+* delete datasource
+
+
+
+Resource
+
+* online create file
+* update file content
+* page file
+* delete file
+
+
+
+
+Alert
+
+* create alert plugin
+* list alert plugin
+
+
+
+Tenant:
+
+* create tenant
+* update tenant
+* delete tenant
+* list tenant
+
+
+# 3 Getting Started
+
+## 3.1 install
 
 ```shell
 git clone https://github.com/weaksloth/dolphinscheduler-sdk-java.git
@@ -45,9 +110,9 @@ mvn install -Dmaven.test.skip=true
 
 
 
-## 3.2 导入依赖
+## 3.2 maven import
 
-在你的程序中，引入 `dolphinscheduler-sdk-java` 依赖
+in your project,import `dolphinscheduler-sdk-java`
 
 ```xml
 <dependency>
@@ -59,14 +124,14 @@ mvn install -Dmaven.test.skip=true
 
 
 
-## 3.3 创建dolphin client
+## 3.3 create dolphin client
 
-在使用dolphin client之前，请先准备好这些参数
+necessary parameters from dolphin scheduler:
 
 | parameters     | comment                                                      |
 | -------------- | ------------------------------------------------------------ |
-| token          | dolphin scheduler token, 可以在web ui创建                    |
-| dolphinAddress | dolphin scheduler入口,例如:`http://localhost:12345/dolphinscheduler` |
+| token          | dolphin scheduler token, created by web ui                   |
+| dolphinAddress | dolphin scheduler endpoint, for example:`http://localhost:12345/dolphinscheduler` |
 
 
 
@@ -116,15 +181,17 @@ DolphinClient dolphinClient = new DolphinClient(token,dolphinAddress,restTemplat
 
 
 
-## 3.4 操作dolphin scheduler
+## 3.4 examples
 
-> 在test目录里有很多的测试代码可以提供参考
+>  **There are many examples for operating dolphin scheduler in `test` directory!**
 
-### 3.4.1 创建单节点任务作为工作流
+### 3.4.1 single node as a dag
 
 ![](doc/images/shell_task.png)
 
-通过下面的代码就可以创建一个类似上图的工作流任务，了解详细代码请参考：`com.github.weaksloth.dolphins.task.TaskTest`
+
+
+The below code shows how to create a shell task as a workflow.For details, reference:`com.github.weaksloth.dolphins.task.TaskTest`
 
 ```java
   @Test
@@ -139,43 +206,13 @@ DolphinClient dolphinClient = new DolphinClient(token,dolphinAddress,restTemplat
 
     submit(taskCode, taskDefinition, "test-shell-task-dag", "test-shell-task");
   }
-
-
-  private void submit(
-      Long taskCode, TaskDefinition taskDefinition, String processName, String description) {
-    ProcessDefineParam pcr = new ProcessDefineParam();
-    pcr.setName(processName)
-        .setLocations(TaskLocationUtils.verticalLocation(taskCode))
-        .setDescription(description)
-        .setTenantCode(tenantCode)
-        .setTimeout("0")
-        .setExecutionType(ProcessDefineParam.EXECUTION_TYPE_PARALLEL)
-        .setTaskDefinitionJson(Collections.singletonList(taskDefinition))
-        .setTaskRelationJson(TaskRelationUtils.oneLineRelation(taskCode))
-        .setGlobalParams(null);
-
-    ProcessDefineResp resp = getClient().opsForProcess().create(projectCode, pcr);
-    System.out.println(resp);
-    Assert.assertEquals(processName, resp.getName());
-  }
 ```
 
-上述代码会创建一个名为`test-shell-task-dag`的工作流任务，其中包含工作流节点`SHELL1698045817487`；工作流的任务节点名称可以自行修改(通过调用`TaskDefinitionUtils`)
 
-### 3.4.2 创建多节点工作流
 
-接下来我们创建一个简单的含有多个节点的工作流，其中包括两个节点：shell节点和http节点，http节点依赖shell节点
+### 3.4.2 simple dag
 
-![](doc/images/simple_workflow.png)
-
-通过下面的代码我们就可以创建一个类似上图中展示的简单的工作流任务，详细代码请参考：`com.github.weaksloth.dolphins.workflow.WorkflowTest`
-
-下面代码主要分为以下几步：
-
-1. 获取任务code，通常来说你有几个任务就生成几个任务code
-2. 创建任务->创建任务定义
-3. 创建任务之间的关系，下面的代码利用`TaskRelationUtils`工具类将他们连接起来
-4. 构建工作流定义参数
+![](/home/xcchen/developer/ideaProject/opensource/dolphinscheduler-sdk-java/doc/images/simple_workflow.png)
 
 ```java
   public static final String WORKFLOW_NAME = "test-dag";
@@ -234,15 +271,9 @@ DolphinClient dolphinClient = new DolphinClient(token,dolphinAddress,restTemplat
 
 
 
-### 3.4.3 使用condition节点
-
-下面我们使用condition节点来实现下面一个逻辑：如果`shell-1`任务运行成功，则调用`shell—success`任务打印"success"，如果运行失败，则调用`shell-fail`任务打印"fail"，此代码可能比较繁琐，但是只要按照步骤一步步操作相信掌握工作流的创建也不会很难。
+### 3.4.3 condition dag
 
 ![](doc/images/condition.png)
-
-
-
-通过下面的代码我们可以构建上述图片中的dag，其中`TaskLocation`就相当于我们在画布上去设置任务的坐标，`TaskReation`就是节点与节点之间的关系抽象。
 
 ```java
   @Test
