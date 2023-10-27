@@ -66,7 +66,7 @@ public class ProcessOperator extends AbstractOperator {
    */
   public ProcessDefineResp create(Long projectCode, ProcessDefineParam processDefineParam) {
     String url = dolphinAddress + "/projects/" + projectCode + "/process-definition";
-    log.info("create process definition, url:{}, param:{}", url, processDefineParam);
+    log.info("create process definition, url:{}, param:{}", url, JacksonUtils.toJSONString(processDefineParam));
     try {
       HttpRestResult<ProcessDefineResp> restResult =
           dolphinsRestTemplate.postForm(
