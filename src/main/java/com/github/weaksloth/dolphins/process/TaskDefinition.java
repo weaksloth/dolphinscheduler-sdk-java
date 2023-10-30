@@ -52,6 +52,9 @@ public class TaskDefinition {
 
   private Long memoryMax = -1L;
 
+  /** YES, NO **/
+  private String isCache = "NO";
+
   /**
    * must rewrite,then {@link RequestHttpEntity#bodyToMap()} can transfer object to json string
    *

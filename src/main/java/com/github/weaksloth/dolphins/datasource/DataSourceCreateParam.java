@@ -3,6 +3,8 @@ package com.github.weaksloth.dolphins.datasource;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
+import java.util.Map;
+
 /** create datasource param */
 @Data
 @Accessors(chain = true)
@@ -30,4 +32,10 @@ public class DataSourceCreateParam {
    * <p>example value: ORACLE_SERVICE_NAME
    */
   private String connectType;
+
+  /**
+   * jdbc connect params, json
+   * example: {"useServerPrepStmts":"true","useSSL":"false"}
+   */
+  private Map<String, Object> other;
 }

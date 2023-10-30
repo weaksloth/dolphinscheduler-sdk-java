@@ -19,6 +19,7 @@ with dolphinscheduler's develop,the rest api maybe change,so there are two versi
 
 * `2.0.5-release` in branch `2.0.5-release`
 * `3.1.4-release` in branch `3.1.4-release`
+* `3.2.0-release` in branch `3.2.0-release`
 
 ## 2.3 support multiple operations
 
@@ -118,7 +119,7 @@ in your project,import `dolphinscheduler-sdk-java`
 <dependency>
     <groupId>com.github.weaksloth</groupId>
     <artifactId>dolphinscheduler-sdk-java</artifactId>
-    <version>3.1.4-RELEASE</version>
+    <version>x.x.x-RELEASE</version>
 </dependency>
 ```
 

@@ -42,6 +42,8 @@ public class ResourceOperator extends AbstractOperator {
             .addParam("pageNo", String.valueOf(page))
             .addParam("pageSize", String.valueOf(size))
             .addParam("searchVal", fileName)
+            .addParam("fullName", "")
+            .addParam("tenantCode", "")
             .addParam("id", pid);
     try {
       HttpRestResult<JsonNode> restResult =
@@ -79,7 +81,7 @@ public class ResourceOperator extends AbstractOperator {
    * @return true for success,otherwise false
    */
   public Boolean onlineUpdate(ResourceUpdateParam resourceUpdateParam) {
-    String url = dolphinAddress + "/resources/" + resourceUpdateParam.getId() + "/update-content";
+    String url = dolphinAddress + "/resources/update-content";
     try {
       HttpRestResult<String> restResult =
           dolphinsRestTemplate.putForm(url, getHeader(), resourceUpdateParam, String.class);
@@ -92,14 +94,19 @@ public class ResourceOperator extends AbstractOperator {
   /**
    * delete resource by id
    *
-   * @param id resource id
+   * @param tenantCode tenantCode
+   * @param fullName fullName
    * @return
    */
-  public Boolean delete(Long id) {
-    String url = dolphinAddress + "/resources/" + id;
+  public Boolean delete(String tenantCode, String fullName) {
+    String url = dolphinAddress + "/resources";
+    Query query =
+            new Query()
+                    .addParam("tenantCode", tenantCode)
+                    .addParam("fullName", fullName);
     try {
       HttpRestResult<String> restResult =
-          dolphinsRestTemplate.delete(url, getHeader(), null, String.class);
+          dolphinsRestTemplate.delete(url, getHeader(), query, String.class);
       return restResult.getSuccess();
     } catch (Exception e) {
       throw new DolphinException("delete resource fail", e);

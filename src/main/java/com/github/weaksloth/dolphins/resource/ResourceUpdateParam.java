@@ -11,7 +11,9 @@ import lombok.experimental.Accessors;
 @AllArgsConstructor
 public class ResourceUpdateParam {
 
-  private Long id;
+  private String tenantCode;
+
+  private String fullName;
 
   private String content;
 }
