@@ -8,7 +8,7 @@ import lombok.Data;
 @Data
 public class DataSourceQueryResp {
 
-  private Long id;
+  private int id;
 
   /** user id */
   private int userId;

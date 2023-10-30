@@ -3,8 +3,6 @@ package com.github.weaksloth.dolphins.datasource;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
-import java.util.Map;
-
 /** update datasource param */
 @Data
 @Accessors(chain = true)
@@ -28,10 +26,4 @@ public class DataSourceUpdateParam {
   private String port;
 
   private String note;
-
-  /**
-   * jdbc connect params, json
-   * example: {"useServerPrepStmts":"true","useSSL":"false"}
-   */
-  private Map<String, Object> other;
 }

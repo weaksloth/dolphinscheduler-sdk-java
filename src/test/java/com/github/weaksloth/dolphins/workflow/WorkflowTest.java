@@ -16,7 +16,7 @@ import org.junit.Test;
 /** the test for workflow/process */
 public class WorkflowTest extends BaseTest {
 
-  public static final String WORKFLOW_NAME = "test-dag2";
+  public static final String WORKFLOW_NAME = "test-dag";
 
   /**
    * create simple workflow like: shellTask -> httpTask

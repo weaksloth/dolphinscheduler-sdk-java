@@ -7,7 +7,7 @@ import org.junit.Test;
 
 public class ScheduleTest extends BaseTest {
 
-  public static final Long WORKFLOW_CODE = 11386905160832L;
+  public static final Long WORKFLOW_CODE = 9488158676288L;
 
   /** the workflow must in online state */
   @Test
@@ -17,8 +17,8 @@ public class ScheduleTest extends BaseTest {
         .setProcessDefinitionCode(WORKFLOW_CODE)
         .setSchedule(
             new ScheduleDefineParam.Schedule()
-                .setStartTime("2023-10-27 00:00:00")
-                .setEndTime("2024-09-20 00:00:00")
+                .setStartTime("2022-09-18 00:00:00")
+                .setEndTime("2023-09-20 00:00:00")
                 .setCrontab("0 0 * * * ? *"));
     ScheduleInfoResp scheduleInfoResp =
         getClient().opsForSchedule().create(projectCode, scheduleDefineParam);
@@ -29,7 +29,6 @@ public class ScheduleTest extends BaseTest {
   public void testGetByProject() {
     List<ScheduleInfoResp> resp =
         getClient().opsForSchedule().getByWorkflowCode(projectCode, WORKFLOW_CODE);
-    System.out.println(resp);
     Assert.assertEquals(1, resp.size());
   }
 

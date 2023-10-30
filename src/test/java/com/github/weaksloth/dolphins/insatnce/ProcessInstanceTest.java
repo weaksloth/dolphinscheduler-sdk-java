@@ -7,7 +7,7 @@ import org.junit.Test;
 
 public class ProcessInstanceTest extends BaseTest {
 
-  public static final Long PROCESS_DEFINITION_CODE = 11386905142912L;
+  public static final Long WORKFLOW_CODE = 9488158676288L;
 
   /** the workflow must in online state,otherwise will cause error */
   @Test
@@ -15,7 +15,7 @@ public class ProcessInstanceTest extends BaseTest {
 
     ProcessInstanceCreateParam startParam = new ProcessInstanceCreateParam();
     startParam
-        .setProcessDefinitionCode(PROCESS_DEFINITION_CODE)
+        .setProcessDefinitionCode(WORKFLOW_CODE)
         .setScheduleTime("")
         .setFailureStrategy("CONTINUE")
         .setWarningType("NONE")
@@ -35,7 +35,7 @@ public class ProcessInstanceTest extends BaseTest {
 
   @Test
   public void testReRun() {
-    Long instanceId = 31L;
+    Long instanceId = 1L;
     Assert.assertTrue(getClient().opsForProcessInst().reRun(projectCode, instanceId));
   }
 
@@ -43,13 +43,13 @@ public class ProcessInstanceTest extends BaseTest {
   public void testPage() {
     getClient()
         .opsForProcessInst()
-        .page(null, null, projectCode, PROCESS_DEFINITION_CODE)
+        .page(null, null, projectCode, WORKFLOW_CODE)
         .forEach(System.out::println);
   }
 
   @Test
   public void testDelete() {
-    Long instanceId = 31L;
+    Long instanceId = 1L;
     Assert.assertTrue(getClient().opsForProcessInst().delete(projectCode, instanceId));
   }
 }

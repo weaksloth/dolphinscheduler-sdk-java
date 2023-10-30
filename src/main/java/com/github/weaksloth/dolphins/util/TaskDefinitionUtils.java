@@ -16,9 +16,6 @@ public class TaskDefinitionUtils {
   public static final String PRIORITY_LOW = "LOW";
   public static final String PRIORITY_LOWEST = "LOWEST";
 
-  public static final String IS_CACHE_YES = "YES"; // execution cache
-  public static final String IS_CACHE_NO = "NO"; // execution not cache
-
   /**
    * create task definition with default config {@link TaskDefinition} which can satisfy basic needs
    *
@@ -97,8 +94,7 @@ public class TaskDefinitionUtils {
       String flag,
       String taskPriority,
       Integer cpuQuota,
-      Long memoryMax
-  ) {
+      Long memoryMax) {
     TaskDefinition taskDefinition = new TaskDefinition();
     if (Strings.isNullOrEmpty(taskName)) {
       taskName = task.getTaskType().concat(String.valueOf(System.currentTimeMillis()));
@@ -117,8 +113,7 @@ public class TaskDefinitionUtils {
         .setFailRetryTimes("0")
         .setFailRetryInterval("1")
         .setTimeoutFlag("CLOSE")
-        .setTimeoutNotifyStrategy("WARN")
-        .setIsCache("NO");
+        .setTimeoutNotifyStrategy("WARN");
     Optional.ofNullable(cpuQuota).ifPresent(taskDefinition::setCpuQuota);
     Optional.ofNullable(memoryMax).ifPresent(taskDefinition::setMemoryMax);
     return taskDefinition;

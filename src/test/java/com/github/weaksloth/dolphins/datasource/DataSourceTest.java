@@ -2,13 +2,8 @@ package com.github.weaksloth.dolphins.datasource;
 
 import com.github.weaksloth.dolphins.BaseTest;
 import com.github.weaksloth.dolphins.enums.DbTypeEnum;
-import com.github.weaksloth.dolphins.process.ProcessDefineResp;
 import org.junit.Assert;
 import org.junit.Test;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public class DataSourceTest extends BaseTest {
 
@@ -16,17 +11,14 @@ public class DataSourceTest extends BaseTest {
   @Test
   public void createDataSource() {
     DataSourceCreateParam dataSourceCreateParam = new DataSourceCreateParam();
-    Map<String, Object> map = new HashMap<>();
-    map.put("useSSL", "false");
     dataSourceCreateParam
         .setUserName("root")
         .setPassword("xxxxxx") // use your own db info
         .setDatabase("test")
         .setPort("3306")
-        .setName("ds-create-test2")
+        .setName("ds-create-test")
         .setType(DbTypeEnum.MYSQL.name())
-        .setHost("localhost")
-        .setOther(map);
+        .setHost("localhost");
     Assert.assertTrue(getClient().opsForDataSource().create(dataSourceCreateParam));
   }
 
@@ -39,10 +31,9 @@ public class DataSourceTest extends BaseTest {
   /** update datasource */
   @Test
   public void updateDataSource() {
-    List<DataSourceQueryResp> dataSources = getClient().opsForDataSource().list(null);
     DataSourceUpdateParam dataSourceUpdateParam = new DataSourceUpdateParam();
     dataSourceUpdateParam
-        .setId(dataSources.get(0).getId()) // this id from create
+        .setId(10L) // this id from create
         .setUserName("root")
         .setPassword("xxxxxx")
         .setDatabase("test")
@@ -56,7 +47,6 @@ public class DataSourceTest extends BaseTest {
 
   @Test
   public void deleteDataSource() {
-    List<DataSourceQueryResp> dataSources = getClient().opsForDataSource().list(null);
-    Assert.assertTrue(getClient().opsForDataSource().delete(dataSources.get(0).getId()));
+    Assert.assertTrue(getClient().opsForDataSource().delete(10L));
   }
 }

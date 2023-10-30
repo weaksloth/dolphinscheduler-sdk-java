@@ -7,7 +7,7 @@ import org.junit.Test;
 
 public class TenantTest extends BaseTest {
 
-  public static final String TENANT_CODE = "yhmi";
+  public static final String TENANT_CODE = "xcchen";
 
   @Test
   public void testCreateTenant() {

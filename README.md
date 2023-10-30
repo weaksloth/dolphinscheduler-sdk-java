@@ -16,11 +16,10 @@
 
 ## 2.2 多版本支持
 
-随着dolphin scheduler的不断发展，rest api很可能会发生变化，所以我目前支持了dolphin scheduler`2.0.5`,`3.1.4`,`3.2.0`版本。如果你使用的是其他版本，可以考虑自行做修改，一般来说改动量不大
+随着dolphin scheduler的不断发展，rest api很可能会发生变化，所以我目前支持了dolphin scheduler`2.0.5`和`3.1.4`版本。如果你使用的是其他版本，可以考虑自行做修改，一般来说改动量不大
 
 * `2.0.5-release` in branch `2.0.5-release`
 * `3.1.4-release` in branch `3.1.4-release`
-* `3.2.0-release` in branch `3.2.0-release`
 
 ## 2.3 支持的操作
 
@@ -54,7 +53,7 @@ mvn install -Dmaven.test.skip=true
 <dependency>
     <groupId>com.github.weaksloth</groupId>
     <artifactId>dolphinscheduler-sdk-java</artifactId>
-    <version>x.x.x-RELEASE</version>
+    <version>3.1.4-RELEASE</version>
 </dependency>
 ```
 
