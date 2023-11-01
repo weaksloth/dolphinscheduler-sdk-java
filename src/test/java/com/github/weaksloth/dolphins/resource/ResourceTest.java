@@ -8,6 +8,10 @@ import org.junit.Test;
 
 public class ResourceTest extends BaseTest {
 
+  private final String fileName = "dophinsdk-create2";
+  private final String suffix = "sh";
+  private final String fullName = "file:/home/" + tenantCode + "/ds/upload/" + tenantCode + "/resources/" + fileName + "." + suffix;
+
   @Test
   public void testPage() {
     List<ResourceQueryRes> list =
@@ -21,8 +25,8 @@ public class ResourceTest extends BaseTest {
   public void testOnlineCreate() {
     ResourceCreateParam resourceCreateParam = new ResourceCreateParam();
     resourceCreateParam
-        .setSuffix("sh")
-        .setFileName("dophinsdk-create")
+        .setSuffix(suffix)
+        .setFileName(fileName)
         .setContent("created by dolphin scheduler java sdk");
     Assert.assertTrue(getClient().opsForResource().onlineCreate(resourceCreateParam));
   }
@@ -30,12 +34,15 @@ public class ResourceTest extends BaseTest {
   @Test
   public void testOnlineUpdate() {
     ResourceUpdateParam resourceUpdateParam = new ResourceUpdateParam();
-    resourceUpdateParam.setId(401L).setContent("update by dolphin scheduler java sdk");
+    resourceUpdateParam
+            .setTenantCode(tenantCode)
+            .setFullName(fullName)
+            .setContent("update by dolphin scheduler java sdk");
     Assert.assertTrue(getClient().opsForResource().onlineUpdate(resourceUpdateParam));
   }
 
   @Test
   public void delete() {
-    Assert.assertTrue(getClient().opsForResource().delete(401L));
+    Assert.assertTrue(getClient().opsForResource().delete(tenantCode, fullName));
   }
 }
