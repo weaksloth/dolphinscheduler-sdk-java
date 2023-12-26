@@ -4,8 +4,11 @@ import com.github.weaksloth.dolphins.enums.DbTypeEnum;
 import java.util.Collections;
 import java.util.List;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
+/** reference: org.apache.dolphinscheduler.plugin.task.datax.DataxParameters */
+@EqualsAndHashCode(callSuper = true)
 @Data
 @Accessors(chain = true)
 public class DataxTask extends AbstractTask {
@@ -18,6 +21,9 @@ public class DataxTask extends AbstractTask {
    * <p>1: give datax config by yourself
    */
   private Integer customConfig = 0;
+
+  /** if customConfig eq 1 ,then json is usable */
+  private String json;
 
   /** datasource type,{@link DbTypeEnum#name()} */
   private String dsType;

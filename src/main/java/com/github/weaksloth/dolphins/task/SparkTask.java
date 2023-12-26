@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
+/** reference: org.apache.dolphinscheduler.plugin.task.spark.SparkParameters */
 @EqualsAndHashCode(callSuper = true)
 @Data
 @Accessors(chain = true)
@@ -29,8 +30,14 @@ public class SparkTask extends AbstractTask {
 
   private String others;
 
-  /** optional value:JAVA,SCALA,PYTHON */
+  /** yarn queue */
+  private String queue;
+
+  /** optional value:JAVA,SCALA,PYTHON,SQL */
   private String programType;
+
+  /** spark sql script if programType is SQL */
+  private String rawScript;
 
   /** optional value:SPARK2,SPARK1 */
   private String sparkVersion;

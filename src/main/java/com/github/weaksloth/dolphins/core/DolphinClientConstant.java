@@ -16,7 +16,12 @@ public class DolphinClientConstant {
   public static final String OFFLINE_RELEASE_STATE = "OFFLINE"; // 工作流下线状态
   public static final String ONLINE_RELEASE_STATE = "ONLINE"; // 工作流上线状态
 
-  public static final String RE_RUN_EXECUTE_TYPE = "REPEAT_RUNNING";
+  /** the same with org.apache.dolphinscheduler.api.enums.ExecuteType */
+  public static class ExecuteType {
+    public static final String RE_RUN = "REPEAT_RUNNING";
+    public static final String STOP = "STOP";
+    public static final String PAUSE = "PAUSE";
+  }
 
   public static class HttpTask {
     public static final String HTTP_PARAMETER_TYPE_PARAMETER = "PARAMETER";
