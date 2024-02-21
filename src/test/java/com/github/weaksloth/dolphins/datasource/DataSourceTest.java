@@ -2,13 +2,11 @@ package com.github.weaksloth.dolphins.datasource;
 
 import com.github.weaksloth.dolphins.BaseTest;
 import com.github.weaksloth.dolphins.enums.DbTypeEnum;
-import com.github.weaksloth.dolphins.process.ProcessDefineResp;
-import org.junit.Assert;
-import org.junit.Test;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.junit.Assert;
+import org.junit.Test;
 
 public class DataSourceTest extends BaseTest {
 

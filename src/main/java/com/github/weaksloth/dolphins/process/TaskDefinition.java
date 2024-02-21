@@ -52,7 +52,7 @@ public class TaskDefinition {
 
   private Long memoryMax = -1L;
 
-  /** YES, NO **/
+  /** YES, NO * */
   private String isCache = "NO";
 
   /**

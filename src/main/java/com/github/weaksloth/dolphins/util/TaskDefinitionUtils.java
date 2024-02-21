@@ -97,8 +97,7 @@ public class TaskDefinitionUtils {
       String flag,
       String taskPriority,
       Integer cpuQuota,
-      Long memoryMax
-  ) {
+      Long memoryMax) {
     TaskDefinition taskDefinition = new TaskDefinition();
     if (Strings.isNullOrEmpty(taskName)) {
       taskName = task.getTaskType().concat(String.valueOf(System.currentTimeMillis()));

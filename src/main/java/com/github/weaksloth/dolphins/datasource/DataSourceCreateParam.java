@@ -1,9 +1,8 @@
 package com.github.weaksloth.dolphins.datasource;
 
+import java.util.Map;
 import lombok.Data;
 import lombok.experimental.Accessors;
-
-import java.util.Map;
 
 /** create datasource param */
 @Data
@@ -33,9 +32,6 @@ public class DataSourceCreateParam {
    */
   private String connectType;
 
-  /**
-   * jdbc connect params, json
-   * example: {"useServerPrepStmts":"true","useSSL":"false"}
-   */
+  /** jdbc connect params, json example: {"useServerPrepStmts":"true","useSSL":"false"} */
   private Map<String, Object> other;
 }

@@ -100,10 +100,7 @@ public class ResourceOperator extends AbstractOperator {
    */
   public Boolean delete(String tenantCode, String fullName) {
     String url = dolphinAddress + "/resources";
-    Query query =
-            new Query()
-                    .addParam("tenantCode", tenantCode)
-                    .addParam("fullName", fullName);
+    Query query = new Query().addParam("tenantCode", tenantCode).addParam("fullName", fullName);
     try {
       HttpRestResult<String> restResult =
           dolphinsRestTemplate.delete(url, getHeader(), query, String.class);

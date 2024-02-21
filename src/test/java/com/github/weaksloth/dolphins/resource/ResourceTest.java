@@ -10,7 +10,15 @@ public class ResourceTest extends BaseTest {
 
   private final String fileName = "dophinsdk-create2";
   private final String suffix = "sh";
-  private final String fullName = "file:/home/" + tenantCode + "/ds/upload/" + tenantCode + "/resources/" + fileName + "." + suffix;
+  private final String fullName =
+      "file:/home/"
+          + tenantCode
+          + "/ds/upload/"
+          + tenantCode
+          + "/resources/"
+          + fileName
+          + "."
+          + suffix;
 
   @Test
   public void testPage() {
@@ -35,9 +43,9 @@ public class ResourceTest extends BaseTest {
   public void testOnlineUpdate() {
     ResourceUpdateParam resourceUpdateParam = new ResourceUpdateParam();
     resourceUpdateParam
-            .setTenantCode(tenantCode)
-            .setFullName(fullName)
-            .setContent("update by dolphin scheduler java sdk");
+        .setTenantCode(tenantCode)
+        .setFullName(fullName)
+        .setContent("update by dolphin scheduler java sdk");
     Assert.assertTrue(getClient().opsForResource().onlineUpdate(resourceUpdateParam));
   }
 

@@ -1,9 +1,8 @@
 package com.github.weaksloth.dolphins.resource;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import java.util.Date;
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import java.util.Date;
 import lombok.Data;
 
 /** copied from org.apache.dolphinscheduler.dao.entity.Resource */
