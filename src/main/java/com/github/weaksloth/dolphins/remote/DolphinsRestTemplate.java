@@ -6,6 +6,7 @@ import com.github.weaksloth.dolphins.remote.response.HttpClientResponse;
 import com.github.weaksloth.dolphins.util.HttpUtils;
 import com.google.common.net.MediaType;
 import java.net.URI;
+import org.apache.http.entity.ContentType;
 
 /** dolphin scheduler sdk custom rest template,which can support different http client */
 public class DolphinsRestTemplate {
@@ -62,6 +63,25 @@ public class DolphinsRestTemplate {
       String url, Header header, Query query, Object body, Class<T> responseType) throws Exception {
     RequestHttpEntity requestHttpEntity =
         new RequestHttpEntity(header.setContentType(MediaType.FORM_DATA.toString()), query, body);
+    return execute(url, HttpMethod.POST, requestHttpEntity, responseType);
+  }
+
+  /**
+   * post form with file and common param
+   *
+   * @param url
+   * @param header
+   * @param body
+   * @param responseType
+   * @param <T>
+   * @return
+   * @throws Exception
+   */
+  public <T> HttpRestResult<T> postFileForm(
+      String url, Header header, Object body, Class<T> responseType) throws Exception {
+    RequestHttpEntity requestHttpEntity =
+        new RequestHttpEntity(
+            header.setContentType(ContentType.MULTIPART_FORM_DATA.getMimeType()), body);
     return execute(url, HttpMethod.POST, requestHttpEntity, responseType);
   }
 
