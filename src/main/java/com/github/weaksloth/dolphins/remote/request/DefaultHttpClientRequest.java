@@ -8,6 +8,7 @@ import com.github.weaksloth.dolphins.remote.response.HttpClientResponse;
 import com.github.weaksloth.dolphins.util.JacksonUtils;
 import com.google.common.net.HttpHeaders;
 import com.google.common.net.MediaType;
+import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.util.*;
@@ -21,6 +22,8 @@ import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.entity.ByteArrayEntity;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
+import org.apache.http.entity.mime.HttpMultipartMode;
+import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 
@@ -52,7 +55,7 @@ public class DefaultHttpClientRequest implements HttpClientRequest {
     this.initRequestHeader(requestBase, headers);
     if (MediaType.FORM_DATA.toString().equals(headers.getValue(HttpHeaders.CONTENT_TYPE))) {
       // set form data
-      Map<String, String> form;
+      Map<String, Object> form;
       if (requestHttpEntity.ifBodyIsMap()) {
         form = requestHttpEntity.castBodyToMap();
       } else {
@@ -61,8 +64,8 @@ public class DefaultHttpClientRequest implements HttpClientRequest {
 
       if (form != null && !form.isEmpty()) {
         List<NameValuePair> params = new ArrayList<>(form.size());
-        for (Map.Entry<String, String> entry : form.entrySet()) {
-          params.add(new BasicNameValuePair(entry.getKey(), entry.getValue()));
+        for (Map.Entry<String, Object> entry : form.entrySet()) {
+          params.add(new BasicNameValuePair(entry.getKey(), entry.getValue().toString()));
         }
         if (requestBase instanceof HttpEntityEnclosingRequest) {
           HttpEntityEnclosingRequest request = (HttpEntityEnclosingRequest) requestBase;
@@ -70,6 +73,39 @@ public class DefaultHttpClientRequest implements HttpClientRequest {
           request.setEntity(entity);
         }
       }
+    } else if (ContentType.MULTIPART_FORM_DATA
+        .getMimeType()
+        .equals(headers.getValue(HttpHeaders.CONTENT_TYPE))) {
+
+      Map<String, Object> form;
+      if (requestHttpEntity.ifBodyIsMap()) {
+        form = requestHttpEntity.castBodyToMap();
+      } else {
+        form = requestHttpEntity.bodyToMap();
+      }
+
+      if (form != null && !form.isEmpty()) {
+
+        MultipartEntityBuilder entityBuilder =
+            MultipartEntityBuilder.create().setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
+
+        for (Map.Entry<String, Object> entry : form.entrySet()) {
+          if (entry.getValue() instanceof File) {
+            File file = (File) entry.getValue();
+            entityBuilder.addBinaryBody(
+                entry.getKey(), file, ContentType.DEFAULT_BINARY, file.getName());
+          } else {
+            entityBuilder.addTextBody(
+                entry.getKey(), entry.getValue().toString(), ContentType.DEFAULT_TEXT);
+          }
+        }
+        if (requestBase instanceof HttpEntityEnclosingRequest) {
+          HttpEntityEnclosingRequest request = (HttpEntityEnclosingRequest) requestBase;
+          HttpEntity entity = entityBuilder.build();
+          request.setEntity(entity);
+        }
+      }
+
     } else { // set json data
       if (requestBase instanceof HttpEntityEnclosingRequest) {
         HttpEntityEnclosingRequest request = (HttpEntityEnclosingRequest) requestBase;
@@ -96,6 +132,13 @@ public class DefaultHttpClientRequest implements HttpClientRequest {
     Iterator<Map.Entry<String, String>> iterator = headers.iterator();
     while (iterator.hasNext()) {
       Map.Entry<String, String> entry = iterator.next();
+
+      // we need to remove content-type header when upload file
+      // otherwise the backend will throw 'Missing initial multi part boundary'
+      if (entry.getValue().equals(ContentType.MULTIPART_FORM_DATA.getMimeType())) {
+        continue;
+      }
+
       request.setHeader(entry.getKey(), entry.getValue());
     }
   }

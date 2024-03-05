@@ -42,9 +42,9 @@ public class RequestHttpEntity {
    *
    * @return
    */
-  public Map<String, String> castBodyToMap() {
+  public Map<String, Object> castBodyToMap() {
     if (ifBodyIsMap()) {
-      return (Map<String, String>) body;
+      return (Map<String, Object>) body;
     }
     throw new UnsupportedOperationException(
         "the body is not instance of map,do not use this method");
@@ -73,18 +73,17 @@ public class RequestHttpEntity {
    *
    * @return map
    */
-  public Map<String, String> bodyToMap() {
+  public Map<String, Object> bodyToMap() {
     if (Objects.isNull(body)) {
       return null;
     }
 
-    Map<String, String> map = new LinkedHashMap<>();
+    Map<String, Object> map = new LinkedHashMap<>();
     Field[] declaredFields = body.getClass().getDeclaredFields();
     for (Field field : declaredFields) {
       field.setAccessible(true);
       try {
-        Optional.ofNullable(field.get(body))
-            .ifPresent(value -> map.put(field.getName(), value.toString()));
+        Optional.ofNullable(field.get(body)).ifPresent(value -> map.put(field.getName(), value));
       } catch (IllegalAccessException e) {
         log.error("object to map fail", e);
       }
