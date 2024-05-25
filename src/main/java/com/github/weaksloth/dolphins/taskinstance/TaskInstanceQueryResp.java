@@ -17,262 +17,171 @@
 
 package com.github.weaksloth.dolphins.taskinstance;
 
-
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.github.weaksloth.dolphins.instance.ProcessInstanceQueryResp;
 import com.github.weaksloth.dolphins.process.ProcessDefineResp;
 import com.github.weaksloth.dolphins.process.TaskDefinition;
-import lombok.Data;
-import lombok.experimental.Accessors;
-
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Map;
+import lombok.Data;
+import lombok.experimental.Accessors;
 
-
-/**
- * copied from org.apache.dolphinscheduler.dao.entity.TaskInstance
- */
+/** copied from org.apache.dolphinscheduler.dao.entity.TaskInstance */
 @Data
 @Accessors(chain = true)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class TaskInstanceQueryResp implements Serializable {
 
-    /**
-     * id
-     */
-    private Integer id;
+  /** id */
+  private Integer id;
 
-    /**
-     * task name
-     */
-    private String name;
+  /** task name */
+  private String name;
 
-    /**
-     * task type
-     */
-    private String taskType;
+  /** task type */
+  private String taskType;
 
-    private int processInstanceId;
+  private int processInstanceId;
 
-    private String processInstanceName;
+  private String processInstanceName;
 
-    private Long projectCode;
+  private Long projectCode;
 
-    private long taskCode;
+  private long taskCode;
 
-    private int taskDefinitionVersion;
+  private int taskDefinitionVersion;
 
-    private String processDefinitionName;
+  private String processDefinitionName;
 
-    /**
-     * process instance name
-     */
-    private int taskGroupPriority;
+  /** process instance name */
+  private int taskGroupPriority;
 
-    /**
-     * state
-     */
-    private String state;
+  /** state */
+  private String state;
 
-    /**
-     * task first submit time.
-     */
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    private Date firstSubmitTime;
+  /** task first submit time. */
+  @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+  private Date firstSubmitTime;
 
-    /**
-     * task submit time
-     */
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    private Date submitTime;
+  /** task submit time */
+  @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+  private Date submitTime;
 
-    /**
-     * task start time
-     */
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    private Date startTime;
+  /** task start time */
+  @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+  private Date startTime;
 
-    /**
-     * task end time
-     */
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    private Date endTime;
+  /** task end time */
+  @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+  private Date endTime;
 
-    /**
-     * task host
-     */
-    private String host;
+  /** task host */
+  private String host;
 
-    /**
-     * task shell execute path and the resource down from hdfs
-     * default path: $base_run_dir/processInstanceId/taskInstanceId/retryTimes
-     */
-    private String executePath;
+  /**
+   * task shell execute path and the resource down from hdfs default path:
+   * $base_run_dir/processInstanceId/taskInstanceId/retryTimes
+   */
+  private String executePath;
 
-    /**
-     * task log path
-     * default path: $base_run_dir/processInstanceId/taskInstanceId/retryTimes
-     */
-    private String logPath;
+  /** task log path default path: $base_run_dir/processInstanceId/taskInstanceId/retryTimes */
+  private String logPath;
 
-    /**
-     * retry times
-     */
-    private int retryTimes;
+  /** retry times */
+  private int retryTimes;
 
-    /**
-     * alert flag
-     */
-    private String alertFlag;
+  /** alert flag */
+  private String alertFlag;
 
-    /**
-     * process instance
-     */
-    private ProcessInstanceQueryResp processInstance;
+  /** process instance */
+  private ProcessInstanceQueryResp processInstance;
 
-    /**
-     * process definition
-     */
-    private ProcessDefineResp processDefine;
+  /** process definition */
+  private ProcessDefineResp processDefine;
 
-    /**
-     * task definition
-     */
-    private TaskDefinition taskDefine;
+  /** task definition */
+  private TaskDefinition taskDefine;
 
-    /**
-     * process id
-     */
-    private int pid;
+  /** process id */
+  private int pid;
 
-    /**
-     * appLink
-     */
-    private String appLink;
+  /** appLink */
+  private String appLink;
 
-    /**
-     * flag
-     */
-    private String flag;
+  /** flag */
+  private String flag;
 
-    /**
-     * task is cache: yes/no
-     */
-    private String isCache;
+  /** task is cache: yes/no */
+  private String isCache;
 
-    /**
-     * cache_key
-     */
-    private String cacheKey;
+  /** cache_key */
+  private String cacheKey;
 
-    /**
-     * dependency
-     */
-    private String dependency;
+  /** dependency */
+  private String dependency;
 
-    /**
-     * switch dependency
-     */
-    private String switchDependency;
+  /** switch dependency */
+  private String switchDependency;
 
-    /**
-     * duration
-     */
-    private String duration;
+  /** duration */
+  private String duration;
 
-    /**
-     * max retry times
-     */
-    private int maxRetryTimes;
+  /** max retry times */
+  private int maxRetryTimes;
 
-    /**
-     * task retry interval, unit: minute
-     */
-    private int retryInterval;
+  /** task retry interval, unit: minute */
+  private int retryInterval;
 
-    /**
-     * task intance priority
-     */
-    private String taskInstancePriority;
+  /** task intance priority */
+  private String taskInstancePriority;
 
-    /**
-     * process intance priority
-     */
-    private String processInstancePriority;
+  /** process intance priority */
+  private String processInstancePriority;
 
-    /**
-     * dependent state
-     */
-    private String dependentResult;
+  /** dependent state */
+  private String dependentResult;
 
-    /**
-     * workerGroup
-     */
-    private String workerGroup;
+  /** workerGroup */
+  private String workerGroup;
 
-    /**
-     * environment code
-     */
-    private Long environmentCode;
+  /** environment code */
+  private Long environmentCode;
 
-    /**
-     * environment config
-     */
-    private String environmentConfig;
+  /** environment config */
+  private String environmentConfig;
 
-    /**
-     * executor id
-     */
-    private int executorId;
+  /** executor id */
+  private int executorId;
 
-    /**
-     * varPool string
-     */
-    private String varPool;
+  /** varPool string */
+  private String varPool;
 
-    private String executorName;
+  private String executorName;
 
-    private Map<String, String> resources;
+  private Map<String, String> resources;
 
-    /**
-     * delay execution time.
-     */
-    private int delayTime;
+  /** delay execution time. */
+  private int delayTime;
 
-    /**
-     * task params
-     */
-    private String taskParams;
+  /** task params */
+  private String taskParams;
 
-    /**
-     * dry run flag
-     */
-    private int dryRun;
-    /**
-     * task group id
-     */
-    private int taskGroupId;
+  /** dry run flag */
+  private int dryRun;
+  /** task group id */
+  private int taskGroupId;
 
-    /**
-     * cpu quota
-     */
-    private Integer cpuQuota;
+  /** cpu quota */
+  private Integer cpuQuota;
 
-    /**
-     * max memory
-     */
-    private Integer memoryMax;
+  /** max memory */
+  private Integer memoryMax;
 
-    /**
-     * task execute type
-     */
-    private String taskExecuteType;
+  /** task execute type */
+  private String taskExecuteType;
 
-    /**
-     * test flag
-     */
-    private int testFlag;
-
+  /** test flag */
+  private int testFlag;
 }

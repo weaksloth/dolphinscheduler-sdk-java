@@ -12,7 +12,6 @@ public class DolphinClientConstant {
     public static final Integer DEFAULT_LIMIT = 50;
   }
 
-
   public static final String OFFLINE_RELEASE_STATE = "OFFLINE"; // 工作流下线状态
   public static final String ONLINE_RELEASE_STATE = "ONLINE"; // 工作流上线状态
 

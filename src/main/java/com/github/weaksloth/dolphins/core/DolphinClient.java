@@ -28,6 +28,7 @@ public class DolphinClient {
   private TenantOperator tenantOperator;
 
   private TaskInstanceOperator taskInstanceOperator;
+
   public DolphinClient(
       String token, String dolphinAddress, DolphinsRestTemplate dolphinsRestTemplate) {
     this.token = token;
@@ -82,7 +83,7 @@ public class DolphinClient {
   public TaskInstanceOperator opsForTaskInstance() {
     return this.taskInstanceOperator;
   }
-  
+
   public TenantOperator opsForTenant() {
     return this.tenantOperator;
   }
