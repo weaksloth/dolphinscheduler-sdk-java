@@ -56,6 +56,30 @@ public class ResourceOperator extends AbstractOperator {
   }
 
   /**
+   * upload resource
+   *
+   * @param resourceUploadParam upload file param
+   * @return resource info
+   */
+  public ResourceQueryRes upload(ResourceUploadParam resourceUploadParam) {
+    String url = dolphinAddress + "/resources";
+
+    try {
+      HttpRestResult<ResourceQueryRes> restResult =
+          dolphinsRestTemplate.postFileForm(
+              url, getHeader(), resourceUploadParam, ResourceQueryRes.class);
+      if (restResult.getSuccess()) {
+        return restResult.getData();
+      } else {
+        log.error("dolphin scheduler response:{}", restResult);
+        throw new DolphinException("upload dolphin scheduler resource fail.");
+      }
+    } catch (Exception e) {
+      throw new DolphinException("upload dolphin scheduler resource fail.", e);
+    }
+  }
+
+  /**
    * online create resource/file
    *
    * @param resourceCreateParam online create file param

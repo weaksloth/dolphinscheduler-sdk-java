@@ -2,6 +2,7 @@ package com.github.weaksloth.dolphins.resource;
 
 import com.github.weaksloth.dolphins.BaseTest;
 import com.github.weaksloth.dolphins.core.DolphinClientConstant;
+import java.io.File;
 import java.util.List;
 import org.junit.Assert;
 import org.junit.Test;
@@ -32,6 +33,18 @@ public class ResourceTest extends BaseTest {
     ResourceUpdateParam resourceUpdateParam = new ResourceUpdateParam();
     resourceUpdateParam.setId(401L).setContent("update by dolphin scheduler java sdk");
     Assert.assertTrue(getClient().opsForResource().onlineUpdate(resourceUpdateParam));
+  }
+
+  @Test
+  public void testUploadFile() {
+    ResourceUploadParam resourceUploadParam = new ResourceUploadParam();
+    resourceUploadParam
+        .setName("test_upload.txt")
+        .setDescription("upload by dolphin scheduler java sdk")
+        .setFile(new File("/home/chen/Documents/test_upload.txt"));
+    ResourceQueryRes res = getClient().opsForResource().upload(resourceUploadParam);
+    System.out.println(res);
+    Assert.assertEquals("test_upload.txt", res.getFileName());
   }
 
   @Test

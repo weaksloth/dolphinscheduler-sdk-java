@@ -29,6 +29,8 @@ public class ResourceQueryRes {
   /** file alias */
   private String fileName;
 
+  private String userName;
+
   /** user id */
   private int userId;
 
