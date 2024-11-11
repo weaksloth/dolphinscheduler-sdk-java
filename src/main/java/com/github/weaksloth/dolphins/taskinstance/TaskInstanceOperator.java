@@ -10,10 +10,9 @@ import com.github.weaksloth.dolphins.remote.DolphinsRestTemplate;
 import com.github.weaksloth.dolphins.remote.HttpRestResult;
 import com.github.weaksloth.dolphins.remote.Query;
 import com.github.weaksloth.dolphins.util.JacksonUtils;
-import lombok.extern.slf4j.Slf4j;
-
 import java.util.List;
 import java.util.Optional;
+import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class TaskInstanceOperator extends AbstractOperator {
@@ -49,13 +48,13 @@ public class TaskInstanceOperator extends AbstractOperator {
           dolphinsRestTemplate.get(url, getHeader(), query, JsonNode.class);
 
       return JacksonUtils.parseObject(
-              restResult.getData().toString(), new TypeReference<PageInfo<TaskInstanceQueryResp>>() {})
-              .getTotalList();
+              restResult.getData().toString(),
+              new TypeReference<PageInfo<TaskInstanceQueryResp>>() {})
+          .getTotalList();
     } catch (Exception e) {
       throw new DolphinException("list ds task instance fail", e);
     }
   }
-
 
   /**
    * query task instance log
@@ -67,28 +66,26 @@ public class TaskInstanceOperator extends AbstractOperator {
    * @return String
    */
   public String queryLog(
-          Long projectCode, Integer skipLineNum, Integer limit, Long taskInstanceId) {
-    skipLineNum = Optional.ofNullable(skipLineNum).orElse(DolphinClientConstant.LogLimit.DEFAULT_SKIP);
+      Long projectCode, Integer skipLineNum, Integer limit, Long taskInstanceId) {
+    skipLineNum =
+        Optional.ofNullable(skipLineNum).orElse(DolphinClientConstant.LogLimit.DEFAULT_SKIP);
     limit = Optional.ofNullable(limit).orElse(DolphinClientConstant.LogLimit.DEFAULT_LIMIT);
 
     String url = dolphinAddress + "/log/" + projectCode + "/detail";
     Query query =
-            new Query()
-                    .addParam("projectCode", String.valueOf(projectCode))
-                    .addParam("taskInstanceId", String.valueOf(taskInstanceId))
-                    .addParam("skipLineNum", String.valueOf(skipLineNum))
-                    .addParam("limit", String.valueOf(limit));
+        new Query()
+            .addParam("projectCode", String.valueOf(projectCode))
+            .addParam("taskInstanceId", String.valueOf(taskInstanceId))
+            .addParam("skipLineNum", String.valueOf(skipLineNum))
+            .addParam("limit", String.valueOf(limit));
 
     try {
       HttpRestResult<JsonNode> restResult =
-              dolphinsRestTemplate.get(url, getHeader(), query, JsonNode.class);
+          dolphinsRestTemplate.get(url, getHeader(), query, JsonNode.class);
 
       return restResult.getData().toString();
     } catch (Exception e) {
       throw new DolphinException("query ds log detail fail", e);
     }
   }
-
-
-
 }
