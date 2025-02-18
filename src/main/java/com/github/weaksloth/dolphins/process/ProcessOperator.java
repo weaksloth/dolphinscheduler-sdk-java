@@ -11,7 +11,11 @@ import com.github.weaksloth.dolphins.remote.HttpRestResult;
 import com.github.weaksloth.dolphins.remote.Query;
 import com.github.weaksloth.dolphins.util.JacksonUtils;
 
-import java.util.*;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
+import java.util.HashSet;
+import java.util.ArrayList;
 
 import lombok.extern.slf4j.Slf4j;
 
