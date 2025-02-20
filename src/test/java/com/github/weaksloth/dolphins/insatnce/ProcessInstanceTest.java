@@ -1,6 +1,7 @@
 package com.github.weaksloth.dolphins.insatnce;
 
 import com.github.weaksloth.dolphins.BaseTest;
+import com.github.weaksloth.dolphins.enums.*;
 import com.github.weaksloth.dolphins.instance.ProcessInstanceCreateParam;
 import org.junit.Assert;
 import org.junit.Test;
@@ -17,14 +18,14 @@ public class ProcessInstanceTest extends BaseTest {
     startParam
         .setProcessDefinitionCode(PROCESS_DEFINITION_CODE)
         .setScheduleTime("")
-        .setFailureStrategy("CONTINUE")
-        .setWarningType("NONE")
+        .setFailureStrategy(FailureStrategy.CONTINUE.toString())
+        .setWarningType(WarningType.NONE.toString())
         .setWarningGroupId(0L)
         .setExecType("")
         .setStartNodeList("")
-        .setTaskDependType("TASK_POST")
-        .setRunMode("RUN_MODE_SERIAL")
-        .setProcessInstancePriority("MEDIUM")
+        .setTaskDependType(TaskDependType.TASK_POST.toString())
+        .setRunMode(RunMode.RUN_MODE_SERIAL.toString())
+        .setProcessInstancePriority(Priority.MEDIUM.toString())
         .setWorkerGroup("default")
         .setEnvironmentCode("")
         .setStartParams("")
