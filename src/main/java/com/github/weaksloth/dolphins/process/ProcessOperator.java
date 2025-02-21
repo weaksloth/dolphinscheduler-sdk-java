@@ -10,8 +10,13 @@ import com.github.weaksloth.dolphins.remote.DolphinsRestTemplate;
 import com.github.weaksloth.dolphins.remote.HttpRestResult;
 import com.github.weaksloth.dolphins.remote.Query;
 import com.github.weaksloth.dolphins.util.JacksonUtils;
+
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+import java.util.HashSet;
+import java.util.ArrayList;
+
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -193,5 +198,29 @@ public class ProcessOperator extends AbstractOperator {
     } catch (Exception e) {
       throw new DolphinException("generate task code fail", e);
     }
+  }
+
+  /**
+   * Generate multiple task codes by recursively calling generateTaskCode()
+   * for cases where more than 100 codes are needed
+   *
+   * @param projectCode project's code
+   * @param codeNumber total number of task codes to generate
+   */
+  public List<Long> generateMoreTaskCode(Long projectCode, int codeNumber) {
+    Set<Long> allTaskCodes = new HashSet<>();
+
+    while (allTaskCodes.size() < codeNumber) {
+      int remaining = codeNumber - allTaskCodes.size();
+      List<Long> batchTaskCodes = generateTaskCode(projectCode, Math.min(100, remaining));
+      allTaskCodes.addAll(batchTaskCodes);
+
+      if (allTaskCodes.size() < codeNumber) {
+        log.info("Still need more unique taskCodes. Continuing...");
+      }
+
+    }
+
+    return new ArrayList<>(allTaskCodes);
   }
 }
