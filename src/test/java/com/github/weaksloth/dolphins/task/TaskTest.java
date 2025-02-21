@@ -1,6 +1,8 @@
 package com.github.weaksloth.dolphins.task;
 
 import com.github.weaksloth.dolphins.BaseTest;
+import com.github.weaksloth.dolphins.enums.HttpCheckCondition;
+import com.github.weaksloth.dolphins.enums.HttpMethod;
 import com.github.weaksloth.dolphins.process.*;
 import com.github.weaksloth.dolphins.util.TaskDefinitionUtils;
 import com.github.weaksloth.dolphins.util.TaskLocationUtils;
@@ -34,8 +36,8 @@ public class TaskTest extends BaseTest {
     HttpTask httpTask = new HttpTask();
     httpTask
         .setUrl("http://www.baidu.com")
-        .setHttpMethod("GET")
-        .setHttpCheckCondition("STATUS_CODE_DEFAULT")
+        .setHttpMethod(HttpMethod.GET.toString())
+        .setHttpCheckCondition(HttpCheckCondition.STATUS_CODE_DEFAULT.toString())
         .setCondition("")
         .setConditionResult(TaskUtils.createEmptyConditionResult());
 
