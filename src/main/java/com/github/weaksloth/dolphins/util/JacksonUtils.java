@@ -13,7 +13,7 @@ import java.lang.reflect.Type;
 /** json utils based on jackson */
 public class JacksonUtils {
 
-  private static final ObjectMapper mapper = new ObjectMapper();
+  private static ObjectMapper mapper = new ObjectMapper();
 
   public static ObjectNode createObjectNode() {
     return mapper.createObjectNode();
@@ -21,6 +21,10 @@ public class JacksonUtils {
 
   public static ArrayNode createArrayNode() {
     return mapper.createArrayNode();
+  }
+
+  public static void setObjectMapper(ObjectMapper objectMapper) {
+    mapper = objectMapper;
   }
 
   /**
